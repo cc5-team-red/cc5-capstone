@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Map from './Components/Map.js';
-import Feed from './Components/Feed.js';
-import Help from './Components/Help.js'
+import Details from './Components/Details.js';
+import PinForm from './Components/PinForm.js'
 
 export default class App extends React.Component {
   render() {
@@ -10,8 +10,8 @@ export default class App extends React.Component {
       <View style={styles.container}>
         <Text>Hello World!</Text>
         <Map />
-        <Feed />
-        <Help />
+        <Details />
+        <PinForm />
       </View>
     );
   }
