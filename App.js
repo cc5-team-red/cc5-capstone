@@ -7,7 +7,7 @@ export default class App extends React.Component {
     super();
     this.message = "initialized...";
     this._storeHighScore(1, 100);
-    this._setupHighscoreListener(0);
+    this._setupHighscoreListener(1);
   }
 
   _storeHighScore(userId, score) {

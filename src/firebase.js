@@ -1,12 +1,13 @@
 import * as Firebase from 'firebase';
-// const firebase = require('firebase');
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
-  authDomain: process.env.AUTH_DOMAIN,
-  databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET
+  apiKey: "AIzaSyAygdZCvIj-VqltYNPbzl0LcJMvv3WBLJY",
+  authDomain: "zenni-c7cac.firebaseapp.com",
+  databaseURL: "https://zenni-c7cac.firebaseio.com",
+  projectId: "zenni-c7cac",
+  storageBucket: "zenni-c7cac.appspot.com",
+  messagingSenderId: "920452195470"
 };
 
 Firebase.initializeApp(firebaseConfig);
