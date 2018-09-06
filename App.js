@@ -9,8 +9,7 @@ import PinForm from './Components/PinForm.js'
 const App = createStackNavigator({
   Home: { screen: Map },
   PinForm: { screen: PinForm },
-  Details: { screen: Details }
-
+  Details: { screen: Details },
 });
 
 export default App;

@@ -44,9 +44,8 @@ export default class Map extends React.Component {
     }
 
     return (
-
       <View >
-        <MapView
+        {/* <MapView
           style={{ flex: 1 }}
           initialRegion={{
             latitude: this.state.location ? this.state.location.coords.latitude : 35.65,
@@ -54,7 +53,7 @@ export default class Map extends React.Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-        />
+        /> */}
         <Text>I'm map</Text>
         <Button title="Go to Details" onPress={() => navigate("Details")} />
         <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
