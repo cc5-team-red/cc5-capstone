@@ -16,6 +16,7 @@ export default class Map extends React.Component {
     return (
         <MapView
           style={styles.map}
+          mapType="mutedStandard"
           showsUserLocation={true}
           followsUserLocation={true}
           region={{
