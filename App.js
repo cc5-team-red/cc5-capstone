@@ -1,13 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Map from './Components/Map.js';
+import Details from './Components/Details.js';
+import PinForm from './Components/PinForm.js'
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+        <Text>Hello World!</Text>
+        <Map />
+        <Details />
+        <PinForm />
       </View>
     );
   }
