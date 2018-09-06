@@ -1,16 +1,14 @@
 import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { MapView } from 'expo';
-import { Constants, Location, Permissions } from 'expo';
+import { Platform, Text, View, StyleSheet } from 'react-native';
+import { MapView, Constants, Location, Permissions } from 'expo';
 
 export default class Map extends React.Component {
   state = {
     location: null,
     errorMessage: null,
-    status: "initialized...",
   };
 
-  componentDidMount() {
+  componentWillMount() {
     if (Platform.OS === 'android' && !Constants.isDevice) {
       this.setState({
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
@@ -32,25 +30,28 @@ export default class Map extends React.Component {
     this.setState({ location });
   };
 
-
   render() {
-    status = 'Waiting..';
+    let text = 'Waiting..';
     if (this.state.errorMessage) {
-      status = this.state.errorMessage;
+      text = this.state.errorMessage;
     } else if (this.state.location) {
-      status = JSON.stringify(this.state.location);
+      text += JSON.stringify(this.state.location);
     }
 
     return (
-      <MapView
-        style={{ flex: 1 }}
-        initialRegion={{
-          latitude: this.state.location ? this.state.location.coords.latitude : 37.78825,
-          longitude: this.state.location ? this.state.location.coords.longitude : -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      />
+
+      <View >
+        <MapView
+          style={{ flex: 1 }}
+          initialRegion={{
+            latitude: this.state.location ? this.state.location.coords.latitude : 35.65,
+            longitude: this.state.location ? this.state.location.coords.longitude : 139.72,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+        <Text>{text}</Text>
+      </View>
     );
   }
 }
