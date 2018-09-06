@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import * as Firebase from 'firebase';
 // const firebase = require('firebase');
 
 // Initialize Firebase
@@ -9,4 +9,6 @@ const firebaseConfig = {
   storageBucket: process.env.STORAGE_BUCKET
 };
 
-firebase.initializeApp(firebaseConfig);
+Firebase.initializeApp(firebaseConfig);
+
+export const firebase = Firebase;
