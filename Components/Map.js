@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, Text, View, StyleSheet, Button } from 'react-native';
 import { MapView, Constants, Location, Permissions } from 'expo';
+import StandaloneMap from './StandaloneMap.js';
 
 export default class Map extends React.Component {
   state = {
@@ -44,16 +45,8 @@ export default class Map extends React.Component {
     }
 
     return (
-      <View >
-        {/* <MapView
-          style={{ flex: 1 }}
-          initialRegion={{
-            latitude: this.state.location ? this.state.location.coords.latitude : 35.65,
-            longitude: this.state.location ? this.state.location.coords.longitude : 139.72,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        /> */}
+      <View>
+        <StandaloneMap />
         <Text>I'm map</Text>
         <Button title="Go to Details" onPress={() => navigate("Details")} />
         <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
