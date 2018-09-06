@@ -1,27 +1,14 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Map from './Components/Map.js';
-import Details from './Components/Details.js';
-import PinForm from './Components/PinForm.js'
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Map from "./Components/Map.js";
+import Details from "./Components/Details.js";
+import PinForm from "./Components/PinForm.js";
+import { createStackNavigator } from "react-navigation";
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        {/* <Text>Hello World!</Text> */}
-        {/* <Map /> */}
-        {/* <Details /> */}
-        <PinForm />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const App = createStackNavigator({
+  Home: { screen: Map },
+  PinForm: { screen: PinForm },
+  Details: { screen: Details }
 });
+
+export default App;
