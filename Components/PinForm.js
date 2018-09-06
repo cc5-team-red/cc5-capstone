@@ -1,10 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { FormLabel, FormInput, FormValidationMessage, Button } from 'react-native-elements';
 
 export default class PinForm extends React.Component {
   _handleChange(event) {
     console.log("changed");
+  }
+
+  _handleSubmit = () => {
+    console.log("submitted");
   }
 
   render() {
@@ -14,6 +18,11 @@ export default class PinForm extends React.Component {
           <FormLabel>Create Pin</FormLabel>
           <FormInput onChangeText={this._handleChange}/>
           <FormValidationMessage>{'This field is required'}</FormValidationMessage>
+          <Button 
+            style={styles.button} 
+            title="Create Pin" 
+            accessibilityLabel="Create a pin with this button"
+            onPress={this._handleSubmit} />
         </View>
       </View>
     );
@@ -29,5 +38,8 @@ const styles = StyleSheet.create({
   item: {
     marginTop: 50,
     width: 350,
+  },
+  button: {
+    marginTop: 20,
   }
 });
