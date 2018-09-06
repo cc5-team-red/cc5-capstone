@@ -6,6 +6,18 @@ import {
   FormValidationMessage,
   Button
 } from "react-native-elements";
+import { firebase } from "../src/firebase";
+
+function writeUserData(title, type, details) {
+  firebase
+    .database()
+    .ref("users/002")
+    .set({
+      title: title,
+      type: type,
+      details: details
+    });
+}
 
 export default class PinForm extends React.Component {
   _handleChange(event) {
@@ -14,10 +26,11 @@ export default class PinForm extends React.Component {
 
   _handleSubmit = () => {
     console.log("submitted");
+    writeUserData("testTitle", "user", "I am Dustin");
   };
 
   static navigationOptions = {
-    title: "Pin"
+    title: "Create Pin"
   };
 
   render() {
@@ -25,7 +38,7 @@ export default class PinForm extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.item}>
-          <FormLabel>Create Pin</FormLabel>
+          <FormLabel>Title</FormLabel>
           <FormInput onChangeText={this._handleChange} />
           <FormValidationMessage>
             {"This field is required"}
