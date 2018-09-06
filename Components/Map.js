@@ -1,11 +1,15 @@
 import React from 'react';
-import { Platform, Text, View, StyleSheet } from 'react-native';
+import { Platform, Text, View, StyleSheet, Button } from 'react-native';
 import { MapView, Constants, Location, Permissions } from 'expo';
 
 export default class Map extends React.Component {
   state = {
     location: null,
     errorMessage: null,
+  };
+
+  static navigationOptions = {
+    title: "Map"
   };
 
   componentWillMount() {
@@ -31,6 +35,7 @@ export default class Map extends React.Component {
   };
 
   render() {
+    const { navigate } = this.props.navigation;
     let text = 'Waiting..';
     if (this.state.errorMessage) {
       text = this.state.errorMessage;
@@ -50,6 +55,9 @@ export default class Map extends React.Component {
             longitudeDelta: 0.0421,
           }}
         />
+        <Text>I'm map</Text>
+        <Button title="Go to Details" onPress={() => navigate("Details")} />
+        <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
         <Text>{text}</Text>
       </View>
     );
