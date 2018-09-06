@@ -1,12 +1,12 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View, Button } from "react-native";
 
 export default class Details extends React.Component {
+  static navigationOptions = {
+    title: "Details"
+  };
   render() {
-    return (
-      <View>
-        <Text>I'm details</Text>
-      </View>
-    );
+    const { navigate } = this.props.navigation;
+    return <Button title="Details" onPress={() => navigate("Details")} />;
   }
 }
