@@ -2,15 +2,14 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { createStackNavigator } from "react-navigation";
 import { firebase } from "./src/firebase.js";
-import Map from './Components/Map.js';
+import MapScreen from './Components/MapScreen.js';
 import Details from './Components/Details.js';
 import PinForm from './Components/PinForm.js'
 
 const App = createStackNavigator({
-  Home: { screen: Map },
+  Home: { screen: MapScreen },
   PinForm: { screen: PinForm },
-  Details: { screen: Details }
-
+  Details: { screen: Details },
 });
 
 export default App;
