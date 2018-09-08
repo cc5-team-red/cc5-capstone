@@ -12,6 +12,17 @@ export default class MapScreen extends React.Component {
   state = {
     location: null,
     errorMessage: null,
+    pins:[
+      {
+        id:0,
+        coordinate:  {
+          latitude: 35.71825,
+          longitude: 139.7324,
+        },
+        title: "sample",
+        description: "sample description",
+      },
+    ]
   };
 
   componentWillMount() {
@@ -37,7 +48,11 @@ export default class MapScreen extends React.Component {
   };
 
   _onPress(e) {
-    console.log('Click happened');
+    console.log('onPress happened');
+  }
+
+  _onLongPress(e) {
+    console.log('onLongPress happened');
     console.log(e.nativeEvent)
   }
 
@@ -52,7 +67,11 @@ export default class MapScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
-        <Map _onPress={this._onPress}/>
+        <Map
+          _onPress={this._onPress}
+          _onLongPress={this._onLongPress}
+          pins={this.state.pins}
+        />
         <Button title="Go to Details" onPress={() => navigate("Details")} />
         <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
         <Text>{locationDebug}</Text>
