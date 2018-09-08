@@ -19,8 +19,45 @@ export default class MapScreen extends React.Component {
           latitude: 35.71825,
           longitude: 139.7324,
         },
-        title: "sample",
-        description: "sample description",
+        type: 'danger', //currently enum of 'danger', 'noPassage', or 'medical'. 
+        
+        title: "sample", //optional
+        description: "sample description", //optional
+        opacity: 1.0, //optional
+      },
+      {
+        id:1,
+        coordinate:  {
+          latitude: 35.71725,
+          longitude: 139.7324,
+        },
+        type: 'noPassage',
+
+        opacity: 1.0,
+      },
+      {
+        id:2,
+        coordinate:  {
+          latitude: 35.71625,
+          longitude: 139.7324,
+        },
+        type: 'crosshairs',
+
+        title: "tgt",
+        description: "",
+        opacity: 1.0,
+      },
+
+      {
+        id:3,
+        coordinate:  {
+          latitude: 35.71625,
+          longitude: 139.7314,
+        },
+        type: 'medical',
+
+        title: "aid tent",
+        description: "red cross aid tent here",
         opacity: 1.0,
       },
     ]
