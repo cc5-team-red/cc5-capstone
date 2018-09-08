@@ -8,10 +8,10 @@ import {
 } from "react-native-elements";
 import { firebase } from "../src/firebase";
 
-function writePinData(userId, pinObj) {
+function writePinData(pinObj) {
   firebase
     .database()
-    .ref(`pins/${userId}`)
+    .ref(`pins/`).push()
     .set(pinObj);
 }
 
@@ -33,9 +33,10 @@ export default class PinForm extends React.Component {
     const pinObj = {
       title: this.state.title_input,
       details: this.state.details_input,
-      type: this.state.type_input
+      type: this.state.type_input,
+      userID: this.state.userId
     }
-    writePinData(this.state.userId, pinObj);
+    writePinData(pinObj);
   };
 
   static navigationOptions = {
