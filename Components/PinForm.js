@@ -16,7 +16,12 @@ export default class PinForm extends React.Component {
     console.log("submitted");
   };
 
+  static navigationOptions = {
+    title: "Pin"
+  };
+
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <View style={styles.item}>
