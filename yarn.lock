@@ -5885,6 +5885,7 @@ react-native-gesture-handler@1.0.0-alpha.41:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+<<<<<<< HEAD
 react-native-i18n@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-i18n/-/react-native-i18n-1.0.0.tgz#0c407d9ebb846aae1aa5e05de6503008553f02fd"
@@ -5901,6 +5902,9 @@ react-native-keyboard-aware-scroll-view@0.5.0, react-native-keyboard-aware-scrol
     react-native-iphone-x-helper "^1.0.1"
 
 react-native-maps@0.21.0:
+=======
+react-native-maps@0.21.0, react-native-maps@^0.21.0:
+>>>>>>> develop
   version "0.21.0"
   resolved "https://registry.yarnpkg.com/react-native-maps/-/react-native-maps-0.21.0.tgz#005f58e93d7623ad59667e8002101970ddf235c2"
   dependencies:
