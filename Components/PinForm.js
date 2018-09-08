@@ -6,30 +6,62 @@ import {
   FormValidationMessage,
   Button
 } from "react-native-elements";
+import { createUser, userListener, createPin, pinListener } from "../firebase/helper";
 
 export default class PinForm extends React.Component {
-  _handleChange(event) {
-    console.log("changed");
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: 'test_userID',
+      title_input: '',
+      details_input: '',
+      type_input: '',
+    }
   }
 
   _handleSubmit = () => {
-    console.log("submitted");
+    console.log(this.state.title_input);
+    console.log(this.state.details_input);
+    console.log(this.state.type_input);
+    const pinObj = {
+      title: this.state.title_input,
+      details: this.state.details_input,
+      type: this.state.type_input,
+      userID: this.state.userId,
+      coordinates: {latitude: 23.324, longitude: 23.33},
+    }
+    createPin(pinObj);
   };
 
   static navigationOptions = {
-    title: "Pin"
+    title: "Create Pin"
   };
 
   render() {
-    const { navigate } = this.props.navigation;
+    let title = '';
+    let details = '';
+    let type = '';
     return (
       <View style={styles.container}>
         <View style={styles.item}>
-          <FormLabel>Create Pin</FormLabel>
-          <FormInput onChangeText={this._handleChange} />
+          <FormLabel>Title</FormLabel>
+          <FormInput value={title} onChangeText={(text) => this.setState({title_input: text})}/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
+
+          <FormLabel>Details</FormLabel>
+          <FormInput value={details} onChangeText={(text) => this.setState({details_input: text})}/>
+          <FormValidationMessage>
+            {"This field is required"}
+          </FormValidationMessage>
+
+          <FormLabel>Type</FormLabel>
+          <FormInput value={type} onChangeText={(text) => this.setState({type_input: text})}/>
+          <FormValidationMessage>
+            {"This field is required"}
+          </FormValidationMessage>
+
           <Button
             style={styles.button}
             title="Create Pin"
