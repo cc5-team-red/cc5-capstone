@@ -1,14 +1,11 @@
 import { firebase } from './firebase';
 
-function createUser(name) {
+function createUser(...params) {
   firebase
     .database()
-    .ref("users/") //ADD USER ID
+    .ref("users/")
     .push()
-    .set({
-      name
-      //add longitude and latitude
-    });
+    .set(...params);
 }
 
 function userListener() {
@@ -21,17 +18,12 @@ function userListener() {
     })
 }
 
-function createPin(title, type, details) {
+function createPin(...params) {
   firebase
     .database()
     .ref("pins/")
-    .push() //ADD USER ID
-    .set({
-      title,
-      type,
-      details
-      //add timestamp, id, some other things.
-    });
+    .push()
+    .set(...params);
 }
 
 function pinListener() {
