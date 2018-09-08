@@ -1,10 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
+import { Constants, Location, Permissions } from "expo";
 import { createStackNavigator } from "react-navigation";
+
 import MapScreen from './Components/MapScreen.js';
 import Details from './Components/Details.js';
 import PinForm from './Components/PinForm.js'
 import { pinListener } from './firebase/helper'
+
 
 const StackNavigator = createStackNavigator({
   Home: { screen: MapScreen },
@@ -14,8 +17,9 @@ const StackNavigator = createStackNavigator({
 
 export default class App extends React.Component {
   state = {
-   how: "didyoudodat",
-   pins: [
+    location: null,
+    errorMessage: null,
+    pins: [
     {
       id: 0,
       coordinate: {
@@ -66,6 +70,17 @@ export default class App extends React.Component {
   ]
   }
 
+  componentWillMount() {
+    if (Platform.OS === "android" && !Constants.isDevice) {
+      this.setState({
+        errorMessage:
+          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+      });
+    } else {
+      this._getLocationAsync();
+    }
+  }
+
   _onPress(e) {
     console.log("onPress happened");
   }
@@ -74,6 +89,19 @@ export default class App extends React.Component {
     console.log("onLongPress happened");
     console.log(e.nativeEvent);
   }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        errorMessage: "Permission to access location was denied"
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ location });
+  };
+
 
   render(){
     return (

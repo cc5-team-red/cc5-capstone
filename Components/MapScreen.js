@@ -15,30 +15,7 @@ export default class MapScreen extends React.Component {
     location: null,
     errorMessage: null,
   };
-
-  componentWillMount() {
-    if (Platform.OS === "android" && !Constants.isDevice) {
-      this.setState({
-        errorMessage:
-          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
-      });
-    } else {
-      this._getLocationAsync();
-    }
-  }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: "Permission to access location was denied"
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location });
-  };
-
+ 
   render() {
     console.log('MapScreen props:');
     console.log(this.props);
@@ -48,10 +25,10 @@ export default class MapScreen extends React.Component {
 
     const { navigate } = this.props.navigation;
     let locationDebug = "loading geoLocation...\n";
-    if (this.state.errorMessage) {
-      locationDebug += this.state.errorMessage;
-    } else if (this.state.location) {
-      locationDebug += JSON.stringify(this.state.location);
+    if (this.props.screenProps.errorMessage) {
+      locationDebug += this.props.screenProps.errorMessage;
+    } else if (this.props.screenProps.location) {
+      locationDebug += JSON.stringify(this.props.screenProps.location);
     }
 
     return (
