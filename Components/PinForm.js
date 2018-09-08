@@ -8,25 +8,34 @@ import {
 } from "react-native-elements";
 import { firebase } from "../src/firebase";
 
-function writeUserData(title, type, details) {
+function writePinData(userId, pinObj) {
   firebase
     .database()
-    .ref("users/002")
-    .set({
-      title: title,
-      type: type,
-      details: details
-    });
+    .ref(`pins/${userId}`)
+    .set(pinObj);
 }
 
 export default class PinForm extends React.Component {
-  _handleChange(event) {
-    console.log("changed");
+  constructor(props) {
+    super(props);
+    this.state = {
+      userId: 'test_userID',
+      title_input: '',
+      details_input: '',
+      type_input: '',
+    }
   }
 
   _handleSubmit = () => {
-    console.log("submitted");
-    writeUserData("testTitle", "user", "I am Dustin");
+    console.log(this.state.title_input);
+    console.log(this.state.details_input);
+    console.log(this.state.type_input);
+    const pinObj = {
+      title: this.state.title_input,
+      details: this.state.details_input,
+      type: this.state.type_input
+    }
+    writePinData(this.state.userId, pinObj);
   };
 
   static navigationOptions = {
@@ -34,15 +43,31 @@ export default class PinForm extends React.Component {
   };
 
   render() {
+    let title = '';
+    let details = '';
+    let type = '';
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <View style={styles.item}>
           <FormLabel>Title</FormLabel>
-          <FormInput onChangeText={this._handleChange} />
+          <FormInput value={title} onChangeText={(text) => this.setState({title_input: text})}/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
+
+          <FormLabel>Details</FormLabel>
+          <FormInput value={details} onChangeText={(text) => this.setState({details_input: text})}/>
+          <FormValidationMessage>
+            {"This field is required"}
+          </FormValidationMessage>
+
+          <FormLabel>Type</FormLabel>
+          <FormInput value={type} onChangeText={(text) => this.setState({type_input: text})}/>
+          <FormValidationMessage>
+            {"This field is required"}
+          </FormValidationMessage>
+
           <Button
             style={styles.button}
             title="Create Pin"
