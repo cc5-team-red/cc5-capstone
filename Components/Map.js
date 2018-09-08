@@ -3,11 +3,11 @@ import { Text, StyleSheet } from 'react-native';
 import { MapView } from 'expo';
 import { Marker, ProviderPropType } from 'react-native-maps';
 
-import crosshairs from './assets/markers/crosshairs_blue.png';
-import fire from './assets/markers/fire.png';
-import medical from './assets/markers/medical.png';
-import no_passage from './assets/markers/no_passage.png';
-import danger from './assets/markers/danger.png';
+import crosshairs from './assets/pins/crosshairs_blue.png';
+import fire from './assets/pins/fire.png';
+import medical from './assets/pins/medical.png';
+import no_passage from './assets/pins/no_passage.png';
+import danger from './assets/pins/danger.png';
 
 export default class Map extends React.Component {
   _showMarkers() {
@@ -46,6 +46,8 @@ export default class Map extends React.Component {
         style={styles.map}
         mapType="mutedStandard"
         showsUserLocation={true}
+        showsScale={true} // works only on Apple Maps for some reason :-(
+        showsMyLocationButton={true} // doesn't make any visible changes :-(
         followsUserLocation={true}
         onPress={this.props._onPress}
         onLongPress={this.props._onLongPress}
