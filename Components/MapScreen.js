@@ -35,6 +35,10 @@ export default class MapScreen extends React.Component {
     this.setState({ location });
   };
 
+  _onPress(obj) {
+    console.log('Click happened');
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     let locationDebug = 'loading geoLocation...\n';
@@ -46,7 +50,7 @@ export default class MapScreen extends React.Component {
 
     return (
       <View style={{ flex: 1, flexDirection: 'column' }}>
-        <Map/>
+        <Map _onPress={this._onPress}/>
         <Button title="Go to Details" onPress={() => navigate("Details")} />
         <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
         <Text>{locationDebug}</Text>
