@@ -4,6 +4,7 @@ function createUser(name) {
   firebase
     .database()
     .ref("users/") //ADD USER ID
+    .push()
     .set({
       name
       //add longitude and latitude
@@ -23,7 +24,8 @@ function userListener() {
 function createPin(title, type, details) {
   firebase
     .database()
-    .ref("pins/").push() //ADD USER ID
+    .ref("pins/")
+    .push() //ADD USER ID
     .set({
       title,
       type,
