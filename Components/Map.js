@@ -1,19 +1,31 @@
-import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import React from 'react';
+import { MapView } from 'expo';
+import { Text, StyleSheet } from 'react-native';
 
 export default class Map extends React.Component {
-  static navigationOptions = {
-    title: "Map"
-  };
+
 
   render() {
-    const { navigate } = this.props.navigation;
+    const styles = StyleSheet.create({
+      map: {
+        ...StyleSheet.absoluteFillObject,
+      
+      },
+    });
+
     return (
-      <View>
-        <Text>I'm map</Text>
-        <Button title="Go to Details" onPress={() => navigate("Details")} />
-        <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
-      </View>
+        <MapView
+          style={styles.map}
+          mapType="mutedStandard"
+          showsUserLocation={true}
+          followsUserLocation={true}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
     );
   }
 }
