@@ -4,13 +4,14 @@ import { MapView, Constants, Location, Permissions } from 'expo';
 import Map from './Map.js';
 
 export default class MapScreen extends React.Component {
+  // for react-navigator
+  static navigationOptions = {
+    title: "Map"
+  };
+
   state = {
     location: null,
     errorMessage: null,
-  };
-
-  static navigationOptions = {
-    title: "Map"
   };
 
   componentWillMount() {
@@ -35,8 +36,9 @@ export default class MapScreen extends React.Component {
     this.setState({ location });
   };
 
-  _onPress(obj) {
+  _onPress(e) {
     console.log('Click happened');
+    console.log(e.nativeEvent)
   }
 
   render() {
