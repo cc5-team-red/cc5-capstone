@@ -3,6 +3,8 @@ import { Text, StyleSheet } from 'react-native';
 import { MapView } from 'expo';
 import{ Marker, ProviderPropType } from 'react-native-maps';
 
+import crosshairs from './assets/markers/crosshairs_sm.png';
+
 export default class Map extends React.Component {
   render() {
     console.log('map rendered')
@@ -28,6 +30,8 @@ export default class Map extends React.Component {
               coordinate={pin.coordinate}
               title={pin.title}
               description={pin.description}
+              opacity={pin.opacity}
+              image={crosshairs}
             />
           ))}
         </MapView>

@@ -21,6 +21,7 @@ export default class MapScreen extends React.Component {
         },
         title: "sample",
         description: "sample description",
+        opacity: 1.0,
       },
     ]
   };
@@ -53,7 +54,8 @@ export default class MapScreen extends React.Component {
 
   _onLongPress(e) {
     console.log('onLongPress happened');
-    console.log(e.nativeEvent)
+    console.log(e.nativeEvent);
+
   }
 
   render() {
