@@ -6,14 +6,7 @@ import {
   FormValidationMessage,
   Button
 } from "react-native-elements";
-import { firebase } from "../src/firebase";
-
-function writePinData(pinObj) {
-  firebase
-    .database()
-    .ref(`pins/`).push()
-    .set(pinObj);
-}
+import { createUser, userListener, createPin, pinListener } from "../firebase/helper";
 
 export default class PinForm extends React.Component {
   constructor(props) {
@@ -34,9 +27,10 @@ export default class PinForm extends React.Component {
       title: this.state.title_input,
       details: this.state.details_input,
       type: this.state.type_input,
-      userID: this.state.userId
+      userID: this.state.userId,
+      coordinates: {latitude: 23.324, longitude: 23.33},
     }
-    writePinData(pinObj);
+    createPin(pinObj);
   };
 
   static navigationOptions = {
@@ -47,7 +41,6 @@ export default class PinForm extends React.Component {
     let title = '';
     let details = '';
     let type = '';
-    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <View style={styles.item}>
