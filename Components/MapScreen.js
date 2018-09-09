@@ -1,115 +1,33 @@
-import React from 'react';
-import { Platform, Text, View, StyleSheet, Button } from 'react-native';
-import { MapView, Constants, Location, Permissions } from 'expo';
-import Map from './Map.js';
+import React from "react";
+import { Text, View, StyleSheet, Button } from "react-native";
+import Map from "./Map.js";
 
 export default class MapScreen extends React.Component {
   // for react-navigator
   static navigationOptions = {
     title: "Map"
   };
-
-  state = {
-    location: null,
-    errorMessage: null,
-    pins:[
-      {
-        id:0,
-        coordinate:  {
-          latitude: 35.71825,
-          longitude: 139.7324,
-        },
-        type: 'danger', //currently enum of 'danger', 'noPassage', or 'medical'. 
-        
-        title: "sample", //optional
-        description: "sample description", //optional
-        opacity: 1.0, //optional
-      },
-      {
-        id:1,
-        coordinate:  {
-          latitude: 35.71725,
-          longitude: 139.7324,
-        },
-        type: 'noPassage',
-
-        opacity: 1.0,
-      },
-      {
-        id:2,
-        coordinate:  {
-          latitude: 35.71625,
-          longitude: 139.7324,
-        },
-        type: 'crosshairs',
-
-        title: "tgt",
-        description: "",
-        opacity: 1.0,
-      },
-
-      {
-        id:3,
-        coordinate:  {
-          latitude: 35.71625,
-          longitude: 139.7314,
-        },
-        type: 'medical',
-
-        title: "aid tent",
-        description: "red cross aid tent here",
-        opacity: 1.0,
-      },
-    ]
-  };
-
-  componentWillMount() {
-    if (Platform.OS === 'android' && !Constants.isDevice) {
-      this.setState({
-        errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
-      });
-    } else {
-      this._getLocationAsync();
-    }
-  }
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location });
-  };
-
-  _onPress(e) {
-    console.log('onPress happened');
-  }
-
-  _onLongPress(e) {
-    console.log('onLongPress happened');
-    console.log(e.nativeEvent);
-
-  }
-
+ 
   render() {
+    // console.log('MapScreen props:');
+    // console.log(this.props);
+    // createPin(this.props.screenProps.pins[0]);
+    // pinListener();
+
     const { navigate } = this.props.navigation;
-    let locationDebug = 'loading geoLocation...\n';
-    if (this.state.errorMessage) {
-      locationDebug += this.state.errorMessage;
-    } else if (this.state.location) {
-      locationDebug += JSON.stringify(this.state.location);
+    let locationDebug = "loading geoLocation...\n";
+    if (this.props.screenProps.errorMessage) {
+      locationDebug += this.props.screenProps.errorMessage;
+    } else if (this.props.screenProps.location) {
+      locationDebug += JSON.stringify(this.props.screenProps.location);
     }
 
     return (
-      <View style={{ flex: 1, flexDirection: 'column' }}>
+      <View style={{ flex: 1, flexDirection: "column" }}>
         <Map
-          _onPress={this._onPress}
-          _onLongPress={this._onLongPress}
-          pins={this.state.pins}
+          _onPress={this.props.screenProps._onPress}
+          _onLongPress={this.props.screenProps._onLongPress}
+          pins={this.props.screenProps.pins}
         />
         <Button title="Go to Details" onPress={() => navigate("Details")} />
         <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
