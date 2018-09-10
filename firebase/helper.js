@@ -9,7 +9,6 @@ function createUser(latitude, longitude, ...params) {
 }
 
 function updateUser(userId, latitude, longitude) {
-  console.log(userId, latitide, longitude)
   const updates = {};
   updates["users/" + userId + "/update"] = {
     latitude,

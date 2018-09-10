@@ -24,6 +24,7 @@ export default class App extends React.Component {
     user_id: null,
     location: null,
     errorMessage: null,
+    // userListener: null,
     pins: [
       {
         id: 0,
@@ -91,6 +92,7 @@ export default class App extends React.Component {
       });
     } else {
       this._getLocationAsync();
+      // this._watchLocationAsync();
     }
   }
 
@@ -185,7 +187,40 @@ export default class App extends React.Component {
     createPin(pinObj);
   };
 
+  _watchLocationAsync = async () => {
+    return Location.watchPositionAsync({timeInterval: 10000}, (result) => {
+      updateUser(
+        this.state.user_id,
+        result.coords.latitude,
+        result.coords.longitude
+      )
+      this.setState({location: result.coords});
+    });
+    // return Location.watchPositionAsync({ timeInterval: 1000 }, result => {
+    //   console.log('watchPositionAsync')
+    //   if (this.state.user_id === null) {
+    //     const new_user_id = createUser(
+    //       result.coords.latitude,
+    //       result.coords.longitude,
+    //       { name: "default" }
+    //     );
+    //     console.log("new_user_id")
+    //     console.log(new_user_id)
+    //     this.setState({
+    //       user_id: new_user_id
+    //     });
+    //   } else {
+    //     console.log('else')
+    //     updateUser(this.state.user_id, result.coords.latitude, result.coords.longitude);
+    //     this.setState({
+    //       location: result.coords
+    //     });
+    //   }
+    // });
+  };
+
   render() {
+    let tracker = this._watchLocationAsync();
     return (
       <StackNavigator
         screenProps={{
