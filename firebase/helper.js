@@ -4,7 +4,7 @@ function createUser(latitude, longitude, ...params) {
   return firebase
     .database()
     .ref("users/")
-    .push({ ...params,  update: {latitude, longitude, timestamp: firebase.database.ServerValue.TIMESTAMP} })
+    .push({ static: {...params},  update: {latitude, longitude, timestamp: firebase.database.ServerValue.TIMESTAMP} })
     .key;
 }
 
