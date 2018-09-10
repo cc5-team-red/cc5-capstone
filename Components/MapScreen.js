@@ -14,11 +14,6 @@ export default class MapScreen extends React.Component {
   }
 
   render() {
-    // console.log('MapScreen props:');
-    // console.log(this.props);
-    // createPin(this.props.screenProps.pins[0]);
-    // pinListener();
-
     const { navigate } = this.props.navigation;
     let locationDebug = "loading geoLocation...\n";
     if (this.props.screenProps.errorMessage) {
