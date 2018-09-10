@@ -1,11 +1,26 @@
 import { firebase } from './firebase';
 
 function createUser(...params) {
-  firebase
+  return firebase
     .database()
     .ref("users/")
-    .push()
-    .set(...params);
+    .push({...params, updated: firebase.database.ServerValue.TIMESTAMP});
+}
+
+function updateUser(userId) {
+  firebase
+    .database()
+    .ref("users/" + userId)
+    .set({
+      0:{
+        coordinate:{
+          latitude: 0,
+          longitude: 0
+      }
+    },
+      updated: firebase.database.ServerValue.TIMESTAMP
+    }
+    )
 }
 
 function userListener() {
@@ -22,8 +37,7 @@ function createPin(...params) {
   firebase
     .database()
     .ref("pins/")
-    .push()
-    .set(...params);
+    .push({...params, updated: firebase.database.ServerValue.TIMESTAMP});
 }
 
 function pinListener() {
@@ -37,4 +51,4 @@ function pinListener() {
     })
 }
 
-export { createUser, userListener, createPin, pinListener }
+export { createUser, updateUser, userListener, createPin, pinListener }
