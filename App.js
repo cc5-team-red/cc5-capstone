@@ -113,14 +113,37 @@ export default class App extends React.Component {
     this.setState({ location });
   };
 
-  _onChangeText = (text) => {
+  _onChangeTitle = (text) => {
     console.log(text);
-    // this.setState({
-    //   newPin: {
-    //     title_input: text
-    //   }
-    // });
-    console.log(this.state);
+    this.setState({
+      newPin: {
+        ...this.state.newPin,
+        title_input: text,
+      }
+    });
+    console.log(this.state.newPin);
+  }
+
+  _onChangeDetails = (text) => {
+    console.log(text);
+    this.setState({
+      newPin: {
+        ...this.state.newPin,
+        details_input: text
+      }
+    });
+    console.log(this.state.newPin);
+  }
+  
+  _onChangeType = (text) => {
+    console.log(text);
+    this.setState({
+      newPin: {
+        ...this.state.newPin,
+        type_input: text
+      }
+    });
+    console.log(this.state.newPin);
   }
 
   render(){
@@ -129,7 +152,9 @@ export default class App extends React.Component {
         screenProps={{
           _onPress: this._onPress,
           _onLongPress: this._onLongPress,
-          _onChangeText: this._onChangeText,
+          _onChangeTitle: this._onChangeTitle,
+          _onChangeDetails: this._onChangeDetails,
+          _onChangeType: this._onChangeType,
           ...this.state,
         }} 
       />

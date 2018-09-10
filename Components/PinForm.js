@@ -47,19 +47,19 @@ export default class PinForm extends React.Component {
       <View style={styles.container}>
         <View style={styles.item}>
           <FormLabel>Title</FormLabel>
-          <FormInput value={title} onChangeText={ this.props.screenProps._onChangeText }/>
+          <FormInput value={title} onChangeText={ this.props.screenProps._onChangeTitle }/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
 
           <FormLabel>Details</FormLabel>
-          <FormInput value={details} onChangeText={(text) => this.setState({details_input: text})}/>
+          <FormInput value={details} onChangeText={this.props.screenProps._onChangeDetails}/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
 
           <FormLabel>Type</FormLabel>
-          <FormInput value={type} onChangeText={(text) => this.setState({type_input: text})}/>
+          <FormInput value={type} onChangeText={this.props.screenProps._onChangeType}/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
