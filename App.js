@@ -6,7 +6,7 @@ import { createStackNavigator } from "react-navigation";
 import MapScreen from './Components/MapScreen.js';
 import Details from './Components/Details.js';
 import PinForm from './Components/PinForm.js'
-import { pinListener } from './firebase/helper'
+import { createPin, pinListener } from './firebase/helper'
 
 
 const StackNavigator = createStackNavigator({
@@ -146,6 +146,22 @@ export default class App extends React.Component {
     console.log(this.state.newPin);
   }
 
+  _handleSubmit = () => {
+    console.log(this.state.newPin.title_input); 
+    console.log(this.state.newPin.details_input);
+    console.log(this.state.newPin.type_input);
+
+    const pinObj = {
+      title: this.state.newPin.title_input,
+      details: this.state.newPin.details_input,
+      type: this.state.newPin.type_input,
+      userID: 234590853709863579865379,
+      coordinates: {latitude: 23.324, longitude: 23.33},
+    }
+    createPin(pinObj);
+  };
+
+
   render(){
     return (
       <StackNavigator
@@ -155,6 +171,7 @@ export default class App extends React.Component {
           _onChangeTitle: this._onChangeTitle,
           _onChangeDetails: this._onChangeDetails,
           _onChangeType: this._onChangeType,
+          _handleSubmit: this._handleSubmit,
           ...this.state,
         }} 
       />

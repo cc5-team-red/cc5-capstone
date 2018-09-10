@@ -6,34 +6,11 @@ import {
   FormValidationMessage,
   Button
 } from "react-native-elements";
-import { createUser, userListener, createPin, pinListener } from "../firebase/helper";
 
 export default class PinForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userId: 'test_userID',
-      title_input: '',
-      details_input: '',
-      type_input: '',
-    }
   }
-
-  _handleSubmit = () => {
-    console.log(this.props.screenProps.newPin); 
-
-    console.log(this.state.title_input); 
-    console.log(this.state.details_input);
-    console.log(this.state.type_input);
-    const pinObj = {
-      title: this.state.title_input,
-      details: this.state.details_input,
-      type: this.state.type_input,
-      userID: this.state.userId,
-      coordinates: {latitude: 23.324, longitude: 23.33},
-    }
-    createPin(pinObj);
-  };
 
   static navigationOptions = {
     title: "Create Pin"
@@ -68,7 +45,7 @@ export default class PinForm extends React.Component {
             style={styles.button}
             title="Create Pin"
             accessibilityLabel="Create a pin with this button"
-            onPress={this._handleSubmit}
+            onPress={this.props.screenProps._handleSubmit}
           />
         </View>
       </View>
