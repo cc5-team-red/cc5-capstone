@@ -8,6 +8,11 @@ export default class MapScreen extends React.Component {
     title: "Map"
   };
  
+  _onLongPress = (e) => {
+    this.props.navigation.navigate("PinForm");
+    this.props.screenProps._setNewCoordinate(e);
+  }
+
   render() {
     // console.log('MapScreen props:');
     // console.log(this.props);
@@ -26,7 +31,7 @@ export default class MapScreen extends React.Component {
       <View style={{ flex: 1, flexDirection: "column" }}>
         <Map
           _onPress={this.props.screenProps._onPress}
-          _onLongPress={this.props.screenProps._onLongPress}
+          _onLongPress={this._onLongPress}
           pins={this.props.screenProps.pins}
         />
         <Button title="Go to Details" onPress={() => navigate("Details")} />

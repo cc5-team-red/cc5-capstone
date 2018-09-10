@@ -6,33 +6,8 @@ import {
   FormValidationMessage,
   Button
 } from "react-native-elements";
-import { createUser, userListener, createPin, pinListener } from "../firebase/helper";
 
 export default class PinForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userId: 'test_userID',
-      title_input: '',
-      details_input: '',
-      type_input: '',
-    }
-  }
-
-  _handleSubmit = () => {
-    console.log(this.state.title_input);
-    console.log(this.state.details_input);
-    console.log(this.state.type_input);
-    const pinObj = {
-      title: this.state.title_input,
-      details: this.state.details_input,
-      type: this.state.type_input,
-      userID: this.state.userId,
-      coordinates: {latitude: 23.324, longitude: 23.33},
-    }
-    createPin(pinObj);
-  };
-
   static navigationOptions = {
     title: "Create Pin"
   };
@@ -45,19 +20,19 @@ export default class PinForm extends React.Component {
       <View style={styles.container}>
         <View style={styles.item}>
           <FormLabel>Title</FormLabel>
-          <FormInput value={title} onChangeText={(text) => this.setState({title_input: text})}/>
+          <FormInput value={title} onChangeText={ this.props.screenProps._onChangeTitle }/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
 
           <FormLabel>Details</FormLabel>
-          <FormInput value={details} onChangeText={(text) => this.setState({details_input: text})}/>
+          <FormInput value={details} onChangeText={this.props.screenProps._onChangeDetails}/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
 
           <FormLabel>Type</FormLabel>
-          <FormInput value={type} onChangeText={(text) => this.setState({type_input: text})}/>
+          <FormInput value={type} onChangeText={this.props.screenProps._onChangeType}/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
@@ -66,7 +41,7 @@ export default class PinForm extends React.Component {
             style={styles.button}
             title="Create Pin"
             accessibilityLabel="Create a pin with this button"
-            onPress={this._handleSubmit}
+            onPress={this.props.screenProps._handleSubmit}
           />
         </View>
       </View>

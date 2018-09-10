@@ -6,7 +6,7 @@ import { createStackNavigator } from "react-navigation";
 import MapScreen from './Components/MapScreen.js';
 import Details from './Components/Details.js';
 import PinForm from './Components/PinForm.js'
-import { pinListener } from './firebase/helper'
+import { createPin, pinListener } from './firebase/helper'
 
 
 const StackNavigator = createStackNavigator({
@@ -20,54 +20,64 @@ export default class App extends React.Component {
     location: null,
     errorMessage: null,
     pins: [
-    {
-      id: 0,
-      coordinate: {
-        latitude: 35.71825,
-        longitude: 139.7324
+      {
+        id: 0,
+        coordinate: {
+          latitude: 35.71825,
+          longitude: 139.7324
+        },
+        type: "danger", //currently enum of 'danger', 'noPassage', or 'medical'.
+
+        title: "sample", //optional
+        description: "sample description", //optional
+        opacity: 1.0 //optional
       },
-      type: "danger", //currently enum of 'danger', 'noPassage', or 'medical'.
+      {
+        id: 1,
+        coordinate: {
+          latitude: 35.71725,
+          longitude: 139.7324
+        },
+        type: "noPassage",
 
-      title: "sample", //optional
-      description: "sample description", //optional
-      opacity: 1.0 //optional
-    },
-    {
-      id: 1,
-      coordinate: {
-        latitude: 35.71725,
-        longitude: 139.7324
+        opacity: 1.0
       },
-      type: "noPassage",
+      {
+        id: 2,
+        coordinate: {
+          latitude: 35.71625,
+          longitude: 139.7324
+        },
+        type: "crosshairs",
 
-      opacity: 1.0
-    },
-    {
-      id: 2,
-      coordinate: {
-        latitude: 35.71625,
-        longitude: 139.7324
+        title: "tgt",
+        description: "",
+        opacity: 1.0
       },
-      type: "crosshairs",
+      {
+        id: 3,
+        coordinate: {
+          latitude: 35.71625,
+          longitude: 139.7314
+        },
+        type: "medical",
 
-      title: "tgt",
-      description: "",
-      opacity: 1.0
-    },
-
-    {
-      id: 3,
+        title: "aid tent",
+        description: "red cross aid tent here",
+        opacity: 1.0
+      }
+    ],
+    newPin: {
+      user_id: 'test_userID',
+      title_input: '',
+      details_input: '',
+      type_input: '',
       coordinate: {
-        latitude: 35.71625,
-        longitude: 139.7314
+        latitude: null,
+        longitude: null
       },
-      type: "medical",
 
-      title: "aid tent",
-      description: "red cross aid tent here",
-      opacity: 1.0
     }
-  ]
   }
 
   componentWillMount() {
@@ -83,11 +93,18 @@ export default class App extends React.Component {
 
   _onPress(e) {
     console.log("onPress happened");
+    console.log(this)
   }
 
-  _onLongPress(e) {
+  _setNewCoordinate = (e) => {
     console.log("onLongPress happened");
-    console.log(e.nativeEvent);
+    this.setState({
+      newPin: {
+        coordinate: e.nativeEvent.coordinate
+      }
+    })
+    // navigate("PinForm")
+    // console.log(e.nativeEvent);
   }
 
   _getLocationAsync = async () => {
@@ -102,13 +119,65 @@ export default class App extends React.Component {
     this.setState({ location });
   };
 
+  _onChangeTitle = (text) => {
+    console.log(text);
+    this.setState({
+      newPin: {
+        ...this.state.newPin,
+        title_input: text,
+      }
+    });
+    console.log(this.state.newPin);
+  }
+
+  _onChangeDetails = (text) => {
+    console.log(text);
+    this.setState({
+      newPin: {
+        ...this.state.newPin,
+        details_input: text
+      }
+    });
+    console.log(this.state.newPin);
+  }
+  
+  _onChangeType = (text) => {
+    console.log(text);
+    this.setState({
+      newPin: {
+        ...this.state.newPin,
+        type_input: text
+      }
+    });
+    console.log(this.state.newPin);
+  }
+
+  _handleSubmit = () => {
+    console.log(this.state.newPin.title_input); 
+    console.log(this.state.newPin.details_input);
+    console.log(this.state.newPin.type_input);
+
+    const pinObj = {
+      title: this.state.newPin.title_input,
+      details: this.state.newPin.details_input,
+      type: this.state.newPin.type_input,
+      userID: 234590853709863579865379,
+      coordinates: {latitude: 23.324, longitude: 23.33},
+    }
+    createPin(pinObj);
+  };
+
 
   render(){
     return (
       <StackNavigator
         screenProps={{
           _onPress: this._onPress,
-          _onLongPress: this._onLongPress,
+          _setNewCoordinate: this._setNewCoordinate,
+          _onChangeTitle: this._onChangeTitle,
+          _onChangeDetails: this._onChangeDetails,
+          _onChangeType: this._onChangeType,
+          _handleSubmit: this._handleSubmit,
           ...this.state,
         }} 
       />
