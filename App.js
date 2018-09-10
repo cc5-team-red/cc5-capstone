@@ -10,7 +10,8 @@ import {
   createPin,
   pinListener,
   createUser,
-  updateUser
+  updateUser,
+  userListener,
 } from "./firebase/helper";
 
 const StackNavigator = createStackNavigator({
@@ -29,6 +30,7 @@ export default class App extends React.Component {
       }
     },
     errorMessage: null,
+    users: [],
     pins: [
       {
         id: 0,
@@ -96,16 +98,19 @@ export default class App extends React.Component {
       });
     } else {
       await this._setupUser();
-      await this._getLocationAsync();
+      await this._getLocation();
+      await this._getUsers();
+      
     }
   }
 
   _setupUser() {
-    if (this.state.user_id) {
+    if (this.state.user_id === null) {
       return this.setState({
-        user_id: createUser(0, 0, { name: "default" })
+        user_id: createUser(2, 2, { name: "default" })
       });
     }
+
     return;
   }
   _onPress(e) {
@@ -172,7 +177,11 @@ export default class App extends React.Component {
     createPin(pinObj);
   };
 
-  _getLocationAsync = async () => {
+  _getUsers = async () => {
+    const wat = await userListener(this.state.user_id);
+  }
+
+  _getLocation = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== "granted") {
       this.setState({
@@ -188,8 +197,6 @@ export default class App extends React.Component {
         timeInterval: 200
       },
       location => {
-        console.log(location);
-
         updateUser(
           this.state.user_id,
           location.coords.latitude,

@@ -21,13 +21,26 @@ function updateUser(userId, latitude, longitude) {
     .update(updates)
 }
 
-function userListener() {
+function userListener(my_user_id) {
   return firebase
     .database()
     .ref("users/")
     .on('value', function (snapshot) {
-      console.log(snapshot.val());
-      return (snapshot.val())
+      console.log('listening to users...')
+      console.log(my_user_id)
+      const users = Object.entries(snapshot.val())
+        .map(([key, value])=> {
+          return {
+            user_id: key,
+            name: value["0"].name,
+            timestamp: value.update.timestamp,
+            latitude: value.update.latitude,
+            longitude: value.update.longitude,
+          }
+        })
+        .filter( users => users.user_id !== my_user_id) // filter out myself
+      // console.log(users);
+      return users;
     })
 }
 
