@@ -36,7 +36,7 @@ export default class Map extends React.Component {
         }}
         title={user.name}
         // description={user.description}
-        // opacity={user.opacity}
+        opacity={user.opacity}
         image={this._getImage("crosshairs")}
       />
     )})
