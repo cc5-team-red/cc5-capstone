@@ -21,13 +21,11 @@ function updateUser(userId, latitude, longitude) {
     .update(updates)
 }
 
-function userListener(my_user_id) {
+function userListener(my_user_id, callback) {
   return firebase
     .database()
     .ref("users/")
     .on('value', function (snapshot) {
-      console.log('listening to users...')
-      console.log(my_user_id)
       const users = Object.entries(snapshot.val())
         .map(([key, value])=> {
           return {
@@ -39,8 +37,7 @@ function userListener(my_user_id) {
           }
         })
         .filter( users => users.user_id !== my_user_id) // filter out myself
-      // console.log(users);
-      return users;
+      callback(users);
     })
 }
 
@@ -57,7 +54,6 @@ function pinListener() {
     .ref("pins/")
     .once('value') //*** may need to be consistently listening ***
     .then(function (snapshot) {
-      console.log(snapshot.val());
       return (snapshot.val())
     })
 }

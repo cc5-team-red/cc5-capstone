@@ -11,7 +11,7 @@ import {
   pinListener,
   createUser,
   updateUser,
-  userListener,
+  userListener
 } from "./firebase/helper";
 
 const StackNavigator = createStackNavigator({
@@ -100,7 +100,6 @@ export default class App extends React.Component {
       await this._setupUser();
       await this._getLocation();
       await this._getUsers();
-      
     }
   }
 
@@ -178,8 +177,10 @@ export default class App extends React.Component {
   };
 
   _getUsers = async () => {
-    const wat = await userListener(this.state.user_id);
-  }
+    await userListener(this.state.user_id, users => {
+      this.setState({ users });
+    });
+  };
 
   _getLocation = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -193,8 +194,8 @@ export default class App extends React.Component {
     await Location.watchPositionAsync(
       {
         enableHighAccuracy: true,
-        distanceInterval: 1,
-        timeInterval: 200
+        distanceInterval: 10,
+        timeInterval: 2000
       },
       location => {
         updateUser(

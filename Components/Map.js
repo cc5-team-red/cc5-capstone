@@ -24,6 +24,24 @@ export default class Map extends React.Component {
     ))
   }
 
+  _showUsers(){
+    return this.props.users.map(user => {
+      return (
+      <Marker
+        key={user.user_id}
+        id={user.user_id}
+        coordinate={{
+          latitude: user.latitude,
+          longitude: user.longitude
+        }}
+        title={user.name}
+        // description={user.description}
+        // opacity={user.opacity}
+        image={this._getImage("crosshairs")}
+      />
+    )})
+  }
+
   _getImage(pinType) {
     switch (pinType) {
       case "noPassage":
@@ -57,6 +75,7 @@ export default class Map extends React.Component {
         }}
       >
         {this._showMarkers()}
+        {this._showUsers()}
       </MapView>
     );
   }
