@@ -8,10 +8,6 @@ import {
 } from "react-native-elements";
 
 export default class PinForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   static navigationOptions = {
     title: "Create Pin"
   };

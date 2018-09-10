@@ -96,8 +96,13 @@ export default class App extends React.Component {
     console.log(this)
   }
 
-  _onLongPress(e) {
+  _onLongPress = (e) => {
     console.log("onLongPress happened");
+    this.setState({
+      newPin: {
+        coordinate: e.nativeEvent.coordinate
+      }
+    })
     console.log(e.nativeEvent);
   }
 
