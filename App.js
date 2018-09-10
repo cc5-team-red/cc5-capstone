@@ -22,9 +22,13 @@ const StackNavigator = createStackNavigator({
 export default class App extends React.Component {
   state = {
     user_id: null,
-    location: null,
+    location: {
+      coords: {
+        latitude: 37,
+        longitude: -122
+      }
+    },
     errorMessage: null,
-    // userListener: null,
     pins: [
       {
         id: 0,
@@ -84,18 +88,26 @@ export default class App extends React.Component {
     }
   };
 
-  componentWillMount() {
+  async componentDidMount() {
     if (Platform.OS === "android" && !Constants.isDevice) {
       this.setState({
         errorMessage:
-          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+          "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
       });
     } else {
-      this._getLocationAsync();
-      // this._watchLocationAsync();
+      await this._setupUser();
+      await this._getLocationAsync();
     }
   }
 
+  _setupUser() {
+    if (this.state.user_id) {
+      return this.setState({
+        user_id: createUser(0, 0, { name: "default" })
+      });
+    }
+    return;
+  }
   _onPress(e) {
     console.log("onPress happened");
     console.log(this);
@@ -110,33 +122,6 @@ export default class App extends React.Component {
     });
     // navigate("PinForm")
     // console.log(e.nativeEvent);
-  };
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: "Permission to access location was denied"
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location });
-    if (this.state.user_id === null && location.coords.latitude !== undefined) {
-      this.setState({
-        user_id: createUser(
-          location.coords.latitude,
-          location.coords.longitude,
-          {name: "default"}
-        )
-      });
-    } else {
-      updateUser(
-        this.state.user_id,
-        location.latitude,
-        location.longitude
-      );
-    }
   };
 
   _onChangeTitle = text => {
@@ -187,40 +172,35 @@ export default class App extends React.Component {
     createPin(pinObj);
   };
 
-  _watchLocationAsync = async () => {
-    return Location.watchPositionAsync({timeInterval: 10000}, (result) => {
-      updateUser(
-        this.state.user_id,
-        result.coords.latitude,
-        result.coords.longitude
-      )
-      this.setState({location: result.coords});
-    });
-    // return Location.watchPositionAsync({ timeInterval: 1000 }, result => {
-    //   console.log('watchPositionAsync')
-    //   if (this.state.user_id === null) {
-    //     const new_user_id = createUser(
-    //       result.coords.latitude,
-    //       result.coords.longitude,
-    //       { name: "default" }
-    //     );
-    //     console.log("new_user_id")
-    //     console.log(new_user_id)
-    //     this.setState({
-    //       user_id: new_user_id
-    //     });
-    //   } else {
-    //     console.log('else')
-    //     updateUser(this.state.user_id, result.coords.latitude, result.coords.longitude);
-    //     this.setState({
-    //       location: result.coords
-    //     });
-    //   }
-    // });
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        errorMessage: "Permission to access location was denied"
+      });
+      return;
+    }
+
+    await Location.watchPositionAsync(
+      {
+        enableHighAccuracy: true,
+        distanceInterval: 1,
+        timeInterval: 200
+      },
+      location => {
+        console.log(location);
+
+        updateUser(
+          this.state.user_id,
+          location.coords.latitude,
+          location.coords.longitude
+        );
+        this.setState({ location });
+      }
+    );
   };
 
   render() {
-    let tracker = this._watchLocationAsync();
     return (
       <StackNavigator
         screenProps={{

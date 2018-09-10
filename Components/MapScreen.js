@@ -29,6 +29,7 @@ export default class MapScreen extends React.Component {
           _onPress={this.props.screenProps._onPress}
           _onLongPress={this._onLongPress}
           pins={this.props.screenProps.pins}
+          location={this.props.screenProps.location}
         />
         <Button title="Go to Details" onPress={() => navigate("Details")} />
         <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />

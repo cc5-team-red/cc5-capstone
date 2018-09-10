@@ -50,8 +50,8 @@ export default class Map extends React.Component {
         onPress={this.props._onPress}
         onLongPress={this.props._onLongPress}
         region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: this.props.location.coords.latitude,
+          longitude: this.props.location.coords.longitude,
           latitudeDelta: 0.1922,
           longitudeDelta: 0.0421,
         }}
