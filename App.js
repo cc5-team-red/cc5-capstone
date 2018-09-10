@@ -20,54 +20,64 @@ export default class App extends React.Component {
     location: null,
     errorMessage: null,
     pins: [
-    {
-      id: 0,
-      coordinate: {
-        latitude: 35.71825,
-        longitude: 139.7324
+      {
+        id: 0,
+        coordinate: {
+          latitude: 35.71825,
+          longitude: 139.7324
+        },
+        type: "danger", //currently enum of 'danger', 'noPassage', or 'medical'.
+
+        title: "sample", //optional
+        description: "sample description", //optional
+        opacity: 1.0 //optional
       },
-      type: "danger", //currently enum of 'danger', 'noPassage', or 'medical'.
+      {
+        id: 1,
+        coordinate: {
+          latitude: 35.71725,
+          longitude: 139.7324
+        },
+        type: "noPassage",
 
-      title: "sample", //optional
-      description: "sample description", //optional
-      opacity: 1.0 //optional
-    },
-    {
-      id: 1,
-      coordinate: {
-        latitude: 35.71725,
-        longitude: 139.7324
+        opacity: 1.0
       },
-      type: "noPassage",
+      {
+        id: 2,
+        coordinate: {
+          latitude: 35.71625,
+          longitude: 139.7324
+        },
+        type: "crosshairs",
 
-      opacity: 1.0
-    },
-    {
-      id: 2,
-      coordinate: {
-        latitude: 35.71625,
-        longitude: 139.7324
+        title: "tgt",
+        description: "",
+        opacity: 1.0
       },
-      type: "crosshairs",
+      {
+        id: 3,
+        coordinate: {
+          latitude: 35.71625,
+          longitude: 139.7314
+        },
+        type: "medical",
 
-      title: "tgt",
-      description: "",
-      opacity: 1.0
-    },
-
-    {
-      id: 3,
+        title: "aid tent",
+        description: "red cross aid tent here",
+        opacity: 1.0
+      }
+    ],
+    newPin: {
+      user_id: 'test_userID',
+      title_input: '',
+      details_input: '',
+      type_input: '',
       coordinate: {
-        latitude: 35.71625,
-        longitude: 139.7314
+        latitude: null,
+        longitude: null
       },
-      type: "medical",
 
-      title: "aid tent",
-      description: "red cross aid tent here",
-      opacity: 1.0
     }
-  ]
   }
 
   componentWillMount() {
@@ -83,6 +93,7 @@ export default class App extends React.Component {
 
   _onPress(e) {
     console.log("onPress happened");
+    console.log(this)
   }
 
   _onLongPress(e) {
@@ -102,6 +113,15 @@ export default class App extends React.Component {
     this.setState({ location });
   };
 
+  _onChangeText = (text) => {
+    console.log(text);
+    // this.setState({
+    //   newPin: {
+    //     title_input: text
+    //   }
+    // });
+    console.log(this.state);
+  }
 
   render(){
     return (
@@ -109,6 +129,7 @@ export default class App extends React.Component {
         screenProps={{
           _onPress: this._onPress,
           _onLongPress: this._onLongPress,
+          _onChangeText: this._onChangeText,
           ...this.state,
         }} 
       />

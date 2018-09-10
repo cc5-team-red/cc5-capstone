@@ -20,7 +20,9 @@ export default class PinForm extends React.Component {
   }
 
   _handleSubmit = () => {
-    console.log(this.state.title_input);
+    console.log(this.props.screenProps.newPin); 
+
+    console.log(this.state.title_input); 
     console.log(this.state.details_input);
     console.log(this.state.type_input);
     const pinObj = {
@@ -45,7 +47,7 @@ export default class PinForm extends React.Component {
       <View style={styles.container}>
         <View style={styles.item}>
           <FormLabel>Title</FormLabel>
-          <FormInput value={title} onChangeText={(text) => this.setState({title_input: text})}/>
+          <FormInput value={title} onChangeText={ this.props.screenProps._onChangeText }/>
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
