@@ -4,11 +4,12 @@ function createUser(latitude, longitude, ...params) {
   return firebase
     .database()
     .ref("users/")
-    .push({ ...params,  update: {latitude, longitude, timestamp: firebase.database.ServerValue.TIMESTAMP} })
+    .push({ ...params, update: {latitude, longitude, timestamp: firebase.database.ServerValue.TIMESTAMP} })
     .key;
 }
 
 function updateUser(userId, latitude, longitude) {
+  console.log(userId, latitide, longitude)
   const updates = {};
   updates["users/" + userId + "/update"] = {
     latitude,

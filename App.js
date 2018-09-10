@@ -3,20 +3,25 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import { createStackNavigator } from "react-navigation";
 
-import MapScreen from './Components/MapScreen.js';
-import Details from './Components/Details.js';
-import PinForm from './Components/PinForm.js'
-import { createPin, pinListener } from './firebase/helper'
-
+import MapScreen from "./Components/MapScreen.js";
+import Details from "./Components/Details.js";
+import PinForm from "./Components/PinForm.js";
+import {
+  createPin,
+  pinListener,
+  createUser,
+  updateUser
+} from "./firebase/helper";
 
 const StackNavigator = createStackNavigator({
   Home: { screen: MapScreen },
   PinForm: { screen: PinForm },
-  Details: { screen: Details },
+  Details: { screen: Details }
 });
 
 export default class App extends React.Component {
   state = {
+    user_id: null,
     location: null,
     errorMessage: null,
     pins: [
@@ -68,17 +73,15 @@ export default class App extends React.Component {
       }
     ],
     newPin: {
-      user_id: 'test_userID',
-      title_input: '',
-      details_input: '',
-      type_input: '',
+      title_input: "",
+      details_input: "",
+      type_input: "",
       coordinate: {
         latitude: null,
         longitude: null
-      },
-
+      }
     }
-  }
+  };
 
   componentWillMount() {
     if (Platform.OS === "android" && !Constants.isDevice) {
@@ -93,19 +96,19 @@ export default class App extends React.Component {
 
   _onPress(e) {
     console.log("onPress happened");
-    console.log(this)
+    console.log(this);
   }
 
-  _setNewCoordinate = (e) => {
+  _setNewCoordinate = e => {
     console.log("onLongPress happened");
     this.setState({
       newPin: {
         coordinate: e.nativeEvent.coordinate
       }
-    })
+    });
     // navigate("PinForm")
     // console.log(e.nativeEvent);
-  }
+  };
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -117,20 +120,35 @@ export default class App extends React.Component {
 
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ location });
+    if (this.state.user_id === null && location.coords.latitude !== undefined) {
+      this.setState({
+        user_id: createUser(
+          location.coords.latitude,
+          location.coords.longitude,
+          {name: "default"}
+        )
+      });
+    } else {
+      updateUser(
+        this.state.user_id,
+        location.latitude,
+        location.longitude
+      );
+    }
   };
 
-  _onChangeTitle = (text) => {
+  _onChangeTitle = text => {
     console.log(text);
     this.setState({
       newPin: {
         ...this.state.newPin,
-        title_input: text,
+        title_input: text
       }
     });
     console.log(this.state.newPin);
-  }
+  };
 
-  _onChangeDetails = (text) => {
+  _onChangeDetails = text => {
     console.log(text);
     this.setState({
       newPin: {
@@ -139,9 +157,9 @@ export default class App extends React.Component {
       }
     });
     console.log(this.state.newPin);
-  }
-  
-  _onChangeType = (text) => {
+  };
+
+  _onChangeType = text => {
     console.log(text);
     this.setState({
       newPin: {
@@ -150,10 +168,10 @@ export default class App extends React.Component {
       }
     });
     console.log(this.state.newPin);
-  }
+  };
 
   _handleSubmit = () => {
-    console.log(this.state.newPin.title_input); 
+    console.log(this.state.newPin.title_input);
     console.log(this.state.newPin.details_input);
     console.log(this.state.newPin.type_input);
 
@@ -162,13 +180,12 @@ export default class App extends React.Component {
       details: this.state.newPin.details_input,
       type: this.state.newPin.type_input,
       userID: 234590853709863579865379,
-      coordinates: {latitude: 23.324, longitude: 23.33},
-    }
+      coordinates: { latitude: 23.324, longitude: 23.33 }
+    };
     createPin(pinObj);
   };
 
-
-  render(){
+  render() {
     return (
       <StackNavigator
         screenProps={{
@@ -178,9 +195,9 @@ export default class App extends React.Component {
           _onChangeDetails: this._onChangeDetails,
           _onChangeType: this._onChangeType,
           _handleSubmit: this._handleSubmit,
-          ...this.state,
-        }} 
+          ...this.state
+        }}
       />
-    )
+    );
   }
-};
+}
