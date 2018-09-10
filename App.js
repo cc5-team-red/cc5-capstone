@@ -96,14 +96,15 @@ export default class App extends React.Component {
     console.log(this)
   }
 
-  _onLongPress = (e) => {
+  _setNewCoordinate = (e) => {
     console.log("onLongPress happened");
     this.setState({
       newPin: {
         coordinate: e.nativeEvent.coordinate
       }
     })
-    console.log(e.nativeEvent);
+    // navigate("PinForm")
+    // console.log(e.nativeEvent);
   }
 
   _getLocationAsync = async () => {
@@ -172,7 +173,7 @@ export default class App extends React.Component {
       <StackNavigator
         screenProps={{
           _onPress: this._onPress,
-          _onLongPress: this._onLongPress,
+          _setNewCoordinate: this._setNewCoordinate,
           _onChangeTitle: this._onChangeTitle,
           _onChangeDetails: this._onChangeDetails,
           _onChangeType: this._onChangeType,
