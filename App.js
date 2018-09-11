@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import { createStackNavigator } from "react-navigation";
 
@@ -67,17 +67,11 @@ export default class App extends React.Component {
 
     return;
   }
-  _onPress(e) {
-    console.log("onPress happened");
-    console.log(this);
-  }
 
   _setNewCoordinate = e => {
-    console.log("onLongPress happened");
     this.setState({
       newPin: {
         coordinate: e.nativeEvent.coordinate,
-        type: "help"
       }
     });
   };
@@ -113,7 +107,6 @@ export default class App extends React.Component {
   };
 
   _onChangeType = text => {
-    console.log(text)
     if (!text) return;
       this.setState({
         newPin: {
@@ -125,6 +118,7 @@ export default class App extends React.Component {
 
   _handleSubmit = () => {
     console.log(this.state.newPin);
+    // TODO: fix input of type
 
     const pinObj = {
       title: this.state.newPin.title_input,

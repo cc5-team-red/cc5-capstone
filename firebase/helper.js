@@ -60,7 +60,7 @@ function userListener(my_user_id, callback) {
 }
 
 function createPin(...params) {
-  console.log('createPin(')
+  console.log('createPin()')
   console.log({ ...params, updated: firebase.database.ServerValue.TIMESTAMP })
   firebase
     .database()
@@ -98,8 +98,6 @@ function pinListener(callback) {
             timestamp,
           };
         })
-      
-        // console.log(pins)
       callback(pins);
     })
 }
