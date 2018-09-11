@@ -11,7 +11,7 @@ import danger from './assets/markers/danger.png';
 
 export default class Map extends React.Component {
   _showMarkers = () => {
-    if (!this.props.pins) {
+    if (!(typeof this.props.pins === "object")) {
       console.log("show markers is undefined!");
       return;
     }
@@ -29,8 +29,7 @@ export default class Map extends React.Component {
   }
 
   _showUsers(){
-    return this.props.users.map(user => {
-      return (
+    return this.props.users.map(user => (
       <Marker
         key={user.user_id}
         id={user.user_id}
@@ -43,7 +42,7 @@ export default class Map extends React.Component {
         // opacity={user.opacity}
         image={this._getImage("crosshairs")}
       />
-    )})
+    ))
   }
 
   _getImage(pinType) {

@@ -4,7 +4,7 @@ function createUser(latitude, longitude, ...params) {
   return firebase
     .database()
     .ref("users/")
-    .push({ ...params, update: {latitude, longitude, timestamp: firebase.database.ServerValue.TIMESTAMP} })
+    .push({ ...params, update: { latitude, longitude, timestamp: firebase.database.ServerValue.TIMESTAMP } })
     .key;
 }
 
@@ -26,8 +26,12 @@ function userListener(my_user_id, callback) {
     .database()
     .ref("users/")
     .on('value', function (snapshot) {
-      const users = Object.entries(snapshot.val())
-        .map(([key, value])=> {
+      const results = snapshot.val();
+      if (!(typeof results === "object")) return callback([]);
+
+      const users = Object.entries(results)
+        .filter(([key, value]) => (value["0"] && value["0"].name)) // prevent borken data from breaking app
+        .map(([key, value]) => {
           return {
             user_id: key,
             name: value["0"].name,
@@ -36,7 +40,10 @@ function userListener(my_user_id, callback) {
             longitude: value.update.longitude,
           }
         })
-        .filter( users => users.user_id !== my_user_id) // filter out myself
+        .filter(user => (
+          typeof user === "object" && user.user_id !== my_user_id // filter out myself
+        ))
+
       callback(users);
     })
 }
