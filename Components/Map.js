@@ -10,14 +10,18 @@ import no_passage from './assets/markers/no_passage.png';
 import danger from './assets/markers/danger.png';
 
 export default class Map extends React.Component {
-  _showMarkers() {
-    return this.props.pins.map(pin => (
+  _showMarkers = () => {
+    if (!this.props.pins) {
+      console.log("show markers is undefined!");
+      return;
+    }
+    return Object.entries(this.props.pins).map(([key, pin]) => (
       <Marker
-        key={pin.id}
-        id={pin.id}
+        key={key}
+        id={key}
         coordinate={pin.coordinate}
         title={pin.title}
-        description={pin.description}
+        description={pin.details}
         opacity={pin.opacity}
         image={this._getImage(pin.type)}
       />
@@ -64,7 +68,7 @@ export default class Map extends React.Component {
         style={styles.map}
         mapType="mutedStandard"
         showsUserLocation={true}
-        followsUserLocation={true}
+        followsUserLocation={false}
         onPress={this.props._onPress}
         onLongPress={this.props._onLongPress}
         region={{
