@@ -30,55 +30,8 @@ export default class App extends React.Component {
       }
     },
     errorMessage: null,
-    users: [],
-    pins: [
-      {
-        id: 0,
-        coordinate: {
-          latitude: 35.71825,
-          longitude: 139.7324
-        },
-        type: "danger", //currently enum of 'danger', 'noPassage', or 'medical'.
-
-        title: "sample", //optional
-        description: "sample description", //optional
-        opacity: 1.0 //optional
-      },
-      {
-        id: 1,
-        coordinate: {
-          latitude: 35.71725,
-          longitude: 139.7324
-        },
-        type: "noPassage",
-
-        opacity: 1.0
-      },
-      {
-        id: 2,
-        coordinate: {
-          latitude: 35.71625,
-          longitude: 139.7324
-        },
-        type: "crosshairs",
-
-        title: "tgt",
-        description: "",
-        opacity: 1.0
-      },
-      {
-        id: 3,
-        coordinate: {
-          latitude: 35.71625,
-          longitude: 139.7314
-        },
-        type: "medical",
-
-        title: "aid tent",
-        description: "red cross aid tent here",
-        opacity: 1.0
-      }
-    ],
+    users:[],
+    pins: {},
     newPin: {
       title_input: "",
       details_input: "",
@@ -86,7 +39,8 @@ export default class App extends React.Component {
       coordinate: {
         latitude: null,
         longitude: null
-      }
+      },
+      opacity: null
     }
   };
 
@@ -100,6 +54,8 @@ export default class App extends React.Component {
       await this._setupUser();
       await this._getLocation();
       await this._getUsers();
+      this._getPins();
+
     }
   }
 
@@ -115,6 +71,13 @@ export default class App extends React.Component {
   _onPress(e) {
     console.log("onPress happened");
     console.log(this);
+  }q
+
+  _getPins = async () => {
+    const pinData = await pinListener();
+    this.setState({
+      pins: pinData
+    });
   }
 
   _setNewCoordinate = e => {
@@ -123,9 +86,19 @@ export default class App extends React.Component {
       newPin: {
         coordinate: e.nativeEvent.coordinate
       }
-    });
-    // navigate("PinForm")
-    // console.log(e.nativeEvent);
+    })
+  }
+
+  _getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        errorMessage: "Permission to access location was denied"
+      });
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    this.setState({ location });
   };
 
   _onChangeTitle = text => {
@@ -171,8 +144,9 @@ export default class App extends React.Component {
       details: this.state.newPin.details_input,
       type: this.state.newPin.type_input,
       userID: 234590853709863579865379,
-      coordinates: { latitude: 23.324, longitude: 23.33 }
-    };
+      coordinate: {latitude: 23.324, longitude: 23.33},
+      opacity: 1.0 //change later
+    }
     createPin(pinObj);
   };
 
