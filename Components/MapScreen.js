@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, View, StyleSheet, Button } from "react-native";
 import Map from "./Map.js";
+import { createUser, updateUser } from "../firebase/helper";
 
 export default class MapScreen extends React.Component {
   // for react-navigator
@@ -28,6 +29,8 @@ export default class MapScreen extends React.Component {
           _onPress={this.props.screenProps._onPress}
           _onLongPress={this._onLongPress}
           pins={this.props.screenProps.pins}
+          users={this.props.screenProps.users}
+          location={this.props.screenProps.location}
         />
         <Button title="Go to Details" onPress={() => navigate("Details")} />
         <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />

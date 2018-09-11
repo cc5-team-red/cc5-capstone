@@ -3,47 +3,75 @@ import { Platform, StyleSheet, Text, View } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import { createStackNavigator } from "react-navigation";
 
-import MapScreen from './Components/MapScreen.js';
-import Details from './Components/Details.js';
-import PinForm from './Components/PinForm.js'
-import { createPin, pinListener } from './firebase/helper'
-
+import MapScreen from "./Components/MapScreen.js";
+import Details from "./Components/Details.js";
+import PinForm from "./Components/PinForm.js";
+import {
+  createPin,
+  pinListener,
+  createUser,
+  updateUser,
+  userListener
+} from "./firebase/helper";
 
 const StackNavigator = createStackNavigator({
   Home: { screen: MapScreen },
   PinForm: { screen: PinForm },
-  Details: { screen: Details },
+  Details: { screen: Details }
 });
 
 export default class App extends React.Component {
   state = {
-    location: null,
+    user_id: null,
+    location: {
+      coords: {
+        latitude: 37,
+        longitude: -122
+      }
+    },
     errorMessage: null,
+    users:[],
     pins: {},
     newPin: {
-      user_id: 'test_userID',
-      title_input: '',
-      details_input: '',
-      type_input: '',
+      title_input: "",
+      details_input: "",
+      type_input: "",
       coordinate: {
         latitude: null,
         longitude: null
       },
       opacity: null
     }
-  }
+  };
 
-  componentWillMount() {
+  async componentDidMount() {
     if (Platform.OS === "android" && !Constants.isDevice) {
       this.setState({
         errorMessage:
-          "Oops, this will not work on Sketch in an Android emulator. Try it on your device!"
+          "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
       });
     } else {
-      this._getLocationAsync();
+      await this._setupUser();
+      await this._getLocation();
+      await this._getUsers();
       this._getPins();
+
     }
   }
+
+  _setupUser() {
+    if (this.state.user_id === null) {
+      return this.setState({
+        user_id: createUser(2, 2, { name: "default" })
+      });
+    }
+
+    return;
+  }
+  _onPress(e) {
+    console.log("onPress happened");
+    console.log(this);
+  }q
 
   _getPins = async () => {
     const pinData = await pinListener();
@@ -52,11 +80,7 @@ export default class App extends React.Component {
     });
   }
 
-  _onPress(e) {
-    console.log("onPress happened");
-  }
-
-  _setNewCoordinate = (e) => {
+  _setNewCoordinate = e => {
     console.log("onLongPress happened");
     this.setState({
       newPin: {
@@ -77,18 +101,18 @@ export default class App extends React.Component {
     this.setState({ location });
   };
 
-  _onChangeTitle = (text) => {
+  _onChangeTitle = text => {
     console.log(text);
     this.setState({
       newPin: {
         ...this.state.newPin,
-        title_input: text,
+        title_input: text
       }
     });
     console.log(this.state.newPin);
-  }
+  };
 
-  _onChangeDetails = (text) => {
+  _onChangeDetails = text => {
     console.log(text);
     this.setState({
       newPin: {
@@ -97,9 +121,9 @@ export default class App extends React.Component {
       }
     });
     console.log(this.state.newPin);
-  }
-  
-  _onChangeType = (text) => {
+  };
+
+  _onChangeType = text => {
     console.log(text);
     this.setState({
       newPin: {
@@ -108,10 +132,10 @@ export default class App extends React.Component {
       }
     });
     console.log(this.state.newPin);
-  }
+  };
 
   _handleSubmit = () => {
-    console.log(this.state.newPin.title_input); 
+    console.log(this.state.newPin.title_input);
     console.log(this.state.newPin.details_input);
     console.log(this.state.newPin.type_input);
 
@@ -126,8 +150,39 @@ export default class App extends React.Component {
     createPin(pinObj);
   };
 
+  _getUsers = async () => {
+    await userListener(this.state.user_id, users => {
+      this.setState({ users });
+    });
+  };
 
-  render(){
+  _getLocation = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== "granted") {
+      this.setState({
+        errorMessage: "Permission to access location was denied"
+      });
+      return;
+    }
+
+    await Location.watchPositionAsync(
+      {
+        enableHighAccuracy: true,
+        distanceInterval: 10,
+        timeInterval: 2000
+      },
+      location => {
+        updateUser(
+          this.state.user_id,
+          location.coords.latitude,
+          location.coords.longitude
+        );
+        this.setState({ location });
+      }
+    );
+  };
+
+  render() {
     return (
       <StackNavigator
         screenProps={{
@@ -137,9 +192,9 @@ export default class App extends React.Component {
           _onChangeDetails: this._onChangeDetails,
           _onChangeType: this._onChangeType,
           _handleSubmit: this._handleSubmit,
-          ...this.state,
-        }} 
+          ...this.state
+        }}
       />
-    )
+    );
   }
-};
+}
