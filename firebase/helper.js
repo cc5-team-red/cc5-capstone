@@ -60,20 +60,48 @@ function userListener(my_user_id, callback) {
 }
 
 function createPin(...params) {
+  console.log('createPin(')
+  console.log({ ...params, updated: firebase.database.ServerValue.TIMESTAMP })
   firebase
     .database()
     .ref("pins/")
     .push({ ...params, updated: firebase.database.ServerValue.TIMESTAMP });
 }
 
-function pinListener() {
+function pinListener(callback) {
   return firebase
     .database()
     .ref("pins/")
-    .once("value") //*** may need to be consistently listening ***
-    .then(function(snapshot) {
-      return snapshot.val();
-    });
+    // .once("value") //*** may need to be consistently listening ***
+    // .then(function(snapshot) {
+    //   return snapshot.val();
+    // });
+    .on("value", (snapshot) => {
+      const results = snapshot.val();
+      if (!results || !(typeof results === "object")) return callback([]);
+
+      const pins = Object.entries(results)
+        .filter(([key, value]) => (value["0"] && value["0"].coordinate)) // prevent borken data from breaking app
+        .map(([key, value]) => {
+          const timestamp = new Date(value.timestamp);
+          const oneHour = (1000 * 60 * 60)
+          const now = new Date(Date.now())
+          const hoursAgo = ((now - timestamp) / oneHour);
+          return {
+            id: key,
+            user_id: value["0"].userID,
+            title: value["0"].title,
+            coordinate: value["0"].coordinate,
+            type: value["0"].type,
+            details: value["0"].details,
+            opacity: 1 - hoursAgo,
+            timestamp,
+          };
+        })
+      
+        // console.log(pins)
+      callback(pins);
+    })
 }
 
 export { createUser, updateUser, userListener, createPin, pinListener };

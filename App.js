@@ -30,8 +30,8 @@ export default class App extends React.Component {
       }
     },
     errorMessage: null,
-    users:[],
-    pins: {},
+    users: [],
+    pins: [],
     newPin: {
       title_input: "",
       details_input: "",
@@ -55,7 +55,6 @@ export default class App extends React.Component {
       await this._getLocation();
       await this._getUsers();
       this._getPins();
-
     }
   }
 
@@ -71,23 +70,17 @@ export default class App extends React.Component {
   _onPress(e) {
     console.log("onPress happened");
     console.log(this);
-  }q
-
-  _getPins = async () => {
-    const pinData = await pinListener();
-    this.setState({
-      pins: pinData
-    });
   }
 
   _setNewCoordinate = e => {
     console.log("onLongPress happened");
     this.setState({
       newPin: {
-        coordinate: e.nativeEvent.coordinate
+        coordinate: e.nativeEvent.coordinate,
+        type: "help"
       }
-    })
-  }
+    });
+  };
 
   _getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -102,52 +95,54 @@ export default class App extends React.Component {
   };
 
   _onChangeTitle = text => {
-    console.log(text);
     this.setState({
       newPin: {
         ...this.state.newPin,
         title_input: text
       }
     });
-    console.log(this.state.newPin);
   };
 
   _onChangeDetails = text => {
-    console.log(text);
     this.setState({
       newPin: {
         ...this.state.newPin,
         details_input: text
       }
     });
-    console.log(this.state.newPin);
   };
 
   _onChangeType = text => {
-    console.log(text);
-    this.setState({
-      newPin: {
-        ...this.state.newPin,
-        type_input: text
-      }
-    });
-    console.log(this.state.newPin);
+    console.log(text)
+    if (!text) return;
+      this.setState({
+        newPin: {
+          ...this.state.newPin,
+          type_input: text
+        }
+      });
   };
 
   _handleSubmit = () => {
-    console.log(this.state.newPin.title_input);
-    console.log(this.state.newPin.details_input);
-    console.log(this.state.newPin.type_input);
+    console.log(this.state.newPin);
 
     const pinObj = {
       title: this.state.newPin.title_input,
       details: this.state.newPin.details_input,
       type: this.state.newPin.type_input,
-      userID: 234590853709863579865379,
-      coordinate: {latitude: 23.324, longitude: 23.33},
-      opacity: 1.0 //change later
-    }
+      userID: this.state.user_id,
+      coordinate: {
+        latitude: this.state.newPin.coordinate.latitude,
+        longitude: this.state.newPin.coordinate.longitude
+      }
+    };
     createPin(pinObj);
+  };
+
+  _getPins = async () => {
+    await pinListener(pins => {
+      this.setState({ pins });
+    });
   };
 
   _getUsers = async () => {

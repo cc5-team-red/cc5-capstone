@@ -1,14 +1,14 @@
-import React from 'react';
-import { Text, StyleSheet } from 'react-native';
-import { MapView } from 'expo';
-import { Marker, ProviderPropType } from 'react-native-maps';
+import React from "react";
+import { Text, StyleSheet } from "react-native";
+import { MapView } from "expo";
+import { Marker, ProviderPropType } from "react-native-maps";
 
-import sos from './assets/markers/sos.png';
-import danger from './assets/markers/danger.png';
-import no_passage from './assets/markers/no_passage.png';
-import crosshairs from './assets/markers/crosshairs_blue.png';
-import fire from './assets/markers/fire.png';
-import medical from './assets/markers/medical.png';
+import sos from "./assets/markers/sos.png";
+import danger from "./assets/markers/danger.png";
+import no_passage from "./assets/markers/no_passage.png";
+import crosshairs from "./assets/markers/crosshairs_blue.png";
+import fire from "./assets/markers/fire.png";
+import medical from "./assets/markers/medical.png";
 
 export default class Map extends React.Component {
   _showMarkers = () => {
@@ -16,20 +16,20 @@ export default class Map extends React.Component {
       console.log("show markers is undefined!");
       return;
     }
-    return Object.entries(this.props.pins).map(([key, pin]) => (
+    return this.props.pins.map(pin => (
       <Marker
-        key={key}
-        id={key}
+        key={pin.key}
+        id={pin.key}
         coordinate={pin.coordinate}
         title={pin.title}
-        description={pin.details}
+        description={`${pin.timestamp} ${pin.details}`}
         opacity={pin.opacity}
         image={this._getImage(pin.type)}
       />
-    ))
-  }
+    ));
+  };
 
-  _showUsers(){
+  _showUsers() {
     return this.props.users.map(user => (
       <Marker
         key={user.user_id}
@@ -43,7 +43,7 @@ export default class Map extends React.Component {
         opacity={user.opacity}
         image={this._getImage("crosshairs")}
       />
-    ))
+    ));
   }
 
   _getImage(pinType) {
@@ -64,7 +64,7 @@ export default class Map extends React.Component {
   }
 
   render() {
-    console.log('map rendered')
+    console.log("map rendered");
     return (
       <MapView
         style={styles.map}
@@ -77,7 +77,7 @@ export default class Map extends React.Component {
           latitude: this.props.location.coords.latitude,
           longitude: this.props.location.coords.longitude,
           latitudeDelta: 0.1922,
-          longitudeDelta: 0.0421,
+          longitudeDelta: 0.0421
         }}
       >
         {this._showMarkers()}
@@ -89,6 +89,6 @@ export default class Map extends React.Component {
 
 const styles = StyleSheet.create({
   map: {
-    ...StyleSheet.absoluteFillObject,
-  },
+    ...StyleSheet.absoluteFillObject
+  }
 });
