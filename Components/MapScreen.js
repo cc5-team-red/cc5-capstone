@@ -5,7 +5,7 @@ import Map from "./Map.js";
 export default class MapScreen extends React.Component {
   // for react-navigator
   static navigationOptions = {
-    title: "Map"
+    title: "MapScreen"
   };
  
   _onLongPress = (e) => {
@@ -17,9 +17,9 @@ export default class MapScreen extends React.Component {
     const { navigate } = this.props.navigation;
     let locationDebug = "loading geoLocation...\n";
     if (this.props.screenProps.errorMessage) {
-      locationDebug += this.props.screenProps.errorMessage;
+      locationDebug = this.props.screenProps.errorMessage;
     } else if (this.props.screenProps.location) {
-      locationDebug += JSON.stringify(this.props.screenProps.location);
+      locationDebug = JSON.stringify(this.props.screenProps.location);
     }
 
     return (
@@ -31,8 +31,8 @@ export default class MapScreen extends React.Component {
           users={this.props.screenProps.users}
           location={this.props.screenProps.location}
         />
-        <Button title="Go to Details" onPress={() => navigate("Details")} />
-        <Button title="Go to PinForm" onPress={() => navigate("PinForm")} />
+        {/* <Button title="Go to Details" onPress={() => navigate("Details")} />
+        <Button title="Go to PinForm" onPress={() => navigate("PinForm")} /> */}
         <Text>{locationDebug}</Text>
       </View>
     );
