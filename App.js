@@ -33,9 +33,9 @@ export default class App extends React.Component {
     users: [],
     pins: [],
     newPin: {
-      title_input: "",
-      details_input: "",
-      type_input: "",
+      title: "",
+      details: "",
+      type: "",
       coordinate: {
         latitude: null,
         longitude: null
@@ -88,30 +88,30 @@ export default class App extends React.Component {
     this.setState({ location });
   };
 
-  _onChangeTitle = text => {
+  _onChangeTitle = input => {
     this.setState({
       newPin: {
         ...this.state.newPin,
-        title_input: text
+        title: input
       }
     });
   };
 
-  _onChangeDetails = text => {
+  _onChangeDetails = input => {
     this.setState({
       newPin: {
         ...this.state.newPin,
-        details_input: text
+        details: input
       }
     });
   };
 
-  _onChangeType = text => {
-    if (!text) return;
+  _onChangeType = input => {
+    if (!input) return;
       this.setState({
         newPin: {
           ...this.state.newPin,
-          type_input: text
+          type: input
         }
       });
   };
@@ -121,9 +121,9 @@ export default class App extends React.Component {
     // TODO: fix input of type
 
     const pinObj = {
-      title: this.state.newPin.title_input,
-      details: this.state.newPin.details_input,
-      type: this.state.newPin.type_input,
+      title: this.state.newPin.title,
+      details: this.state.newPin.details,
+      type: this.state.newPin.type,
       userID: this.state.user_id,
       coordinate: {
         latitude: this.state.newPin.coordinate.latitude,
