@@ -9,6 +9,7 @@ import no_passage from "./assets/markers/no_passage.png";
 import crosshairs from "./assets/markers/crosshairs_blue.png";
 import fire from "./assets/markers/fire.png";
 import medical from "./assets/markers/medical.png";
+import blue_user from "./assets/markers/blue_user.png";
 
 export default class Map extends React.Component {
   _showMarkers = () => {
@@ -18,8 +19,8 @@ export default class Map extends React.Component {
     }
     return this.props.pins.map(pin => (
       <Marker
-        key={pin.key}
-        id={pin.key}
+        key={pin.id}
+        id={pin.id}
         coordinate={pin.coordinate}
         title={pin.title}
         description={`${pin.timestamp} ${pin.details}`}
@@ -41,14 +42,14 @@ export default class Map extends React.Component {
         title={user.name}
         // description={user.description}
         opacity={user.opacity}
-        image={this._getImage("crosshairs")}
+        image={this._getImage("user")}
       />
     ));
   }
 
   _getImage(pinType) {
     switch (pinType) {
-      case "noPassage":
+      case "no_passage":
         return no_passage;
       case "danger":
         return danger;
@@ -60,6 +61,8 @@ export default class Map extends React.Component {
         return sos;
       case "crosshairs":
         return crosshairs;
+      case "user":
+        return blue_user;
     }
   }
 

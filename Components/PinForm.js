@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Picker } from "react-native";
 import {
   FormLabel,
   FormInput,
@@ -12,39 +12,53 @@ export default class PinForm extends React.Component {
     title: "Create Pin"
   };
 
+  state = { language: "" }
+
+  _onSubmit = (event) => {
+    this.props.navigation.navigate("Home");
+    this.props.screenProps._handleSubmit(event);
+  }
+
   render() {
-    let title = '';
-    let details = '';
-    let type = '';
     return (
       <View style={styles.container}>
         <View style={styles.item}>
           <FormLabel>Title</FormLabel>
-          <FormInput value={title} onChangeText={ this.props.screenProps._onChangeTitle }/>
+          <FormInput value={this.props.screenProps.newPin.title} onChangeText={this.props.screenProps._onChangeTitle} />
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
 
           <FormLabel>Details</FormLabel>
-          <FormInput value={details} onChangeText={this.props.screenProps._onChangeDetails}/>
+          <FormInput value={this.props.screenProps.newPin.details} onChangeText={this.props.screenProps._onChangeDetails} />
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
 
           <FormLabel>Type</FormLabel>
-          <FormInput value={type} onChangeText={this.props.screenProps._onChangeType}/>
-          <FormValidationMessage>
+          {/* <FormInput value={this.props.screenProps.newPin.type} onChangeText={this.props.screenProps._onChangeType} /> */}
+          <Picker
+            selectedValue={this.props.screenProps.newPin.type}
+            style={{ height: 50, width: 100 }}
+            onValueChange={this.props.screenProps._onChangeType}>
+            <Picker.Item label="no_passage" value="no_passage" />
+            <Picker.Item label="danger" value="danger" />
+            <Picker.Item label="help" value="help" />
+            <Picker.Item label="medical facility" value="medical" />
+            <Picker.Item label="fire" value="fire" />
+          </Picker>
+          {/* <FormValidationMessage>
             {"This field is required"}
-          </FormValidationMessage>
+          </FormValidationMessage> */}
 
           <Button
             style={styles.button}
             title="Create Pin"
             accessibilityLabel="Create a pin with this button"
-            onPress={this.props.screenProps._handleSubmit}
+            onPress={this._onSubmit}
           />
         </View>
-      </View>
+      </View >
     );
   }
 }
