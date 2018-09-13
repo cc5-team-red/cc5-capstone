@@ -65,8 +65,23 @@ function createPin(...params) {
   firebase
     .database()
     .ref("pins/")
-    .push({ ...params, updated: firebase.database.ServerValue.TIMESTAMP });
+    .push({ ...params, votes: { count: 1}, updated: { timestamp: firebase.database.ServerValue.TIMESTAMP} });
 }
+
+function upvotePin(pinId, result){
+  const updates = {};
+  updates["/updated"] = {
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  }
+  updates["/votes"] = {
+    count: result
+  }
+  firebase
+    .database()
+    .ref("pins/" + pinId)
+    .update(updates);
+};
+function downvotePin(pinId, result){};
 
 function pinListener(callback) {
   return firebase
@@ -83,7 +98,7 @@ function pinListener(callback) {
       const pins = Object.entries(results)
         .filter(([key, value]) => (value["0"] && value["0"].coordinate)) // prevent borken data from breaking app
         .map(([key, value]) => {
-          const timestamp = new Date(value.timestamp);
+          const timestamp = new Date(value.updated.timestamp);
           const oneHour = (1000 * 60 * 60)
           const now = new Date(Date.now())
           const hoursAgo = ((now - timestamp) / oneHour);
@@ -96,10 +111,11 @@ function pinListener(callback) {
             details: value["0"].details,
             opacity: 1 - hoursAgo,
             timestamp,
+            votes: value.votes.count,
           };
         })
       callback(pins);
     })
 }
 
-export { createUser, updateUser, userListener, createPin, pinListener };
+export { createUser, updateUser, userListener, createPin, pinListener, upvotePin, downvotePin };
