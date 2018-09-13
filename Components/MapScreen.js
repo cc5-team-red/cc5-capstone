@@ -5,7 +5,8 @@ import Map from "./Map.js";
 export default class MapScreen extends React.Component {
   // for react-navigator
   static navigationOptions = {
-    title: "Disaster Map"
+    title: "Disaster Map",
+    header: null,
   };
  
   _onLongPress = (e) => {

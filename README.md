@@ -1,3 +1,5 @@
+![](./Components/assets/logos/blue.png)
+
 # Zenni
 
 A real-time location sharing app for disasters  
