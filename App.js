@@ -108,12 +108,12 @@ export default class App extends React.Component {
 
   _onChangeType = input => {
     if (!input) return;
-      this.setState({
-        newPin: {
-          ...this.state.newPin,
-          type: input
-        }
-      });
+    this.setState({
+      newPin: {
+        ...this.state.newPin,
+        type: input
+      }
+    });
   };
 
   _handleSubmit = () => {
@@ -122,7 +122,6 @@ export default class App extends React.Component {
 
     const pinObj = {
       title: this.state.newPin.title,
-      details: this.state.newPin.details,
       type: this.state.newPin.type,
       userID: this.state.user_id,
       coordinate: {
@@ -130,6 +129,10 @@ export default class App extends React.Component {
         longitude: this.state.newPin.coordinate.longitude
       }
     };
+    // optional fields here
+    if (this.state.newPin.details && this.state.newPin.details.length > 0) {
+      pinObj.details = this.state.newPin.details;
+    }
     createPin(pinObj);
   };
 
