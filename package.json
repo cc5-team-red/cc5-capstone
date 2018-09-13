@@ -1,5 +1,5 @@
 {
-  "name": "capstone-frontend",
+  "name": "zenni",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
@@ -11,8 +11,6 @@
   "scripts": {
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
     "test": "jest"
   },
   "jest": {
