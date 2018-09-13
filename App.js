@@ -1,11 +1,13 @@
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, Text, StyleSheet } from "react-native";
 import { Constants, Location, Permissions } from "expo";
 import { createStackNavigator } from "react-navigation";
+import { loadFonts } from "./helpers/fonts";
 
 import MapScreen from "./Components/MapScreen.js";
 import Details from "./Components/Details.js";
 import PinForm from "./Components/PinForm.js";
+
 import {
   createPin,
   pinListener,
@@ -18,10 +20,23 @@ const StackNavigator = createStackNavigator({
   Home: { screen: MapScreen },
   PinForm: { screen: PinForm },
   Details: { screen: Details }
+},
+{
+  navigationOptions: {
+    headerStyle: {
+      backgroundColor: '#ecece7',
+    },
+    headerTintColor: '#2b2b2c',
+    headerTitleStyle: {
+      fontFamily: 'lato-black',
+      fontSize: 20
+    },
+  },
 });
 
 export default class App extends React.Component {
   state = {
+    ready: false,
     user_id: Constants.deviceId,
     location: {
       coords: {
@@ -53,8 +68,11 @@ export default class App extends React.Component {
     } else {
       await this._setupUser();
       await this._getLocation();
+      await loadFonts();
       await this._getUsers();
-      this._getPins();
+      await this._getPins();
+
+      this.setState({ ready: true });
     }
   }
 
@@ -88,6 +106,8 @@ export default class App extends React.Component {
     let location = await Location.getCurrentPositionAsync({});
     this.setState({ location });
   };
+
+
 
   _onChangeTitle = input => {
     this.setState({
@@ -176,6 +196,18 @@ export default class App extends React.Component {
   };
 
   render() {
+    if (!this.state.ready) {
+      console.log('loading....')
+      // TODO: create a splash screen 
+      // https://docs.expo.io/versions/v30.0.0/guides/splash-screens
+      return (
+        <Text>
+          loading...
+        </Text>
+      )
+    }
+
+    console.log('loaded!')
     return (
       <StackNavigator
         screenProps={{
