@@ -1,17 +1,17 @@
 import { firebase } from "./firebase";
 
-function createUser(latitude, longitude, ...params) {
-  return firebase
+function createUser(userId, latitude, longitude, ...params) {
+  firebase
     .database()
-    .ref("users/")
-    .push({
+    .ref("users/" + userId)
+    .set({
       ...params,
       update: {
         latitude,
         longitude,
         timestamp: firebase.database.ServerValue.TIMESTAMP
       }
-    }).key;
+    });
 }
 
 function updateUser(userId, latitude, longitude) {
