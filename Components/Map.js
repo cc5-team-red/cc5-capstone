@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 import { MapView } from "expo";
-import { Marker, ProviderPropType } from "react-native-maps";
+import { Marker, ProviderPropType, Callout } from "react-native-maps";
 
 import sos from "./assets/markers/sos.png";
 import danger from "./assets/markers/danger.png";
@@ -26,7 +26,13 @@ export default class Map extends React.Component {
         description={`${pin.timestamp} ${pin.details}`}
         opacity={pin.opacity}
         image={this._getImage(pin.type)}
-      />
+      >
+        <Callout>
+          <Text>
+            {`${pin.title}\n${pin.timestamp} ${pin.details}\nReliability: ${pin.votes}`}
+          </Text>
+        </Callout>
+      </Marker>
     ));
   };
 
