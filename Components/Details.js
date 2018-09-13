@@ -6,7 +6,13 @@ export default class Details extends React.Component {
     title: "Details"
   };
   render() {
-    const { navigate } = this.props.navigation;
-    return <Button title="Details" onPress={() => navigate("Details")} />;
+    const navigation = this.props.navigation;
+    const result = navigation.getParam("id");
+    return (
+      <View>
+        <Text>{`ID: ${result}`}</Text>
+        <Button title="Details" onPress={() => navigate("Disaster Map")} />
+      </View>
+    )
   }
 }

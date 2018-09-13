@@ -26,6 +26,7 @@ export default class Map extends React.Component {
         description={`${pin.timestamp} ${pin.details}`}
         opacity={pin.opacity}
         image={this._getImage(pin.type)}
+        onCalloutPress={() => this.props._calloutPressed(pin.id)}
       >
         <Callout>
           <Text>
@@ -71,7 +72,7 @@ export default class Map extends React.Component {
         return blue_user;
     }
   }
-
+  
   render() {
     console.log("map rendered");
     return (

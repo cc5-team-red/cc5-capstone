@@ -13,6 +13,10 @@ export default class MapScreen extends React.Component {
     this.props.screenProps._setNewCoordinate(e);
   }
 
+  _calloutPressed = (id) => {
+    this.props.navigation.navigate("Details", {id});
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     let locationDebug = "loading geoLocation...\n";
@@ -27,6 +31,7 @@ export default class MapScreen extends React.Component {
         <Map
           _onPress={this.props.screenProps._onPress}
           _onLongPress={this._onLongPress}
+          _calloutPressed={this._calloutPressed}
           pins={this.props.screenProps.pins}
           users={this.props.screenProps.users}
           location={this.props.screenProps.location}
