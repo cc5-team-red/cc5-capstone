@@ -30,7 +30,7 @@ export default class Map extends React.Component {
       >
         <Callout>
           <Text>
-            {`${pin.title}\n${pin.timestamp} ${pin.details}\nReliability: ${pin.votes}`}
+            {`${pin.title}\n${pin.timestamp}\n${pin.details}\nReliability: ${pin.votes}`}
           </Text>
         </Callout>
       </Marker>
