@@ -29,12 +29,6 @@ export default class PinForm extends React.Component {
             {"This field is required"}
           </FormValidationMessage>
 
-          <FormLabel>Details</FormLabel>
-          <FormInput value={this.props.screenProps.newPin.details} onChangeText={this.props.screenProps._onChangeDetails} />
-          <FormValidationMessage>
-            {"This field is required"}
-          </FormValidationMessage>
-
           <FormLabel>Type</FormLabel>
           {/* <FormInput value={this.props.screenProps.newPin.type} onChangeText={this.props.screenProps._onChangeType} /> */}
           <Picker
@@ -50,6 +44,9 @@ export default class PinForm extends React.Component {
           {/* <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage> */}
+
+          <FormLabel>Details</FormLabel>
+          <FormInput value={this.props.screenProps.newPin.details} onChangeText={this.props.screenProps._onChangeDetails} />
 
           <Button
             style={styles.button}
