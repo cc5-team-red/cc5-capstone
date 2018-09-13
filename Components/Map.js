@@ -3,6 +3,10 @@ import { Text, StyleSheet } from "react-native";
 import { MapView } from "expo";
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
 
+import subtleMapStyle from "./assets/mapStyles/subtle.json";
+import silverMapStyle from "./assets/mapStyles/silver.json";
+import darkMapStyle from "./assets/mapStyles/dark.json";
+
 import sos from "./assets/markers/sos.png";
 import danger from "./assets/markers/danger.png";
 import no_passage from "./assets/markers/no_passage.png";
@@ -77,10 +81,14 @@ export default class Map extends React.Component {
     console.log("map rendered");
     return (
       <MapView
+        customMapStyle={subtleMapStyle}
+        // mapType="mutedStandard"
         style={styles.map}
-        mapType="mutedStandard"
-        showsUserLocation={true}
         followsUserLocation={false}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsBuildings={true}
+        showsIndoors={true}
         onPress={this.props._onPress}
         onLongPress={this.props._onLongPress}
         region={{
