@@ -22,7 +22,7 @@ const StackNavigator = createStackNavigator({
 
 export default class App extends React.Component {
   state = {
-    user_id: null,
+    user_id: Constants.deviceId,
     location: {
       coords: {
         latitude: 37,
@@ -59,11 +59,12 @@ export default class App extends React.Component {
   }
 
   _setupUser() {
-    if (this.state.user_id === null) {
-      return this.setState({
-        user_id: createUser(2, 2, { name: "default" })
-      });
-    }
+    createUser(this.state.user_id, 2, 2, { name: "default"})
+    // if (this.state.user_id === null) {
+    //   return this.setState({
+    //     user_id: createUser(Constants.deviceId, 2, 2, { name: "default" })
+    //   });
+    // }
 
     return;
   }
@@ -157,7 +158,7 @@ export default class App extends React.Component {
     await Location.watchPositionAsync(
       {
         enableHighAccuracy: true,
-        distanceInterval: 10,
+        distanceInterval: 5,
         timeInterval: 2000
       },
       location => {
