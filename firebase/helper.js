@@ -65,8 +65,11 @@ function createPin(...params) {
   firebase
     .database()
     .ref("pins/")
-    .push({ ...params, updated: firebase.database.ServerValue.TIMESTAMP });
+    .push({ ...params, votes: 1, updated: firebase.database.ServerValue.TIMESTAMP });
 }
+
+function upvotePin(pinId, result){};
+function downvotePin(pinId, result){};
 
 function pinListener(callback) {
   return firebase
@@ -96,6 +99,7 @@ function pinListener(callback) {
             details: value["0"].details,
             opacity: 1 - hoursAgo,
             timestamp,
+            votes: value.votes,
           };
         })
       callback(pins);
