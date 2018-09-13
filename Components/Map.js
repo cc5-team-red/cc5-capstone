@@ -26,7 +26,7 @@ export default class Map extends React.Component {
         description={`${pin.timestamp} ${pin.details}`}
         opacity={pin.opacity}
         image={this._getImage(pin.type)}
-        onCalloutPress={() => this.props._calloutPressed(pin.id)}
+        onCalloutPress={() => this.props._calloutPressed(pin.id, pin.votes)}
       >
         <Callout>
           <Text>
