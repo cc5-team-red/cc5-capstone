@@ -6,6 +6,7 @@ import { Marker, ProviderPropType, Callout } from "react-native-maps";
 import subtleMapStyle from "./assets/mapStyles/subtle.json";
 import silverMapStyle from "./assets/mapStyles/silver.json";
 import darkMapStyle from "./assets/mapStyles/dark.json";
+import desaturatedSubtleMapStyle from "/assets/mapStyles/desaturatedSubtle.json";
 
 import sos from "./assets/markers/sos.png";
 import danger from "./assets/markers/danger.png";
@@ -81,7 +82,7 @@ export default class Map extends React.Component {
     console.log("map rendered");
     return (
       <MapView
-        customMapStyle={subtleMapStyle}
+        customMapStyle={desaturatedSubtleMapStyle}
         // mapType="mutedStandard"
         style={styles.map}
         followsUserLocation={false}
