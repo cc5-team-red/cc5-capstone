@@ -4,18 +4,18 @@ import MapView from "react-native-maps";
 
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
 
-import subtleMapStyle from "./assets/mapStyles/subtle.json";
-import silverMapStyle from "./assets/mapStyles/silver.json";
-import darkMapStyle from "./assets/mapStyles/dark.json";
-import desaturatedSubtleMapStyle from "./assets/mapStyles/desaturatedSubtle.json";
+import subtleMapStyle from "../assets/mapStyles/subtle.json";
+import silverMapStyle from "../assets/mapStyles/silver.json";
+import darkMapStyle from "../assets/mapStyles/dark.json";
+import desaturatedSubtleMapStyle from "../assets/mapStyles/desaturatedSubtle.json";
 
-import sos from "./assets/markers/sos.png";
-import danger from "./assets/markers/danger.png";
-import no_passage from "./assets/markers/no_passage.png";
-import crosshairs from "./assets/markers/crosshairs_blue.png";
-import fire from "./assets/markers/fire.png";
-import medical from "./assets/markers/medical.png";
-import blue_user from "./assets/markers/blue_user.png";
+import sos from "../assets/markers/sos.png";
+import danger from "../assets/markers/danger.png";
+import no_passage from "../assets/markers/no_passage.png";
+import crosshairs from "../assets/markers/crosshairs_blue.png";
+import fire from "../assets/markers/fire.png";
+import medical from "../assets/markers/medical.png";
+import blue_user from "../assets/markers/blue_user.png";
 
 export default class Map extends React.Component {
   _showMarkers = () => {
