@@ -30,15 +30,15 @@ export default class Map extends React.Component {
         title={pin.title}
         description={`${pin.timestamp} ${pin.details}`}
         opacity={pin.opacity}
-        image={Platform.OS === "android" ? this._getImage(pin.type): undefined}
+        image={Platform.OS === "android" ? this._getImage(pin.type) : undefined}
         onCalloutPress={() => this.props._calloutPressed(pin.id, pin.votes)}
       >
         {Platform.OS === "ios" ? (
-                <Image
-                  source={this._getImage(pin.type)}
-                  style={styles.mapMarkerImage}
-                />
-              ) : null}
+          <Image
+            source={this._getImage(pin.type)}
+            style={styles.mapMarkerImage}
+          />
+        ) : null}
         <Callout>
           <Text>
             {`${pin.title}\n${pin.timestamp}\n${pin.details}\nReliability: ${pin.votes}`}
@@ -83,13 +83,13 @@ export default class Map extends React.Component {
         return blue_user;
     }
   }
-  
+
   render() {
     console.log("map rendered");
     return (
       <MapView
-        customMapStyle={desaturatedSubtleMapStyle}
-        // mapType="mutedStandard"
+        customMapStyle={subtleMapStyle}
+        mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
         style={styles.map}
         followsUserLocation={false}
         showsUserLocation={true}
