@@ -41,7 +41,8 @@ Symbol | Signal Black  | #2B2B2C |
 - The base font for this app is **Lato** from Google webfonts.
 - Navigation headers will be in Lato Black in ALL UPPER CASE.
 - Text will be in Lato Regular.
-- The map will displayed in explicitly white and greyscale, so that the markers will become visually easier to identify.
+- The map will displayed in explicitly white and greyscale, so that the markers will become visually easier to identify. (https://mapstyle.withgoogle.com/)
+
 ## Markers
 ![](./Components/assets/markers/danger.png)
 ![](./Components/assets/markers/sos.png)

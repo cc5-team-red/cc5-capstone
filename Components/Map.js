@@ -1,7 +1,12 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Platform, Image } from "react-native";
 import { MapView } from "expo";
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
+
+import subtleMapStyle from "./assets/mapStyles/subtle.json";
+import silverMapStyle from "./assets/mapStyles/silver.json";
+import darkMapStyle from "./assets/mapStyles/dark.json";
+import desaturatedSubtleMapStyle from "./assets/mapStyles/desaturatedSubtle.json";
 
 import sos from "./assets/markers/sos.png";
 import danger from "./assets/markers/danger.png";
@@ -25,9 +30,15 @@ export default class Map extends React.Component {
         title={pin.title}
         description={`${pin.timestamp} ${pin.details}`}
         opacity={pin.opacity}
-        image={this._getImage(pin.type)}
+        image={Platform.OS === "android" ? this._getImage(pin.type) : undefined}
         onCalloutPress={() => this.props._calloutPressed(pin.id, pin.votes, pin.timestamp, pin.details)}
       >
+        {Platform.OS === "ios" ? (
+          <Image
+            source={this._getImage(pin.type)}
+            style={styles.mapMarkerImage}
+          />
+        ) : null}
         <Callout>
           <Text>
             {`${pin.title}\nReliability: ${pin.votes}`}
@@ -72,15 +83,19 @@ export default class Map extends React.Component {
         return blue_user;
     }
   }
-  
+
   render() {
     console.log("map rendered");
     return (
       <MapView
+        customMapStyle={subtleMapStyle}
+        mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
         style={styles.map}
-        mapType="mutedStandard"
-        showsUserLocation={true}
         followsUserLocation={false}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsBuildings={true}
+        showsIndoors={true}
         onPress={this.props._onPress}
         onLongPress={this.props._onLongPress}
         region={{
@@ -100,5 +115,9 @@ export default class Map extends React.Component {
 const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject
+  },
+  mapMarkerImage: {
+    height: 40,
+    width: 40
   }
 });
