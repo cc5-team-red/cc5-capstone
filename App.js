@@ -2,7 +2,6 @@ import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
 // import { Constants, Location, Permissions } from "expo";
 import { createStackNavigator } from "react-navigation";
-// import { loadFonts } from "./helpers/fonts";
 
 import MapScreen from "./Components/MapScreen.js";
 import Details from "./Components/Details.js";

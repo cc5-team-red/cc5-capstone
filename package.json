@@ -17,6 +17,9 @@
   "jest": {
     "preset": "react-native"
   },
+  "rnpm": {
+    "assets": ["./Components/assets/fonts"]
+  },
   "dependencies": {
     "create-react-native-app": "^1.0.0",
     "firebase": "^5.4.2",
