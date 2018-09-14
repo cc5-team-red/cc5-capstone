@@ -18,3 +18,9 @@ yarn-error.log*
 
 #because MacOS
 .DS_Store
+
+# Native runtime data
+pids
+*.pid
+*.seed
+*.pid.lock

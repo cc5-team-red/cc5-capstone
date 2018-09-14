@@ -1,6 +1,8 @@
 import React from "react";
 import { Text, StyleSheet, Platform, Image } from "react-native";
-import { MapView } from "expo";
+// import { MapView } from "expo";
+import {MapView} from "react-native-maps";
+
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
 
 import subtleMapStyle from "./assets/mapStyles/subtle.json";

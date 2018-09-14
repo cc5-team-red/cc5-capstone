@@ -1,8 +1,8 @@
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
-import { Constants, Location, Permissions } from "expo";
+// import { Constants, Location, Permissions } from "expo";
 import { createStackNavigator } from "react-navigation";
-import { loadFonts } from "./helpers/fonts";
+// import { loadFonts } from "./helpers/fonts";
 
 import MapScreen from "./Components/MapScreen.js";
 import Details from "./Components/Details.js";
@@ -37,7 +37,7 @@ const StackNavigator = createStackNavigator({
 export default class App extends React.Component {
   state = {
     ready: false,
-    user_id: Constants.deviceId,
+    user_id: "Constants.deviceId",
     location: {
       coords: {
         latitude: 37,
@@ -60,20 +60,20 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
-    if (Platform.OS === "android" && !Constants.isDevice) {
-      this.setState({
-        errorMessage:
-          "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
-      });
-    } else {
+    // if (Platform.OS === "android" && !Constants.isDevice) {
+    //   this.setState({
+    //     errorMessage:
+    //       "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
+    //   });
+    // } else {
       await this._setupUser();
       await this._getLocation();
-      await loadFonts();
+      // await loadFonts();
       await this._getUsers();
       await this._getPins();
 
       this.setState({ ready: true });
-    }
+    // }
   }
 
   _setupUser() {
@@ -96,15 +96,15 @@ export default class App extends React.Component {
   };
 
   _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: "Permission to access location was denied"
-      });
-    }
+    // let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    // if (status !== "granted") {
+    //   this.setState({
+    //     errorMessage: "Permission to access location was denied"
+    //   });
+    // }
 
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location });
+    // let location = await Location.getCurrentPositionAsync({});
+    // this.setState({ location });
   };
 
 
@@ -170,29 +170,29 @@ export default class App extends React.Component {
   };
 
   _getLocation = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: "Permission to access location was denied"
-      });
-      return;
-    }
+    // let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    // if (status !== "granted") {
+    //   this.setState({
+    //     errorMessage: "Permission to access location was denied"
+    //   });
+    //   return;
+    // }
 
-    await Location.watchPositionAsync(
-      {
-        enableHighAccuracy: true,
-        distanceInterval: 5,
-        timeInterval: 2000
-      },
-      location => {
-        updateUser(
-          this.state.user_id,
-          location.coords.latitude,
-          location.coords.longitude
-        );
-        this.setState({ location });
-      }
-    );
+    // await Location.watchPositionAsync(
+    //   {
+    //     enableHighAccuracy: true,
+    //     distanceInterval: 5,
+    //     timeInterval: 2000
+    //   },
+    //   location => {
+    //     updateUser(
+    //       this.state.user_id,
+    //       location.coords.latitude,
+    //       location.coords.longitude
+    //     );
+    //     this.setState({ location });
+    //   }
+    // );
   };
 
   render() {

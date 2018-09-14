@@ -1,4 +1,4 @@
-import { Font } from 'expo';
+// import { Font } from 'expo';
 import pragatiNarrowBold from "../Components/assets/fonts/PragatiNarrow-Bold.ttf";
 import pragatiNarrowRegular from "../Components/assets/fonts/PragatiNarrow-Regular.ttf";
 import latoBlack from "../Components/assets/fonts/Lato-Black.ttf"
