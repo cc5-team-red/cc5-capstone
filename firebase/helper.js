@@ -99,7 +99,7 @@ function commentPin(userId, pinId, comment) {
   firebase
     .database()
     .ref("pins/" + pinId + "/comments")
-    .push(comment, userId);
+    .push({comment, userId});
 }
 
 function pinListener(callback) {
