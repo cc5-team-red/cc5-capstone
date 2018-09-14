@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, StyleSheet, Platform, Image } from "react-native";
-// import { MapView } from "expo";
 import MapView from "react-native-maps";
 
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
@@ -88,28 +87,17 @@ export default class Map extends React.Component {
 
   render() {
     console.log("map rendered");
-    // return (
-    //   <MapView
-    //     style={styles.map}
-    //     initialRegion={{
-    //       latitude: 37.78825,
-    //       longitude: -122.4324,
-    //       latitudeDelta: 0.1922,
-    //       longitudeDelta: 0.0421,
-    //     }}
-    //   />
-    // )
     return (
       <MapView
-        //     customMapStyle={subtleMapStyle}
-        //     mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
-        //     followsUserLocation={false}
-        //     showsUserLocation={true}
-        //     showsMyLocationButton={true}
-        //     showsBuildings={true}
-        //     showsIndoors={true}
-        //     onPress={this.props._onPress}
-        //     onLongPress={this.props._onLongPress}
+            customMapStyle={subtleMapStyle}
+            mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
+            followsUserLocation={false}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            showsBuildings={true}
+            showsIndoors={true}
+            onPress={this.props._onPress}
+            onLongPress={this.props._onLongPress}
         style={styles.map}
         region={{
           latitude: this.props.location.coords.latitude,
@@ -118,8 +106,8 @@ export default class Map extends React.Component {
           longitudeDelta: 0.0421
         }}
       >
-        {/* {this._showMarkers()}
-        {this._showUsers()} */}
+        {this._showMarkers()}
+        {this._showUsers()}
       </MapView>
     );
   }
