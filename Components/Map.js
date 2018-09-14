@@ -26,11 +26,11 @@ export default class Map extends React.Component {
         description={`${pin.timestamp} ${pin.details}`}
         opacity={pin.opacity}
         image={this._getImage(pin.type)}
-        onCalloutPress={() => this.props._calloutPressed(pin.id, pin.votes)}
+        onCalloutPress={() => this.props._calloutPressed(pin.id, pin.votes, pin.timestamp, pin.details)}
       >
         <Callout>
           <Text>
-            {`${pin.title}\n${pin.timestamp}\n${pin.details}\nReliability: ${pin.votes}`}
+            {`${pin.title}\nReliability: ${pin.votes}`}
           </Text>
         </Callout>
       </Marker>
