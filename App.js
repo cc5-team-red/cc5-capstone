@@ -1,6 +1,7 @@
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
 // import { Constants, Location, Permissions } from "expo";
+import DeviceInfo from 'react-native-device-info';
 import { createStackNavigator } from "react-navigation";
 
 import MapScreen from "./Components/MapScreen.js";
@@ -36,7 +37,7 @@ const StackNavigator = createStackNavigator({
 export default class App extends React.Component {
   state = {
     ready: false,
-    user_id: "Constants.deviceId",
+    user_id: null,
     location: {
       coords: {
         latitude: 37,
@@ -59,31 +60,27 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
-    // if (Platform.OS === "android" && !Constants.isDevice) {
-    //   this.setState({
-    //     errorMessage:
-    //       "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
-    //   });
-    // } else {
+    if (Platform.OS === "android" && DeviceInfo.isEmulator()) {
+      this.setState({
+        errorMessage:
+          "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
+      });
+    } else {
       await this._setupUser();
       await this._getLocation();
-      // await loadFonts();
       await this._getUsers();
       await this._getPins();
 
       this.setState({ ready: true });
-    // }
+    }
   }
 
-  _setupUser() {
-    createUser(this.state.user_id, 2, 2, { name: "default"})
-    // if (this.state.user_id === null) {
-    //   return this.setState({
-    //     user_id: createUser(Constants.deviceId, 2, 2, { name: "default" })
-    //   });
-    // }
-
-    return;
+  _setupUser = async () => {
+    // const user_id = await DeviceInfo.getUniqueID();
+    const user_id = await "DeviceInfoGetUniqueID"
+    console.log(`user_id`, user_id)
+    createUser(user_id, 2, 2, { name: "defffo"})
+    this.setState({user_id})
   }
 
   _setNewCoordinate = e => {
