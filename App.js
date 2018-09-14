@@ -196,16 +196,16 @@ export default class App extends React.Component {
   };
 
   render() {
-    if (!this.state.ready) {
-      console.log('loading....')
-      // TODO: create a splash screen 
-      // https://docs.expo.io/versions/v30.0.0/guides/splash-screens
-      return (
-        <Text>
-          loading...
-        </Text>
-      )
-    }
+    // if (!this.state.ready) {
+    //   console.log('loading....')
+    //   // TODO: create a splash screen 
+    //   // https://docs.expo.io/versions/v30.0.0/guides/splash-screens
+    //   return (
+    //     <Text>
+    //       loading...
+    //     </Text>
+    //   )
+    // }
 
     console.log('loaded!')
     return (

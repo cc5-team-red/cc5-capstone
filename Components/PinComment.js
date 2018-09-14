@@ -22,7 +22,7 @@ export default class PinComment extends React.Component {
   _handleSubmit = () => {
     commentPin(
       "whatever",
-      // Constants.deviceId,
+      "Constants.deviceId",
       this.props.pinId, 
       {
         comment: this.state.comment

@@ -10,6 +10,7 @@ logs
 # dependencies
 /node_modules
 build/
+Pods/
 
 # misc
 .env.local
