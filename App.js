@@ -75,8 +75,7 @@ export default class App extends React.Component {
   }
 
   _setupUser = async () => {
-    // const user_id = await DeviceInfo.getUniqueID();
-    const user_id = await "DeviceInfoGetUniqueID"
+    const user_id = await DeviceInfo.getUniqueID();
     console.log(`user_id`, user_id)
     createUser(user_id, 2, 2, { name: "defffo"})
     this.setState({user_id})
