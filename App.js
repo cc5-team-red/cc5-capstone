@@ -1,6 +1,5 @@
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
-// import { Constants, Location, Permissions } from "expo";
 import DeviceInfo from 'react-native-device-info';
 import { createStackNavigator } from "react-navigation";
 
@@ -91,20 +90,6 @@ export default class App extends React.Component {
     });
   };
 
-  _getLocationAsync = async () => {
-    // let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    // if (status !== "granted") {
-    //   this.setState({
-    //     errorMessage: "Permission to access location was denied"
-    //   });
-    // }
-
-    // let location = await Location.getCurrentPositionAsync({});
-    // this.setState({ location });
-  };
-
-
-
   _onChangeTitle = input => {
     this.setState({
       newPin: {
@@ -166,42 +151,37 @@ export default class App extends React.Component {
   };
 
   _getLocation = async () => {
-    // let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    // if (status !== "granted") {
-    //   this.setState({
-    //     errorMessage: "Permission to access location was denied"
-    //   });
-    //   return;
-    // }
+    await navigator.geolocation.requestAuthorization();
 
-    // await Location.watchPositionAsync(
-    //   {
-    //     enableHighAccuracy: true,
-    //     distanceInterval: 5,
-    //     timeInterval: 2000
-    //   },
-    //   location => {
-    //     updateUser(
-    //       this.state.user_id,
-    //       location.coords.latitude,
-    //       location.coords.longitude
-    //     );
-    //     this.setState({ location });
-    //   }
-    // );
+    navigator.geolocation.setRNConfiguration({
+      enableHighAccuracy: true,
+      distanceInterval: 5,
+      timeInterval: 2000
+    });
+
+    await navigator.geolocation.watchPosition((location) => {
+      updateUser(
+        this.state.user_id,
+        location.coords.latitude,
+        location.coords.longitude
+      );
+      this.setState({ location });
+    },
+      (error) => {
+        console.log(error)
+      });
   };
 
   render() {
-    // if (!this.state.ready) {
-    //   console.log('loading....')
-    //   // TODO: create a splash screen 
-    //   // https://docs.expo.io/versions/v30.0.0/guides/splash-screens
-    //   return (
-    //     <Text>
-    //       loading...
-    //     </Text>
-    //   )
-    // }
+    if (!this.state.ready) {
+      console.log('loading....')
+      // TODO: create a splash screen 
+      return (
+        <Text>
+          loading...
+        </Text>
+      )
+    }
 
     console.log('loaded!')
     return (
