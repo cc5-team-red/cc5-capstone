@@ -81,7 +81,19 @@ function upvotePin(pinId, result){
     .ref("pins/" + pinId)
     .update(updates);
 };
-function downvotePin(pinId, result){};
+function downvotePin(pinId, result){
+  const updates = {};
+  updates["/updated"] = {
+    timestamp: firebase.database.ServerValue.TIMESTAMP
+  }
+  updates["/votes"] = {
+    count: result
+  }
+  firebase
+    .database()
+    .ref("pins/" + pinId)
+    .update(updates);
+};
 
 function pinListener(callback) {
   return firebase
