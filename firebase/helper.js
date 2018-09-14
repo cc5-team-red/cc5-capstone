@@ -95,6 +95,13 @@ function downvotePin(pinId, result){
     .update(updates);
 };
 
+function commentPin(userId, pinId, comment) {
+  firebase
+    .database()
+    .ref("pins/" + pinId + "/comments")
+    .push({comment, userId});
+}
+
 function pinListener(callback) {
   return firebase
     .database()
@@ -130,4 +137,4 @@ function pinListener(callback) {
     })
 }
 
-export { createUser, updateUser, userListener, createPin, pinListener, upvotePin, downvotePin };
+export { createUser, updateUser, userListener, createPin, pinListener, upvotePin, downvotePin, commentPin };
