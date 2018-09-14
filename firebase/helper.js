@@ -102,7 +102,20 @@ function commentPin(userId, pinId, comment) {
     .push({comment, userId});
 }
 
-function pinListener(callback) {
+function parseComments(comments) {
+  if (comments || (typeof comments === "object")) {
+    return Object.entries(comments)
+    .map(([key, value]) => {
+      return {
+        comment: value.comment.comment,
+        user_id: value.userId
+      }
+    });
+  }
+  
+}
+
+ function pinListener(callback) {
   return firebase
     .database()
     .ref("pins/")
@@ -121,6 +134,7 @@ function pinListener(callback) {
           const oneHour = (1000 * 60 * 60)
           const now = new Date(Date.now())
           const hoursAgo = ((now - timestamp) / oneHour);
+          const comments = parseComments(value.comments);
           return {
             id: key,
             user_id: value["0"].userID,
@@ -131,6 +145,7 @@ function pinListener(callback) {
             opacity: 1 - hoursAgo,
             timestamp,
             votes: value.votes.count,
+            comments: comments
           };
         })
       callback(pins);
