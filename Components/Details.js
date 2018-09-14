@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { upvotePin } from "../firebase/helper"
+import { upvotePin, downvotePin } from "../firebase/helper"
 
 export default class Details extends React.Component {
   static navigationOptions = {
@@ -9,6 +9,10 @@ export default class Details extends React.Component {
 
   _sendUpvote = (xid, xvotes) => {
     upvotePin(xid, xvotes + 1);
+  }
+
+  _sendDownvote = (xid, xvotes) => {
+    downvotePin(xid, xvotes - 1);
   }
 
   render() {
@@ -20,7 +24,7 @@ export default class Details extends React.Component {
       <View>
         <Text>{`ID: ${id}`}</Text>
         <Button title="Upvote" onPress={() => this._sendUpvote(id, votes)} />
-        <Button title="Downvote" />
+        <Button title="Downvote" onPress={() => this._sendDownvote(id, votes)}/>
       </View>
     )
   }
