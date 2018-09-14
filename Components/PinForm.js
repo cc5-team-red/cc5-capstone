@@ -12,7 +12,6 @@ export default class PinForm extends React.Component {
     title: "Create Pin"
   };
 
-  state = { language: "" }
 
   _onSubmit = (event) => {
     this.props.navigation.navigate("Home");
