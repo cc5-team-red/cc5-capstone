@@ -23,6 +23,7 @@ export default class App extends React.Component {
         longitude: -122
       }
     },
+    snapshotUri: null,
     errorMessage: null,
     users: [],
     pins: [],
@@ -57,8 +58,8 @@ export default class App extends React.Component {
   _setupUser = async () => {
     const user_id = await DeviceInfo.getUniqueID();
     console.log(`user_id`, user_id)
-    createUser(user_id, 2, 2, { name: "defffo"})
-    this.setState({user_id})
+    createUser(user_id, 2, 2, { name: "defffo" })
+    this.setState({ user_id })
   }
 
   _setNewCoordinate = e => {
@@ -117,6 +118,27 @@ export default class App extends React.Component {
     createPin(pinObj);
   };
 
+  _getMap = (map) => {
+    this.map = map;
+  }
+
+  _getSnapshot= () => {
+    // 'takeSnapshot' takes a config object with the
+    // following options
+    const snapshot = this.map.takeSnapshot({
+      // width: 300,      // optional, when omitted the view-width is used
+      // height: 300,     // optional, when omitted the view-height is used
+      // region: {..},    // iOS only, optional region to render
+      format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
+      quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
+      result: 'file'   // result types: 'file', 'base64' (default: 'file')
+    });
+    snapshot.then((uri) => {
+      console.log(`uri`, uri);
+      this.setState({ snapshotUri: uri });
+    });
+  }
+
   _getPins = async () => {
     await pinListener(pins => {
       this.setState({ pins });
@@ -167,6 +189,8 @@ export default class App extends React.Component {
       <StackNavigator
         screenProps={{
           _onPress: this._onPress,
+          _getMap: this._getMap,
+          _getSnapshot: this._getSnapshot,
           _setNewCoordinate: this._setNewCoordinate,
           _onChangeTitle: this._onChangeTitle,
           _onChangeDetails: this._onChangeDetails,

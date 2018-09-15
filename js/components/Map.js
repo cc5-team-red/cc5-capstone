@@ -89,16 +89,17 @@ export default class Map extends React.Component {
     console.log("map rendered");
     return (
       <MapView
-            customMapStyle={subtleMapStyle}
-            mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
-            followsUserLocation={false}
-            showsUserLocation={true}
-            showsMyLocationButton={true}
-            showsBuildings={true}
-            showsIndoors={true}
-            onPress={this.props._onPress}
-            onLongPress={this.props._onLongPress}
+        customMapStyle={subtleMapStyle}
+        mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
+        followsUserLocation={false}
+        showsUserLocation={true}
+        showsMyLocationButton={true}
+        showsBuildings={true}
+        showsIndoors={true}
+        onPress={this.props._onPress}
+        onLongPress={this.props._onLongPress}
         style={styles.map}
+        ref={map => { this.props._getMap(map) }}
         region={{
           latitude: this.props.location.coords.latitude,
           longitude: this.props.location.coords.longitude,

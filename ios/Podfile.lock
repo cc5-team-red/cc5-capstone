@@ -82,6 +82,8 @@ PODS:
     - React/RCTBlob
   - RNDeviceInfo (0.21.5):
     - React
+  - RNSketchCanvas (0.8.0):
+    - React
   - yoga (0.55.4.React)
 
 DEPENDENCIES:
@@ -106,6 +108,7 @@ DEPENDENCIES:
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
+  - "RNSketchCanvas (from `../node_modules/@terrylinla/react-native-sketch-canvas`)"
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/yoga.podspec`)
 
 SPEC REPOS:
@@ -129,6 +132,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-maps"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
+  RNSketchCanvas:
+    :path: "../node_modules/@terrylinla/react-native-sketch-canvas"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga/yoga.podspec"
 
@@ -143,8 +148,9 @@ SPEC CHECKSUMS:
   react-native-google-maps: 2cfe3b01f8422c7dae51d8764139fd70f888cfce
   react-native-maps: 066c2afcc89e18726377bcc685315f989ca22449
   RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
+  RNSketchCanvas: 7e895178cb74258dc2b0d85370d8644016dac25f
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: cbd1a51fae492d74c3ea8b73a8e92ae5135194c4
+PODFILE CHECKSUM: 80f7ec296fee36bf63e95e695a3df8eea43895f5
 
 COCOAPODS: 1.5.3

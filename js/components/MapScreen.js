@@ -31,15 +31,17 @@ export default class MapScreen extends React.Component {
       <View style={{ flex: 1, flexDirection: "column" }}>
         <Map
           _onPress={this.props.screenProps._onPress}
+          _getMap={this.props.screenProps._getMap}
           _onLongPress={this._onLongPress}
           _calloutPressed={this._calloutPressed}
           pins={this.props.screenProps.pins}
           users={this.props.screenProps.users}
           location={this.props.screenProps.location}
+
         />
-        {/* <Button title="Go to Details" onPress={() => navigate("Details")} />
-        <Button title="Go to PinForm" onPress={() => navigate("PinForm")} /> */}
         <Text>{locationDebug}</Text>
+        <Button title="Draw" onPress={() => navigate("Draw")} /> 
+        <Button title="Snap" onPress={this.props.screenProps._getSnapshot} />
       </View>
     );
   }

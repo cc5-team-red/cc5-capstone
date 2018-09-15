@@ -39,6 +39,8 @@ target 'zenni' do
   pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
   pod 'RNDeviceInfo', :path => '../node_modules/react-native-device-info'
 
+  pod 'RNSketchCanvas', :path => '../node_modules/@terrylinla/react-native-sketch-canvas'
+
 end
 
 post_install do |installer|
