@@ -1,11 +1,8 @@
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
 import DeviceInfo from 'react-native-device-info';
-import { createStackNavigator } from "react-navigation";
 
-import MapScreen from "./Components/MapScreen.js";
-import Details from "./Components/Details.js";
-import PinForm from "./Components/PinForm.js";
+import StackNavigator from './components/StackNavigator.js'
 
 import {
   createPin,
@@ -15,23 +12,6 @@ import {
   userListener
 } from "./firebase/helper";
 
-const StackNavigator = createStackNavigator({
-  Home: { screen: MapScreen },
-  PinForm: { screen: PinForm },
-  Details: { screen: Details }
-},
-{
-  navigationOptions: {
-    headerStyle: {
-      backgroundColor: '#ecece7',
-    },
-    headerTintColor: '#2b2b2c',
-    headerTitleStyle: {
-      fontFamily: 'lato-black',
-      fontSize: 20
-    },
-  },
-});
 
 export default class App extends React.Component {
   state = {
