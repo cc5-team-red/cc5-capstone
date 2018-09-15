@@ -1,10 +1,16 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# Logs
+logs
+*.log*
+
 # expo
 .expo/
 
 # dependencies
 /node_modules
+build/
+Pods/
 
 # misc
 .env.local
@@ -18,3 +24,9 @@ yarn-error.log*
 
 #because MacOS
 .DS_Store
+
+# Native runtime data
+pids
+*.pid
+*.seed
+*.pid.lock

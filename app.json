@@ -1,5 +1,9 @@
 {
   "expo": {
+    "name": "zenni",
+    "icon": "./Components/assets/logos/yellow.png",
     "sdkVersion": "27.0.0"
-  }
+  },
+  "name": "zenni",
+  "displayName": "zenni"
 }

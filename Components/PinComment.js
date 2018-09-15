@@ -7,8 +7,7 @@ import {
   Button
 } from "react-native-elements";
 import { commentPin } from "../firebase/helper";
-import { Constants } from "expo";
-
+import DeviceInfo from 'react-native-device-info';
 export default class PinComment extends React.Component {
   
   state = {
@@ -21,7 +20,8 @@ export default class PinComment extends React.Component {
 
   _handleSubmit = () => {
     commentPin(
-      Constants.deviceId,
+      "whatever",
+      this.props.userId,
       this.props.pinId, 
       {
         comment: this.state.comment

@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, StyleSheet, Platform, Image } from "react-native";
-import { MapView } from "expo";
+import MapView from "react-native-maps";
+
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
 
 import subtleMapStyle from "./assets/mapStyles/subtle.json";
@@ -88,16 +89,16 @@ export default class Map extends React.Component {
     console.log("map rendered");
     return (
       <MapView
-        customMapStyle={subtleMapStyle}
-        mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
+            customMapStyle={subtleMapStyle}
+            mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
+            followsUserLocation={false}
+            showsUserLocation={true}
+            showsMyLocationButton={true}
+            showsBuildings={true}
+            showsIndoors={true}
+            onPress={this.props._onPress}
+            onLongPress={this.props._onLongPress}
         style={styles.map}
-        followsUserLocation={false}
-        showsUserLocation={true}
-        showsMyLocationButton={true}
-        showsBuildings={true}
-        showsIndoors={true}
-        onPress={this.props._onPress}
-        onLongPress={this.props._onLongPress}
         region={{
           latitude: this.props.location.coords.latitude,
           longitude: this.props.location.coords.longitude,

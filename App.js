@@ -1,8 +1,7 @@
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
-import { Constants, Location, Permissions } from "expo";
+import DeviceInfo from 'react-native-device-info';
 import { createStackNavigator } from "react-navigation";
-import { loadFonts } from "./helpers/fonts";
 
 import MapScreen from "./Components/MapScreen.js";
 import Details from "./Components/Details.js";
@@ -37,7 +36,7 @@ const StackNavigator = createStackNavigator({
 export default class App extends React.Component {
   state = {
     ready: false,
-    user_id: Constants.deviceId,
+    user_id: null,
     location: {
       coords: {
         latitude: 37,
@@ -60,7 +59,7 @@ export default class App extends React.Component {
   };
 
   async componentDidMount() {
-    if (Platform.OS === "android" && !Constants.isDevice) {
+    if (Platform.OS === "android" && DeviceInfo.isEmulator()) {
       this.setState({
         errorMessage:
           "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
@@ -68,7 +67,6 @@ export default class App extends React.Component {
     } else {
       await this._setupUser();
       await this._getLocation();
-      await loadFonts();
       await this._getUsers();
       await this._getPins();
 
@@ -76,15 +74,11 @@ export default class App extends React.Component {
     }
   }
 
-  _setupUser() {
-    createUser(this.state.user_id, 2, 2, { name: "default"})
-    // if (this.state.user_id === null) {
-    //   return this.setState({
-    //     user_id: createUser(Constants.deviceId, 2, 2, { name: "default" })
-    //   });
-    // }
-
-    return;
+  _setupUser = async () => {
+    const user_id = await DeviceInfo.getUniqueID();
+    console.log(`user_id`, user_id)
+    createUser(user_id, 2, 2, { name: "defffo"})
+    this.setState({user_id})
   }
 
   _setNewCoordinate = e => {
@@ -94,20 +88,6 @@ export default class App extends React.Component {
       }
     });
   };
-
-  _getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: "Permission to access location was denied"
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({});
-    this.setState({ location });
-  };
-
-
 
   _onChangeTitle = input => {
     this.setState({
@@ -170,36 +150,31 @@ export default class App extends React.Component {
   };
 
   _getLocation = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== "granted") {
-      this.setState({
-        errorMessage: "Permission to access location was denied"
-      });
-      return;
-    }
+    await navigator.geolocation.requestAuthorization();
 
-    await Location.watchPositionAsync(
-      {
-        enableHighAccuracy: true,
-        distanceInterval: 5,
-        timeInterval: 2000
-      },
-      location => {
-        updateUser(
-          this.state.user_id,
-          location.coords.latitude,
-          location.coords.longitude
-        );
-        this.setState({ location });
-      }
-    );
+    navigator.geolocation.setRNConfiguration({
+      enableHighAccuracy: true,
+      distanceInterval: 5,
+      timeInterval: 2000
+    });
+
+    await navigator.geolocation.watchPosition((location) => {
+      updateUser(
+        this.state.user_id,
+        location.coords.latitude,
+        location.coords.longitude
+      );
+      this.setState({ location });
+    },
+      (error) => {
+        console.log(error)
+      });
   };
 
   render() {
     if (!this.state.ready) {
       console.log('loading....')
       // TODO: create a splash screen 
-      // https://docs.expo.io/versions/v30.0.0/guides/splash-screens
       return (
         <Text>
           loading...

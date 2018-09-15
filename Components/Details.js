@@ -28,7 +28,7 @@ export default class Details extends React.Component {
         <Text>{`ID: ${id}\nVotes: ${votes}\nLast Updated: ${time}\nDetails: ${details}`}</Text>
         <Button title="Upvote" onPress={() => this._sendUpvote(id, votes)} />
         <Button title="Downvote" onPress={() => this._sendDownvote(id, votes)}/>
-        <PinComment pinId={id} />
+        <PinComment pinId={id} userId={this.props.screenProps.user_id} />
       </View>
     )
   }
