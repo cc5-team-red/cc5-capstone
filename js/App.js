@@ -27,6 +27,7 @@ export default class App extends React.Component {
     errorMessage: null,
     users: [],
     pins: [],
+    sketches: [],
     newPin: {
       title: "",
       details: "",
@@ -130,7 +131,27 @@ export default class App extends React.Component {
     this.map = map;
   }
 
-  _getSnapshot= async () => {
+  _getSketchCanvasPaths = async (paths) => {
+    const sketchCoordinates = paths[0].path.data.map(point => {
+      const [x, y] = point.split(",").map(latOrLon => Number(latOrLon));
+      return this.map.coordinateForPoint({x, y});
+    })
+
+    const coordinates = await Promise.all(sketchCoordinates);
+    this.setState({
+      sketches: [
+        ...this.state.sketches,
+        {
+          strokeColor:"#000",
+          coordinates
+        }
+      ]
+    });
+    
+    console.log(this.state.sketches);
+  }
+
+  _getSnapshot = async () => {
     const snapshotUri = await this.map.takeSnapshot({
       // width: 300,      // optional, when omitted the view-width is used
       // height: 300,     // optional, when omitted the view-height is used
@@ -198,6 +219,7 @@ export default class App extends React.Component {
           _onChangeDetails: this._onChangeDetails,
           _onChangeType: this._onChangeType,
           _handleSubmit: this._handleSubmit,
+          _getSketchCanvasPaths: this._getSketchCanvasPaths,
           ...this.state
         }}
       />
