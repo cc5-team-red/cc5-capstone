@@ -131,6 +131,7 @@ function pinListener(callback) {
             opacity: 1 - hoursAgo,
             timestamp,
             votes: value.votes.count,
+            comments: value.comments,
           };
         })
       callback(pins);

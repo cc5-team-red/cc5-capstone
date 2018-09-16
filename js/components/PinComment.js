@@ -20,7 +20,6 @@ export default class PinComment extends React.Component {
 
   _handleSubmit = () => {
     commentPin(
-      "whatever",
       this.props.userId,
       this.props.pinId, 
       {
