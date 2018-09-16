@@ -55,6 +55,14 @@ export default class App extends React.Component {
     }
   }
 
+  async componentWillUnmount() {
+    // TODO: finish all listeners, clean up all subscriptions
+    // await this._getLocation();
+    // await this._getUsers();
+    // await this._getPins();
+
+    this.setState({ ready: false });
+  }
   _setupUser = async () => {
     const user_id = await DeviceInfo.getUniqueID();
     console.log(`user_id`, user_id)
@@ -122,21 +130,15 @@ export default class App extends React.Component {
     this.map = map;
   }
 
-  _getSnapshot= () => {
-    // 'takeSnapshot' takes a config object with the
-    // following options
-    const snapshot = this.map.takeSnapshot({
+  _getSnapshot= async () => {
+    const snapshotUri = await this.map.takeSnapshot({
       // width: 300,      // optional, when omitted the view-width is used
       // height: 300,     // optional, when omitted the view-height is used
-      // region: {..},    // iOS only, optional region to render
       format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
       quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
-      result: 'file'   // result types: 'file', 'base64' (default: 'file')
+      result: 'file'
     });
-    snapshot.then((uri) => {
-      console.log(`uri`, uri);
-      this.setState({ snapshotUri: uri });
-    });
+    this.setState({ snapshotUri: snapshotUri });
   }
 
   _getPins = async () => {

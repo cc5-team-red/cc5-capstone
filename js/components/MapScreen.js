@@ -1,5 +1,7 @@
 import React from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
+import { Icon } from 'react-native-elements'
+
 import Map from "./Map.js";
 
 export default class MapScreen extends React.Component {
@@ -8,14 +10,19 @@ export default class MapScreen extends React.Component {
     title: "Map",
     header: null,
   };
- 
+
   _onLongPress = (e) => {
     this.props.navigation.navigate("PinForm");
     this.props.screenProps._setNewCoordinate(e);
   }
 
   _calloutPressed = (id, votes, time, details, comments) => {
-    this.props.navigation.navigate("Details", {id, votes, time, details, comments});
+    this.props.navigation.navigate("Details", { id, votes, time, details, comments });
+  }
+
+  _drawPress = async () => {
+    await this.props.screenProps._getSnapshot();
+    this.props.navigation.navigate("Draw");
   }
 
   render() {
@@ -28,7 +35,7 @@ export default class MapScreen extends React.Component {
     }
 
     return (
-      <View style={{ flex: 1, flexDirection: "column" }}>
+      <View style={styles.container}>
         <Map
           _onPress={this.props.screenProps._onPress}
           _getMap={this.props.screenProps._getMap}
@@ -39,10 +46,26 @@ export default class MapScreen extends React.Component {
           location={this.props.screenProps.location}
 
         />
+
         <Text>{locationDebug}</Text>
-        <Button title="Draw" onPress={() => navigate("Draw")} /> 
-        <Button title="Snap" onPress={this.props.screenProps._getSnapshot} />
+        <Icon
+          reverse
+          name='brush'
+          color='#005387'
+          onPress={this._drawPress}
+          style={styles.drawIcon}
+        />
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+  },
+  drawIcon: {}
+});
