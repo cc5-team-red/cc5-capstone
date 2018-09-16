@@ -3,6 +3,7 @@ package com.zenni;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.terrylinla.rnsketchcanvas.SketchCanvasPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -26,6 +27,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SketchCanvasPackage(),
             new RNDeviceInfo(),
             new MapsPackage(),
             new VectorIconsPackage()
