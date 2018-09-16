@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, Platform, Image } from "react-native";
-import MapView from "react-native-maps";
+import MapView, { Polyline } from "react-native-maps";
 
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
 
@@ -66,6 +66,16 @@ export default class Map extends React.Component {
     ));
   }
 
+  _showSketches() {
+    return this.props.sketches.map(sketch => (
+      <Polyline 
+        coordinates={sketch.coordinates}
+        strokeColor={sketch.strokeColor}
+        strokeWidth={sketch.strokeWidth}
+      />
+    ))
+  }
+
   _getImage(pinType) {
     switch (pinType) {
       case "no_passage":
@@ -109,6 +119,7 @@ export default class Map extends React.Component {
       >
         {this._showMarkers()}
         {this._showUsers()}
+        {this._showSketches()}
       </MapView>
     );
   }

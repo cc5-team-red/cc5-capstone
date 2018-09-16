@@ -134,21 +134,24 @@ export default class App extends React.Component {
   _getSketchCanvasPaths = async (paths) => {
     const sketchCoordinates = paths[0].path.data.map(point => {
       const [x, y] = point.split(",").map(latOrLon => Number(latOrLon));
-      return this.map.coordinateForPoint({x, y});
+      return this.map.coordinateForPoint({ x, y });
     })
 
-    const coordinates = await Promise.all(sketchCoordinates);
+    const coords = await Promise.all(sketchCoordinates);
+    const coordinates = coords.map(coord => ({
+      latitude: coord.lat,
+      longitude: coord.lng,
+    }))
     this.setState({
       sketches: [
         ...this.state.sketches,
         {
-          strokeColor:"#000",
+          strokeColor: paths[0].path.color,
+          strokeWidth: paths[0].path.width,
           coordinates
         }
       ]
     });
-    
-    console.log(this.state.sketches);
   }
 
   _getSnapshot = async () => {

@@ -30,7 +30,7 @@ export default class Draw extends Component {
         <SketchCanvas
           ref={ref => { this.sketchCanvas = ref; }}
           style={styles.sketchCanvas}
-          strokeColor={'#2B2B2C'}
+          strokeColor={'#F9A800'}
           strokeWidth={7}
           localSourceImage={{ filename: this.props.screenProps.snapshotUri }}
         />

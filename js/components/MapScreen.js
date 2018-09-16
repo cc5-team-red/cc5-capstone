@@ -43,6 +43,7 @@ export default class MapScreen extends React.Component {
           _calloutPressed={this._calloutPressed}
           pins={this.props.screenProps.pins}
           users={this.props.screenProps.users}
+          sketches={this.props.screenProps.sketches}
           location={this.props.screenProps.location}
 
         />
