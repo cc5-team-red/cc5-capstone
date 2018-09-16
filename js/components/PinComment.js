@@ -18,7 +18,7 @@ export default class PinComment extends React.Component {
     this.setState({comment: input});
   }
 
-  _handleSubmit = () => {
+  _submitPinForm = () => {
     commentPin(
       this.props.userId,
       this.props.pinId, 
@@ -32,7 +32,7 @@ export default class PinComment extends React.Component {
     return (
       <View>
         <FormInput value={this.state.comment} onChangeText={this._handleChange} />
-        <Button title="Add Comment!" onPress={this._handleSubmit} />
+        <Button title="Add Comment!" onPress={this._submitPinForm} />
       </View>
     )
   }

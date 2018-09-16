@@ -69,6 +69,7 @@ export default class Map extends React.Component {
   _showSketches() {
     return this.props.sketches.map(sketch => (
       <Polyline 
+        key={sketch.key}
         coordinates={sketch.coordinates}
         strokeColor={sketch.strokeColor}
         strokeWidth={sketch.strokeWidth}

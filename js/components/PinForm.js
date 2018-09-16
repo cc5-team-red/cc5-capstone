@@ -15,7 +15,7 @@ export default class PinForm extends React.Component {
 
   _onSubmit = (event) => {
     this.props.navigation.navigate("Home");
-    this.props.screenProps._handleSubmit(event);
+    this.props.screenProps._submitPinForm(event);
   }
 
   render() {
@@ -29,20 +29,17 @@ export default class PinForm extends React.Component {
           </FormValidationMessage>
 
           <FormLabel>Type</FormLabel>
-          {/* <FormInput value={this.props.screenProps.newPin.type} onChangeText={this.props.screenProps._onChangeType} /> */}
           <Picker
             selectedValue={this.props.screenProps.newPin.type}
             style={{ height: 50, width: 100 }}
-            onValueChange={this.props.screenProps._onChangeType}>
+            onValueChange={this.props.screenProps._onChangeType}
+          >
             <Picker.Item label="no_passage" value="no_passage" />
             <Picker.Item label="danger" value="danger" />
             <Picker.Item label="help" value="help" />
             <Picker.Item label="medical facility" value="medical" />
             <Picker.Item label="fire" value="fire" />
           </Picker>
-          {/* <FormValidationMessage>
-            {"This field is required"}
-          </FormValidationMessage> */}
 
           <FormLabel>Details</FormLabel>
           <FormInput value={this.props.screenProps.newPin.details} onChangeText={this.props.screenProps._onChangeDetails} />
