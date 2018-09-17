@@ -40,6 +40,10 @@
 	<false/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string/>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
