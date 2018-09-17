@@ -31,7 +31,7 @@ function userListener(my_user_id, callback) {
   return firebase
     .database()
     .ref("users/")
-    .on("value", function(snapshot) {
+    .on("value", function (snapshot) {
       const results = snapshot.val();
       if (!(typeof results === "object")) return callback([]);
 
@@ -63,10 +63,14 @@ function createPin(...params) {
   firebase
     .database()
     .ref("pins/")
-    .push({ ...params, votes: { count: 1}, updated: { timestamp: firebase.database.ServerValue.TIMESTAMP} });
+    .push({
+      ...params,
+      votes: { count: 1 },
+      updated: { timestamp: firebase.database.ServerValue.TIMESTAMP }
+    });
 }
 
-function upvotePin(pinId, result){
+function upvotePin(pinId, result) {
   const updates = {};
   updates["/updated"] = {
     timestamp: firebase.database.ServerValue.TIMESTAMP
@@ -79,7 +83,8 @@ function upvotePin(pinId, result){
     .ref("pins/" + pinId)
     .update(updates);
 };
-function downvotePin(pinId, result){
+
+function downvotePin(pinId, result) {
   const updates = {};
   updates["/updated"] = {
     timestamp: firebase.database.ServerValue.TIMESTAMP
@@ -97,7 +102,7 @@ function commentPin(userId, pinId, comment) {
   firebase
     .database()
     .ref("pins/" + pinId + "/comments")
-    .push({comment, userId});
+    .push({ comment, userId });
 }
 
 function pinListener(callback) {
@@ -132,17 +137,16 @@ function pinListener(callback) {
     })
 }
 
-function createSketch(...params){
-    console.log('createSketch()')
-    console.log({ ...params, updated: firebase.database.ServerValue.TIMESTAMP })
-    firebase
-      .database()
-      .ref("sketches/")
-      .push({ ...params, votes: { count: 1}, updated: { timestamp: firebase.database.ServerValue.TIMESTAMP} });
-  
+function createSketch(...params) {
+  console.log('createSketch()')
+  console.log({ ...params, updated: firebase.database.ServerValue.TIMESTAMP })
+  firebase
+    .database()
+    .ref("sketches/")
+    .push({ ...params, votes: { count: 1 }, updated: { timestamp: firebase.database.ServerValue.TIMESTAMP } });
 }
 
-function sketchListener(callback){
+function sketchListener(callback) {
   return firebase
     .database()
     .ref("sketches/")
@@ -160,11 +164,13 @@ function sketchListener(callback){
           return {
             key: key,
             user_id: value["0"].userID,
-            // title: value["0"].title,
             coordinates: value["0"].coordinates,
+            strokeColor: value["0"].strokeColor,
+            strokeWidth: value["0"].strokeWidth,
             opacity: 1 - hoursAgo,
             timestamp,
-            // TODO: votes: value.votes.count,
+            votes: value.votes.count,
+            // TODO: title: value["0"].title,
             // TODO: comments: value.comments,
           };
         })
