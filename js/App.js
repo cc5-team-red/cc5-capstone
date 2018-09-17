@@ -53,6 +53,7 @@ export default class App extends React.Component {
       await this._getLocation();
       await this._getUsers();
       await this._getPins();
+      await this._getSketches();
 
       this.setState({ ready: true });
     }
@@ -63,7 +64,7 @@ export default class App extends React.Component {
     // await this._getLocation();
     // await this._getUsers();
     // await this._getPins();
-
+    // await this._getSketches();
     this.setState({ ready: false });
   }
 
@@ -73,12 +74,12 @@ export default class App extends React.Component {
   _setupUser = async () => {
     const user_id = await DeviceInfo.getUniqueID();
     console.log(`user_id`, user_id)
-    createUser(user_id, 2, 2, { name: "defffo" })
+    createUser(user_id, 2, 2, { name: "default" })
     this.setState({ user_id })
   }
 
 
-// PINFORM HELPER FUNCTIONS
+  // PINFORM HELPER FUNCTIONS
   _onChangeTitle = input => {
     this.setState({
       newPin: {
@@ -122,7 +123,7 @@ export default class App extends React.Component {
   };
 
 
-// MAPSCREEN HELPER FUNCTIONS
+  // MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {
     this.map = map;
   }
@@ -143,6 +144,11 @@ export default class App extends React.Component {
       this.setState({ users });
     });
   };
+  _getSketches = async () => {
+    await sketchListener(sketches => {
+      this.setState({ sketches })
+    })
+  }
   _getLocation = async () => {
     await navigator.geolocation.requestAuthorization();
 
@@ -176,7 +182,7 @@ export default class App extends React.Component {
   }
 
 
-// SKETCHSCREEN HELPER FUNCTIONS
+  // SKETCHSCREEN HELPER FUNCTIONS
   _getSketchCanvasPaths = async (paths) => {
     const coordPromises = paths[0].path.data.map(point => {
       const [x, y] = point.split(",").map(latOrLon => Number(latOrLon));
@@ -190,19 +196,13 @@ export default class App extends React.Component {
 
     const sketch = {
       key: paths[0].path.color,
+      userID: this.state.user_id,
       strokeColor: paths[0].path.color,
       strokeWidth: paths[0].path.width,
       coordinates
     }
 
     createSketch(sketch);
-
-    this.setState({
-      sketches: [
-        ...this.state.sketches,
-        sketch
-      ]
-    });
   }
 
   _submitPinForm = () => {
