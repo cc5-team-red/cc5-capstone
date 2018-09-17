@@ -1,6 +1,7 @@
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
 import DeviceInfo from 'react-native-device-info';
+import BackgroundGeolocation from "react-native-background-geolocation";
 
 import StackNavigator from './components/StackNavigator.js'
 
@@ -43,6 +44,31 @@ export default class App extends React.Component {
     }
   };
 
+  //BACKGROUND-GEOLOCATION SETUP
+  componentWillMount() {
+    // executes this.onLocation whenever location changes
+    BackgroundGeolocation.on('location', this.onLocation, this.onError); 
+
+    BackgroundGeolocation.ready({
+      reset: true,
+      desiredAccuracy: 0,
+      distanceFilter: 3,
+      stopTimeout: 1,
+      debug: false,
+      stopOnTerminate: false,
+      startOnBoot: true,
+    },
+    (state) => {
+      console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
+      
+      if (!state.enabled) {
+        BackgroundGeolocation.start(function() {
+          console.log("- Start success");
+        });
+      }
+    });
+  }
+
   async componentDidMount() {
     if (Platform.OS === "android" && DeviceInfo.isEmulator()) {
       this.setState({
@@ -67,8 +93,17 @@ export default class App extends React.Component {
     // await this._getPins();
     // await this._getSketches();
     this.setState({ ready: false });
+    //BACKGROUND-GEOLOCATION CLEANUP
+    BackgroundGeolocation.removeListeners();
   }
 
+  //BACKGROUND-GEOLOCATION FUNCTIONS
+  onLocation = (location) => {
+    updateUser(this.state.user_id, location.coords.latitude, location.coords.longitude);
+  }
+  onError = (error) => {
+    console.warn('- [event] location error ', error);
+  }
 
   // 
   // HELPER FUNCTIONS
