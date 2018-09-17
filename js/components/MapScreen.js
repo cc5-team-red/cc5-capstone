@@ -26,13 +26,12 @@ export default class MapScreen extends React.Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-    let locationDebug = "loading geoLocation...\n";
-    if (this.props.screenProps.errorMessage) {
-      locationDebug = this.props.screenProps.errorMessage;
-    } else if (this.props.screenProps.location) {
-      locationDebug = JSON.stringify(this.props.screenProps.location);
-    }
+    // let locationDebug = "loading geoLocation...\n";
+    // if (this.props.screenProps.errorMessage) {
+    //   locationDebug = this.props.screenProps.errorMessage;
+    // } else if (this.props.screenProps.location) {
+    //   locationDebug = JSON.stringify(this.props.screenProps.location);
+    // }
 
     return (
       <View style={styles.container}>
@@ -49,7 +48,7 @@ export default class MapScreen extends React.Component {
 
         />
 
-        <Text>{locationDebug}</Text>
+        {/* <Text>{locationDebug}</Text> */}
         <Icon
           reverse
           name='my-location'
