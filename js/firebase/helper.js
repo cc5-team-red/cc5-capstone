@@ -137,13 +137,18 @@ function pinListener(callback) {
     })
 }
 
-function createSketch(...params) {
-  console.log('createSketch()')
-  console.log({ ...params, updated: firebase.database.ServerValue.TIMESTAMP })
+function createSketch(user_id, ...strokes) {
+  console.log('createSketch()');
+  console.log({ ...strokes, updated: firebase.database.ServerValue.TIMESTAMP });
   firebase
     .database()
     .ref("sketches/")
-    .push({ ...params, votes: { count: 1 }, updated: { timestamp: firebase.database.ServerValue.TIMESTAMP } });
+    .push({
+      ...strokes,
+      userID: user_id,
+      votes: { count: 1 },
+      updated: { timestamp: firebase.database.ServerValue.TIMESTAMP },
+    });
 }
 
 function sketchListener(callback) {
@@ -155,7 +160,7 @@ function sketchListener(callback) {
       if (!results || !(typeof results === "object")) return callback([]);
 
       const sketches = Object.entries(results)
-        .filter(([key, value]) => (value["0"] && value["0"].coordinates)) // prevent broken data from breaking app
+        .filter(([key, value]) => (value["0"] && value["0"][0].coordinates)) // prevent broken data from breaking app
         .map(([key, value]) => {
           const timestamp = new Date(value.updated.timestamp);
           const oneHour = (1000 * 60 * 60)
@@ -163,10 +168,8 @@ function sketchListener(callback) {
           const hoursAgo = ((now - timestamp) / oneHour);
           return {
             key: key,
-            user_id: value["0"].userID,
-            coordinates: value["0"].coordinates,
-            strokeColor: value["0"].strokeColor,
-            strokeWidth: value["0"].strokeWidth,
+            user_id: value.userID,
+            strokes: value["0"],
             opacity: 1 - hoursAgo,
             timestamp,
             votes: value.votes.count,
