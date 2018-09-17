@@ -9,7 +9,9 @@ import {
   pinListener,
   createUser,
   updateUser,
-  userListener
+  userListener,
+  createSketch,
+  sketchListener
 } from "./firebase/helper";
 
 
@@ -27,6 +29,7 @@ export default class App extends React.Component {
     errorMessage: null,
     users: [],
     pins: [],
+    sketches: [],
     newPin: {
       title: "",
       details: "",
@@ -63,6 +66,10 @@ export default class App extends React.Component {
 
     this.setState({ ready: false });
   }
+
+
+  // 
+  // HELPER FUNCTIONS
   _setupUser = async () => {
     const user_id = await DeviceInfo.getUniqueID();
     console.log(`user_id`, user_id)
@@ -70,14 +77,8 @@ export default class App extends React.Component {
     this.setState({ user_id })
   }
 
-  _setNewCoordinate = e => {
-    this.setState({
-      newPin: {
-        coordinate: e.nativeEvent.coordinate,
-      }
-    });
-  };
 
+// PINFORM HELPER FUNCTIONS
   _onChangeTitle = input => {
     this.setState({
       newPin: {
@@ -86,7 +87,6 @@ export default class App extends React.Component {
       }
     });
   };
-
   _onChangeDetails = input => {
     this.setState({
       newPin: {
@@ -95,7 +95,6 @@ export default class App extends React.Component {
       }
     });
   };
-
   _onChangeType = input => {
     if (!input) return;
     this.setState({
@@ -105,11 +104,7 @@ export default class App extends React.Component {
       }
     });
   };
-
-  _handleSubmit = () => {
-    console.log(this.state.newPin);
-    // TODO: fix input of type
-
+  _submitPinForm = () => {
     const pinObj = {
       title: this.state.newPin.title,
       type: this.state.newPin.type,
@@ -119,40 +114,35 @@ export default class App extends React.Component {
         longitude: this.state.newPin.coordinate.longitude
       }
     };
-    // optional fields here
+    // optional fields:
     if (this.state.newPin.details && this.state.newPin.details.length > 0) {
       pinObj.details = this.state.newPin.details;
     }
     createPin(pinObj);
   };
 
+
+// MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {
     this.map = map;
   }
-
-  _getSnapshot= async () => {
-    const snapshotUri = await this.map.takeSnapshot({
-      // width: 300,      // optional, when omitted the view-width is used
-      // height: 300,     // optional, when omitted the view-height is used
-      format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
-      quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
-      result: 'file'
+  _setNewCoordinate = e => {
+    this.setState({
+      newPin: {
+        coordinate: e.nativeEvent.coordinate,
+      }
     });
-    this.setState({ snapshotUri: snapshotUri });
-  }
-
+  };
   _getPins = async () => {
     await pinListener(pins => {
       this.setState({ pins });
     });
   };
-
   _getUsers = async () => {
     await userListener(this.state.user_id, users => {
       this.setState({ users });
     });
   };
-
   _getLocation = async () => {
     await navigator.geolocation.requestAuthorization();
 
@@ -174,6 +164,64 @@ export default class App extends React.Component {
         console.log(error)
       });
   };
+  _getSnapshot = async () => {
+    const snapshotUri = await this.map.takeSnapshot({
+      // width: 300,      // optional, when omitted the view-width is used
+      // height: 300,     // optional, when omitted the view-height is used
+      format: 'png',   // image formats: 'png', 'jpg' (default: 'png')
+      quality: 0.8,    // image quality: 0..1 (only relevant for jpg, default: 1)
+      result: 'file'
+    });
+    this.setState({ snapshotUri: snapshotUri });
+  }
+
+
+// SKETCHSCREEN HELPER FUNCTIONS
+  _getSketchCanvasPaths = async (paths) => {
+    const coordPromises = paths[0].path.data.map(point => {
+      const [x, y] = point.split(",").map(latOrLon => Number(latOrLon));
+      return this.map.coordinateForPoint({ x, y });
+    })
+    const coords = await Promise.all(coordPromises);
+    const coordinates = coords.map(coord => ({
+      latitude: coord.lat,
+      longitude: coord.lng,
+    }))
+
+    const sketch = {
+      key: paths[0].path.color,
+      strokeColor: paths[0].path.color,
+      strokeWidth: paths[0].path.width,
+      coordinates
+    }
+
+    createSketch(sketch);
+
+    this.setState({
+      sketches: [
+        ...this.state.sketches,
+        sketch
+      ]
+    });
+  }
+
+  _submitPinForm = () => {
+    const pinObj = {
+      title: this.state.newPin.title,
+      type: this.state.newPin.type,
+      userID: this.state.user_id,
+      coordinate: {
+        latitude: this.state.newPin.coordinate.latitude,
+        longitude: this.state.newPin.coordinate.longitude
+      }
+    };
+    // optional fields:
+    if (this.state.newPin.details && this.state.newPin.details.length > 0) {
+      pinObj.details = this.state.newPin.details;
+    }
+    createPin(pinObj);
+  };
+
 
   render() {
     if (!this.state.ready) {
@@ -197,7 +245,8 @@ export default class App extends React.Component {
           _onChangeTitle: this._onChangeTitle,
           _onChangeDetails: this._onChangeDetails,
           _onChangeType: this._onChangeType,
-          _handleSubmit: this._handleSubmit,
+          _submitPinForm: this._submitPinForm,
+          _getSketchCanvasPaths: this._getSketchCanvasPaths,
           ...this.state
         }}
       />

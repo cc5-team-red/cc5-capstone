@@ -9,12 +9,28 @@ export default class Draw extends Component {
     headerTransparent: true
   };
 
+  _pressSubmit = () => {
+    // this.sketchCanvas.save(
+    //   "png",
+    //   false,
+    //   'RNSketchCanvas',
+    //   Date.now().toString(),
+    //   false,
+    //   false,
+    //   false
+    // );
+    const paths = this.sketchCanvas.getPaths();
+    this.props.screenProps._getSketchCanvasPaths(paths);
+    this.props.navigation.navigate("Home");
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <SketchCanvas
+          ref={ref => { this.sketchCanvas = ref; }}
           style={styles.sketchCanvas}
-          strokeColor={'#2B2B2C'}
+          strokeColor={'#F9A800'}
           strokeWidth={7}
           localSourceImage={{ filename: this.props.screenProps.snapshotUri }}
         />
@@ -23,7 +39,7 @@ export default class Draw extends Component {
           reverse
           name='check'
           color='#237F52'
-          onPress={(e) => console.log(e)}
+          onPress={this._pressSubmit}
         />
       </View>
     );
