@@ -8,6 +8,24 @@ export default class Details extends React.Component {
     title: "Details"
   };
 
+  state = {
+    comment: "",
+  }
+
+  _handleChange = (input) => {
+    this.setState({ comment: input });
+  }
+
+  _submitPinForm = () => {
+    commentPin(
+      this.props.userId,
+      this.props.pinId,
+      {
+        comment: this.state.comment
+      }
+    )
+  }
+
   _sendUpvote = (xid, xvotes) => {
     upvotePin(xid, xvotes + 1);
   }
@@ -17,13 +35,16 @@ export default class Details extends React.Component {
   }
 
   _showComments = (comments) => {
-    if(typeof comments === 'object'){
+    if (typeof comments === 'object') {
       return Object.entries(comments).map(([key, value]) => (
         <Text>{`\n${value.comment.comment}\nUser: ${value.userId}`}</Text>
       ))
     }
   }
 
+  _submitPinForm = () => {
+
+  }
   render() {
     const navigation = this.props.navigation;
     const id = navigation.getParam("id");
@@ -38,8 +59,14 @@ export default class Details extends React.Component {
         <Text>{`\nComments:`}</Text>
         {this._showComments(comments)}
         <Button title="Upvote" onPress={() => this._sendUpvote(id, votes)} />
-        <Button title="Downvote" onPress={() => this._sendDownvote(id, votes)}/>
-        <PinComment pinId={id} userId={this.props.screenProps.user_id} />
+        <Button title="Downvote" onPress={() => this._sendDownvote(id, votes)} />
+        <PinComment
+          pinId={id}
+          userId={this.props.screenProps.user_id}
+          comment={this.state.comment}
+          _handleChange={this._handleChange}
+          _submitPinForm={this._submitPinForm}
+        />
       </View>
     )
   }

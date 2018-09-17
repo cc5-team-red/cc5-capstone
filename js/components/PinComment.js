@@ -9,30 +9,11 @@ import {
 import { commentPin } from "../firebase/helper";
 import DeviceInfo from 'react-native-device-info';
 export default class PinComment extends React.Component {
-  
-  state = {
-    comment: "",
-  }
-
-  _handleChange = (input) => {
-    this.setState({comment: input});
-  }
-
-  _submitPinForm = () => {
-    commentPin(
-      this.props.userId,
-      this.props.pinId, 
-      {
-        comment: this.state.comment
-      }
-    )
-  }
-
   render() {
     return (
       <View>
-        <FormInput value={this.state.comment} onChangeText={this._handleChange} />
-        <Button title="Add Comment!" onPress={this._submitPinForm} />
+        <FormInput value={this.props.comment} onChangeText={this.props._handleChange} />
+        <Button title="Add Comment!" onPress={this.props._submitPinForm} />
       </View>
     )
   }
