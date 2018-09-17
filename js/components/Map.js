@@ -102,7 +102,7 @@ export default class Map extends React.Component {
       <MapView
         customMapStyle={subtleMapStyle}
         mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
-        followsUserLocation={false}
+        followsUserLocation={this.props.followsUserLocation}
         showsUserLocation={true}
         showsMyLocationButton={true}
         showsBuildings={true}
@@ -111,7 +111,7 @@ export default class Map extends React.Component {
         onLongPress={this.props._onLongPress}
         style={styles.map}
         ref={map => { this.props._getMap(map) }}
-        region={{
+        initialRegion={{
           latitude: this.props.location.coords.latitude,
           longitude: this.props.location.coords.longitude,
           latitudeDelta: 0.1922,
