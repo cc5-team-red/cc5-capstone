@@ -129,12 +129,9 @@ export default class App extends React.Component {
     this.map = map;
   }
   _toggleFollowsUserLocation = () => {
-    console.log(this.state.followsUserLocation)
     this.setState({
       followsUserLocation: !this.state.followsUserLocation
     });
-    console.log(this.state.followsUserLocation)
-
   }
   _setNewCoordinate = e => {
     this.setState({
