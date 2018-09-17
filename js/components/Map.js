@@ -73,6 +73,8 @@ export default class Map extends React.Component {
         coordinates={sketch.coordinates}
         strokeColor={sketch.strokeColor}
         strokeWidth={sketch.strokeWidth}
+        // fillColor={`rgba(255,0,0,${sketch.opacity})`}
+        fillColor={`rgba(255,0,0,0.5)`}
       />
     ))
   }
