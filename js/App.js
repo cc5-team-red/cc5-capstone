@@ -47,7 +47,7 @@ export default class App extends React.Component {
   //BACKGROUND-GEOLOCATION SETUP
   componentWillMount() {
     // executes this.onLocation whenever location changes
-    BackgroundGeolocation.on('location', this.onLocation, this.onError); 
+    BackgroundGeolocation.on('location', this.onLocation, this.onError);
 
     BackgroundGeolocation.ready({
       reset: true,
@@ -58,15 +58,15 @@ export default class App extends React.Component {
       stopOnTerminate: false,
       startOnBoot: true,
     },
-    (state) => {
-      console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
-      
-      if (!state.enabled) {
-        BackgroundGeolocation.start(function() {
-          console.log("- Start success");
-        });
-      }
-    });
+      (state) => {
+        console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
+
+        if (!state.enabled) {
+          BackgroundGeolocation.start(function () {
+            console.log("- Start success");
+          });
+        }
+      });
   }
 
   async componentDidMount() {
@@ -225,25 +225,28 @@ export default class App extends React.Component {
 
   // SKETCHSCREEN HELPER FUNCTIONS
   _getSketchCanvasPaths = async (paths) => {
-    const coordPromises = paths[0].path.data.map(point => {
-      const [x, y] = point.split(",").map(latOrLon => Number(latOrLon));
-      return this.map.coordinateForPoint({ x, y });
+    const strokesPromises = paths.map(async path => {
+      const coordPromises = path.path.data.map(point => {
+        const [x, y] = point.split(",").map(latOrLon => Number(latOrLon));
+        return this.map.coordinateForPoint({ x, y });
+      })
+      const coords = await Promise.all(coordPromises);
+      const coordinates = coords.map(coord => ({
+        latitude: coord.lat,
+        longitude: coord.lng,
+      }))
+
+      const stroke = {
+        key: path.path.id,
+        strokeColor: path.path.color,
+        strokeWidth: path.path.width,
+        coordinates
+      }
+      return stroke
     })
-    const coords = await Promise.all(coordPromises);
-    const coordinates = coords.map(coord => ({
-      latitude: coord.lat,
-      longitude: coord.lng,
-    }))
+    const strokes = await Promise.all(strokesPromises);
 
-    const sketch = {
-      key: paths[0].path.color,
-      userID: this.state.user_id,
-      strokeColor: paths[0].path.color,
-      strokeWidth: paths[0].path.width,
-      coordinates
-    }
-
-    createSketch(sketch);
+    createSketch(this.state.user_id, strokes);
   }
 
   _submitPinForm = () => {

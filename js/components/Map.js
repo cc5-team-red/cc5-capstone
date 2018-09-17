@@ -67,16 +67,18 @@ export default class Map extends React.Component {
   }
 
   _showSketches() {
-    return this.props.sketches.map(sketch => (
-      <Polyline 
-        key={sketch.key}
-        coordinates={sketch.coordinates}
-        strokeColor={sketch.strokeColor}
-        strokeWidth={sketch.strokeWidth}
-        // fillColor={`rgba(255,0,0,${sketch.opacity})`}
-        fillColor={`rgba(255,0,0,0.5)`}
-      />
-    ))
+    return this.props.sketches.map(sketch => {
+      return sketch.strokes.map(stroke => (
+        <Polyline
+          key={stroke.key}
+          coordinates={stroke.coordinates}
+          strokeColor={stroke.strokeColor}
+          strokeWidth={stroke.strokeWidth}
+          fillColor={`rgba(255,0,0,${sketch.opacity})`}
+          // userId={sketch.user_id}
+        />
+      ))
+    })
   }
 
   _getImage(pinType) {
