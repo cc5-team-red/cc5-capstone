@@ -27,6 +27,7 @@ export default class App extends React.Component {
     },
     snapshotUri: null,
     errorMessage: null,
+    followsUserLocation: true,
     users: [],
     pins: [],
     sketches: [],
@@ -126,6 +127,11 @@ export default class App extends React.Component {
   // MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {
     this.map = map;
+  }
+  _toggleFollowsUserLocation = () => {
+    this.setState({
+      followsUserLocation: !this.state.followsUserLocation
+    });
   }
   _setNewCoordinate = e => {
     this.setState({
@@ -247,6 +253,7 @@ export default class App extends React.Component {
           _onChangeType: this._onChangeType,
           _submitPinForm: this._submitPinForm,
           _getSketchCanvasPaths: this._getSketchCanvasPaths,
+          _toggleFollowsUserLocation: this._toggleFollowsUserLocation,
           ...this.state
         }}
       />

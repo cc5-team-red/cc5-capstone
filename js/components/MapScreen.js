@@ -45,10 +45,18 @@ export default class MapScreen extends React.Component {
           users={this.props.screenProps.users}
           sketches={this.props.screenProps.sketches}
           location={this.props.screenProps.location}
+          followsUserLocation={this.props.screenProps.followsUserLocation}
 
         />
 
         <Text>{locationDebug}</Text>
+        <Icon
+          reverse
+          name='my-location'
+          color= {this.props.screenProps.followsUserLocation ? '#005387' : '#ECECE7'}
+          reverseColor={this.props.screenProps.followsUserLocation ? undefined : '#005387'}
+          onPress={this.props.screenProps._toggleFollowsUserLocation}
+        />
         <Icon
           reverse
           name='brush'
