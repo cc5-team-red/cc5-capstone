@@ -1,12 +1,12 @@
-![](./Components/assets/logos/blue.png)
+![](./js/assets/logos/blue.png)
 
 # Zenni
 
 A real-time location sharing app for disasters  
-![](./Components/assets/markers/danger.png)
-![](./Components/assets/markers/sos.png)
-![](./Components/assets/markers/medical.png)
-![](./Components/assets/markers/fire.png)
+![](./js/assets/markers/danger.png)
+![](./js/assets/markers/sos.png)
+![](./js/assets/markers/medical.png)
+![](./js/assets/markers/fire.png)
 
 ## Requirements
 - NodeJS
@@ -15,7 +15,7 @@ A real-time location sharing app for disasters
 
 ## iOS Get Started
 - **Prepare all requirements**
-- Additionally, install XCode
+- Additionally, install [XCode](https://developer.apple.com/xcode/), and [cocoapods](https://cocoapods.org/)
 - `yarn`
 - `yarn ios:install`
 - `yarn ios:start` to run the app in simulator.
