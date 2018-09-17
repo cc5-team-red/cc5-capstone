@@ -19,7 +19,7 @@ export default class Details extends React.Component {
   _showComments = (comments) => {
     if(typeof comments === 'object'){
       return Object.entries(comments).map(([key, value]) => (
-        <Text>{`\n${value.comment.comment}\nUser: ${value.userId}`}</Text>
+        <Text key={key}>{`\n${value.comment.comment}\nUser: ${value.userId}`}</Text>
       ))
     }
   }
