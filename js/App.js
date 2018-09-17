@@ -49,11 +49,11 @@ export default class App extends React.Component {
     BackgroundGeolocation.on('location', this.onLocation, this.onError); 
 
     BackgroundGeolocation.ready({
+      reset: true,
       desiredAccuracy: 0,
       distanceFilter: 3,
       stopTimeout: 1,
-      debug: true,
-      logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
+      debug: false,
       stopOnTerminate: false,
       startOnBoot: true,
     },
@@ -97,9 +97,9 @@ export default class App extends React.Component {
 
   //BACKGROUND-GEOLOCATION FUNCTIONS
   onLocation = (location) => {
-    console.log('- [event] location: ', location);
+    updateUser(this.state.user_id, location.coords.latitude, location.coords.longitude);
   }
-  onError = (location) => {
+  onError = (error) => {
     console.warn('- [event] location error ', error);
   }
 
