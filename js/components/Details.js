@@ -24,13 +24,17 @@ export default class Details extends React.Component {
   }
 
   _submitPinComment = () => {
-    commentPin(
-      this.props.screenProps.user_id,
-      this.props.navigation.getParam("id"),
-      {
-        comment: this.state.comment
-      }
-    )
+    if(this.state.comment.length > 0){
+      commentPin(
+        this.props.screenProps.user_id,
+        this.props.navigation.getParam("id"),
+        {
+          comment: this.state.comment
+        }
+      )
+    } else {
+      console.log("Error: No Comment");
+    }
   }
 
   _sendUpvote = (xid, xvotes) => {
@@ -44,7 +48,7 @@ export default class Details extends React.Component {
   _showComments = (comments) => {
     if (typeof comments === 'object') {
       return Object.entries(comments).map(([key, value]) => (
-        <Text>{`\n${value.comment.comment}\nUser: ${value.userId}`}</Text>
+        <Text>{`\n${value.comment.comment}`}</Text>
       ))
     }
   }
@@ -55,11 +59,14 @@ export default class Details extends React.Component {
     const votes = navigation.getParam("votes");
     const time = navigation.getParam("time");
     const details = navigation.getParam("details");
+    // if(typeof details === 'undefined'){
+    //   details = "";
+    // }
     const comments = navigation.getParam("comments")
 
     return (
       <View>
-        <Text>{`ID: ${id}\nVotes: ${votes}\nLast Updated: ${time}\nDetails: ${details}\n`}</Text>
+        <Text>{`Votes: ${votes}\nLast Updated: ${time}\nDetails: ${details}\n`}</Text>
         <Text>{`\nComments:`}</Text>
         {this._showComments(comments)}
         <Button title="Upvote" onPress={() => this._sendUpvote(id, votes)} />
