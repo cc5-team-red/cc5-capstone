@@ -10,14 +10,9 @@ export default class Details extends React.Component {
 
   state = {
     comment: "",
-    pins: []
+    voted: false,
   }
 
-  _getPins = async () => {
-    await pinListener(pins => {
-      this.setState({ pins });
-    });
-  };
 
   _handleChange = (input) => {
     this.setState({ comment: input });
@@ -38,19 +33,39 @@ export default class Details extends React.Component {
   }
 
   _sendUpvote = (xid, xvotes) => {
-    upvotePin(xid, xvotes + 1);
+    if(!this.state.voted){
+      upvotePin(xid, xvotes + 1);
+      this.setState({voted: true});
+    }
   }
 
   _sendDownvote = (xid, xvotes) => {
-    downvotePin(xid, xvotes - 1);
+    if(!this.state.voted){
+      downvotePin(xid, xvotes - 1);
+      this.setState({voted: true});
+    }
   }
 
-  _showComments = (comments) => {
+  _showComments = (id) => {
+    const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
+    const comments = pins[0].comments;
     if (typeof comments === 'object') {
       return Object.entries(comments).map(([key, value]) => (
-        <Text>{`\n${value.comment.comment}`}</Text>
+        <Text key={key}>{`\n${value.comment.comment}`}</Text>
       ))
     }
+  }
+
+  _showVotes = (id) => {
+    const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
+    const votes = pins[0].votes;
+    return <Text>{`Votes: ${votes}`}</Text>
+    // console.log(comments)
+    // if (typeof comments === 'object') {
+    //   return Object.entries(comments).map(([key, value]) => (
+    //     <Text>{`\n${value.comment.comment}`}</Text>
+    //   ))
+    // }
   }
 
   render() {
@@ -59,16 +74,13 @@ export default class Details extends React.Component {
     const votes = navigation.getParam("votes");
     const time = navigation.getParam("time");
     const details = navigation.getParam("details");
-    // if(typeof details === 'undefined'){
-    //   details = "";
-    // }
-    const comments = navigation.getParam("comments")
 
     return (
       <View>
-        <Text>{`Votes: ${votes}\nLast Updated: ${time}\nDetails: ${details}\n`}</Text>
+        {this._showVotes(id)}
+        <Text>{`Last Updated: ${time}\nDetails: ${details}\n`}</Text>
         <Text>{`\nComments:`}</Text>
-        {this._showComments(comments)}
+        {this._showComments(id)}
         <Button title="Upvote" onPress={() => this._sendUpvote(id, votes)} />
         <Button title="Downvote" onPress={() => this._sendDownvote(id, votes)} />
         <PinComment
