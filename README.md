@@ -11,6 +11,7 @@ A real-time location sharing app for disasters
 ## Requirements
 - NodeJS
 - yarn
+- `watchman`
 - this repo `git clone https://github.com/cc5-team-red/zenni`
 
 ## iOS Get Started
@@ -36,5 +37,16 @@ Remote JS Debugging (accessible from `cmd+d`) is hugely beneficial.
 
 ### deleting build files
 Deleting build files may solve your problems.  
-`rm -fr node_modules`  
-`rm -fr ios/build`
+`git clean -xfd`
+`watchman shutdown-server`
+`brew update`
+`brew reinstall watchman`
+`npm install metro`
+`yarn ios:install`
+`npm audit`?
+ `rm -fr $TMPDIR/metro*`
+ https://github.com/facebook/react-native/issues/9309#issuecomment-238966924
+ `rm -rf ~/.rncache`
+`react-native run-ios --device "Tsubasa’s iPhone"`
+
+https://sourceforge.net/projects/boost/files/boost/1.63.0/boost_1_63_0.tar.gz/download
