@@ -101,7 +101,7 @@ export default class Map extends React.Component {
     return (
       <MapView
         customMapStyle={subtleMapStyle}
-        provider="google"
+        // provider="google"
         // mapType={Platform.OS === "ios" ? "mutedStandard" : undefined}
         followsUserLocation={this.props.followsUserLocation}
         showsUserLocation={true}
