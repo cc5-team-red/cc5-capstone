@@ -1331,6 +1331,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Debug;
@@ -1368,6 +1369,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Release;
@@ -1397,6 +1399,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Debug;
@@ -1425,6 +1428,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Release;
@@ -1471,6 +1475,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Debug;
@@ -1517,6 +1522,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Release;
@@ -1562,6 +1568,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Debug;
@@ -1607,6 +1614,7 @@
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/../node_modules/react-native-background-geolocation/ios/**",
+					"$(inherited)",
 				);
 			};
 			name = Release;
