@@ -27,6 +27,7 @@ export default class Details extends React.Component {
           comment: this.state.comment
         }
       )
+      this.setState({comment: ""});
     } else {
       console.log("Error: No Comment");
     }
@@ -78,7 +79,8 @@ export default class Details extends React.Component {
     return (
       <View>
         {this._showVotes(id)}
-        <Text>{`Last Updated: ${hoursAgo} hours ago\nDetails: ${details}\n`}</Text>
+        <Text>{`Last Updated: ${hoursAgo >= 1 ? (`Updated ${hoursAgo} hours ago`)
+         : (`Updated ${(hoursAgo*60).toFixed(0)} minutes ago`)} \nDetails: ${details}\n`}</Text>
         <Text>{`\nComments:`}</Text>
         {this._showComments(id)}
         <Button title="Upvote" disabled={this.state.voted} onPress={() => this._sendUpvote(id, votes)} />

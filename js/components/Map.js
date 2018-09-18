@@ -29,7 +29,8 @@ export default class Map extends React.Component {
         id={pin.id}
         coordinate={pin.coordinate}
         title={pin.title}
-        description={`${pin.hoursAgo} hours ago | Votes: ${pin.votes}`}
+        description={pin.hoursAgo >= 1 ? (`Updated ${pin.hoursAgo} hours ago | Votes: ${pin.votes}`)
+         : (`Updated ${(pin.hoursAgo*60).toFixed(0)} minutes ago | Votes: ${pin.votes}`)}
         opacity={pin.opacity}
         image={Platform.OS === "android" ? this._getImage(pin.type) : undefined}
         onCalloutPress={() => this.props._calloutPressed(pin.id, pin.votes, pin.details, pin.hoursAgo)}
