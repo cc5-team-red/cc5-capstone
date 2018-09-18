@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { upvotePin, downvotePin } from "../firebase/helper"
+import { pinListener, upvotePin, downvotePin, commentPin } from "../firebase/helper"
 import PinComment from "./PinComment";
 
 export default class Details extends React.Component {
@@ -10,16 +10,23 @@ export default class Details extends React.Component {
 
   state = {
     comment: "",
+    pins: []
   }
+
+  _getPins = async () => {
+    await pinListener(pins => {
+      this.setState({ pins });
+    });
+  };
 
   _handleChange = (input) => {
     this.setState({ comment: input });
   }
 
-  _submitPinForm = () => {
+  _submitPinComment = () => {
     commentPin(
-      this.props.userId,
-      this.props.pinId,
+      this.props.screenProps.user_id,
+      this.props.navigation.getParam("id"),
       {
         comment: this.state.comment
       }
@@ -42,9 +49,6 @@ export default class Details extends React.Component {
     }
   }
 
-  _submitPinForm = () => {
-
-  }
   render() {
     const navigation = this.props.navigation;
     const id = navigation.getParam("id");
@@ -61,11 +65,9 @@ export default class Details extends React.Component {
         <Button title="Upvote" onPress={() => this._sendUpvote(id, votes)} />
         <Button title="Downvote" onPress={() => this._sendDownvote(id, votes)} />
         <PinComment
-          pinId={id}
-          userId={this.props.screenProps.user_id}
           comment={this.state.comment}
           _handleChange={this._handleChange}
-          _submitPinForm={this._submitPinForm}
+          _submitPinForm={this._submitPinComment}
         />
       </View>
     )
