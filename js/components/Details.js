@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import { StyleSheet, Text, ScrollView, View, Button } from "react-native";
 import { pinListener, upvotePin, downvotePin, commentPin } from "../firebase/helper"
 import PinComment from "./PinComment";
 
@@ -77,7 +77,7 @@ export default class Details extends React.Component {
     const details = navigation.getParam("details");
 
     return (
-      <View>
+      <ScrollView>
         {this._showVotes(id)}
         <Text>{`Last Updated: ${hoursAgo >= 1 ? (`Updated ${hoursAgo} hours ago`)
          : (`Updated ${(hoursAgo*60).toFixed(0)} minutes ago`)} \nDetails: ${details}\n`}</Text>
@@ -91,7 +91,7 @@ export default class Details extends React.Component {
           _submitPinForm={this._submitPinComment}
           disabled={(this.state.comment === "")}
         />
-      </View>
+      </ScrollView>
     )
   }
 }
