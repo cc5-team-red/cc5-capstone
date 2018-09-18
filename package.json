@@ -12,7 +12,7 @@
     "start": "react-native start",
     "test": "jest",
     "ios:install": "yarn install && pod install --project-directory=./ios/",
-    "ios:start": "react-native run-ios",
+    "ios:start": "react-native run-ios --simulator=\"iPhone 7 Plus\"",
     "ios:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" yarn ios:start",
     "android": "react-native run-android"
   },
