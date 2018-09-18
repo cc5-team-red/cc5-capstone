@@ -9,9 +9,11 @@ A real-time location sharing app for disasters
 ![](./js/assets/markers/fire.png)
 
 ## Requirements
+Please install the following tools to manually run this source code:
 - NodeJS
-- yarn
-- this repo `git clone https://github.com/cc5-team-red/zenni`
+- `npm install -g yarn`
+- `git clone https://github.com/cc5-team-red/zenni`
+- `brew install watchman`
 
 ## iOS Get Started
 - **Prepare all requirements**
@@ -25,6 +27,11 @@ A real-time location sharing app for disasters
 - Additionally, install Android Studio
 - `yarn`
 - `yarn android`
+
+## iOS Hardware Device Get Started
+- in xcode, log into an Apple Developer account.
+- follow these instructions *meticulously*:  
+  https://facebook.github.io/react-native/docs/running-on-device
 
 ## Troubleshooting
 
