@@ -41,9 +41,9 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string/>
+	<string>CHANGEME: Location Always And When In Use Usage Description</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string/>
+	<string>CHANGEME: Location Always Usage Description</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -77,5 +77,11 @@
 		<string>PragatiNarrow-Bold.ttf</string>
 		<string>PragatiNarrow-Regular.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+	<key>NSMotionUsageDescription</key>
+	<string>CHANGEME: Motion updates increase battery efficiency by intelligently toggling location-services when device is detected to be moving</string>
 </dict>
 </plist>
