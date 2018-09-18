@@ -72,21 +72,22 @@ export default class Details extends React.Component {
     const navigation = this.props.navigation;
     const id = navigation.getParam("id");
     const votes = navigation.getParam("votes");
-    const time = navigation.getParam("time");
+    const hoursAgo = navigation.getParam("hoursAgo");
     const details = navigation.getParam("details");
 
     return (
       <View>
         {this._showVotes(id)}
-        <Text>{`Last Updated: ${time}\nDetails: ${details}\n`}</Text>
+        <Text>{`Last Updated: ${hoursAgo} hours ago\nDetails: ${details}\n`}</Text>
         <Text>{`\nComments:`}</Text>
         {this._showComments(id)}
-        <Button title="Upvote" onPress={() => this._sendUpvote(id, votes)} />
-        <Button title="Downvote" onPress={() => this._sendDownvote(id, votes)} />
+        <Button title="Upvote" disabled={this.state.voted} onPress={() => this._sendUpvote(id, votes)} />
+        <Button title="Downvote" disabled={this.state.voted} onPress={() => this._sendDownvote(id, votes)} />
         <PinComment
           comment={this.state.comment}
           _handleChange={this._handleChange}
           _submitPinForm={this._submitPinComment}
+          disabled={(this.state.comment === "")}
         />
       </View>
     )

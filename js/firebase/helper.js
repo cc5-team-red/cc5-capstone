@@ -119,7 +119,7 @@ function pinListener(callback) {
           const timestamp = new Date(value.updated.timestamp);
           const oneHour = (1000 * 60 * 60)
           const now = new Date(Date.now())
-          const hoursAgo = ((now - timestamp) / oneHour);
+          const hoursAgo = ((now - timestamp) / oneHour).toFixed(2);
           return {
             id: key,
             user_id: value["0"].userID,
@@ -129,6 +129,7 @@ function pinListener(callback) {
             details: value["0"].details,
             opacity: 1 - hoursAgo,
             timestamp,
+            hoursAgo,
             votes: value.votes.count,
             comments: value.comments,
           };
