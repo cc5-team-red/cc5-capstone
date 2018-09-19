@@ -7,7 +7,6 @@ export default class Details extends React.Component {
   static navigationOptions = {
     title: "Details"
   };
-
   state = {
     comment: "",
     voted: false,
@@ -61,37 +60,42 @@ export default class Details extends React.Component {
     const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
     const votes = pins[0].votes;
     return <Text>{`Votes: ${votes}`}</Text>
-    // console.log(comments)
-    // if (typeof comments === 'object') {
-    //   return Object.entries(comments).map(([key, value]) => (
-    //     <Text>{`\n${value.comment.comment}`}</Text>
-    //   ))
-    // }
   }
 
   render() {
     const navigation = this.props.navigation;
     const id = navigation.getParam("id");
+    const title = navigation.getParam("title");
     const votes = navigation.getParam("votes");
     const hoursAgo = navigation.getParam("hoursAgo");
-    const details = navigation.getParam("details");
+    let details = navigation.getParam("details");
+    if (!details){
+      details = "None"
+    }
 
     return (
-      <ScrollView>
+      <View>
+        <Text style={{alignSelf:"center", fontWeight:"bold", fontSize:20}}>{title}</Text>
         {this._showVotes(id)}
         <Text>{`Last Updated: ${hoursAgo >= 1 ? (`Updated ${hoursAgo} hours ago`)
-         : (`Updated ${(hoursAgo*60).toFixed(0)} minutes ago`)} \nDetails: ${details}\n`}</Text>
-        <Text>{`\nComments:`}</Text>
-        {this._showComments(id)}
-        <Button title="Upvote" disabled={this.state.voted} onPress={() => this._sendUpvote(id, votes)} />
-        <Button title="Downvote" disabled={this.state.voted} onPress={() => this._sendDownvote(id, votes)} />
-        <PinComment
-          comment={this.state.comment}
-          _handleChange={this._handleChange}
-          _submitPinForm={this._submitPinComment}
-          disabled={(this.state.comment === "")}
-        />
-      </ScrollView>
+        : (`Updated ${(hoursAgo*60).toFixed(0)} minutes ago`)} \nDetails: ${details}\n`}</Text>
+        <Text>{`Comments:`}</Text>
+        <View style={{maxHeight:"70%"}}>
+          <ScrollView style={{flexGrow:0}}>
+            {this._showComments(id)}
+          </ScrollView>
+        </View>
+        <View style={{flex:1}}>
+          <Button title="Upvote" disabled={this.state.voted} onPress={() => this._sendUpvote(id, votes)} />
+          <Button title="Downvote" disabled={this.state.voted} onPress={() => this._sendDownvote(id, votes)} />
+          <PinComment
+            comment={this.state.comment}
+            _handleChange={this._handleChange}
+            _submitPinForm={this._submitPinComment}
+            disabled={(this.state.comment === "")}
+          />
+        </View>
+      </View>
     )
   }
 }
