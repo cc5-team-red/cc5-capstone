@@ -30,3 +30,7 @@ pids
 *.pid
 *.seed
 *.pid.lock
+
+# xcode user data
+*/zenni.xcodeproj/xcuserdata
+*/zenni.xcworkspace/xcuserdata
