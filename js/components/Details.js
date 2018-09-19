@@ -4,15 +4,19 @@ import { pinListener, upvotePin, downvotePin, commentPin } from "../firebase/hel
 import PinComment from "./PinComment";
 
 export default class Details extends React.Component {
-  static navigationOptions = {
-    title: "Details"
-  };
-
   state = {
     comment: "",
     voted: false,
+    id: this.props.navigation.getParam("id"),
+    title: this.props.navigation.getParam("title"),
+    votes: this.props.navigation.getParam("votes"),
+    hoursAgo: this.props.navigation.getParam("hoursAgo"),
+    details: this.props.navigation.getParam("details"),
   }
 
+  static navigationOptions = ({navigation}) => ({
+    title: `${navigation.state.params.title}`,
+  });
 
   _handleChange = (input) => {
     this.setState({ comment: input });
@@ -61,37 +65,34 @@ export default class Details extends React.Component {
     const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
     const votes = pins[0].votes;
     return <Text>{`Votes: ${votes}`}</Text>
-    // console.log(comments)
-    // if (typeof comments === 'object') {
-    //   return Object.entries(comments).map(([key, value]) => (
-    //     <Text>{`\n${value.comment.comment}`}</Text>
-    //   ))
-    // }
   }
 
   render() {
-    const navigation = this.props.navigation;
-    const id = navigation.getParam("id");
-    const votes = navigation.getParam("votes");
-    const hoursAgo = navigation.getParam("hoursAgo");
-    const details = navigation.getParam("details");
-
     return (
-      <ScrollView>
-        {this._showVotes(id)}
-        <Text>{`Last Updated: ${hoursAgo >= 1 ? (`Updated ${hoursAgo} hours ago`)
-         : (`Updated ${(hoursAgo*60).toFixed(0)} minutes ago`)} \nDetails: ${details}\n`}</Text>
-        <Text>{`\nComments:`}</Text>
-        {this._showComments(id)}
-        <Button title="Upvote" disabled={this.state.voted} onPress={() => this._sendUpvote(id, votes)} />
-        <Button title="Downvote" disabled={this.state.voted} onPress={() => this._sendDownvote(id, votes)} />
-        <PinComment
-          comment={this.state.comment}
-          _handleChange={this._handleChange}
-          _submitPinForm={this._submitPinComment}
-          disabled={(this.state.comment === "")}
-        />
-      </ScrollView>
+      <View style={{flex:1}}>
+        <View style={{flex:2}}>
+          {this._showVotes(this.state.id)}
+          <Text>{`Last Updated: ${this.state.hoursAgo >= 1 ? (`Updated ${this.state.hoursAgo} hours ago`)
+          : (`Updated ${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
+          <Text>{`Details: ${this.state.details ? (this.state.details) : (`None`)}\n`}</Text>
+          <Text>{`Comments:`}</Text>
+        </View>
+        <View style={{flex:5}}>
+          <ScrollView>
+            {this._showComments(this.state.id)}
+          </ScrollView>
+        </View>
+        <View style={{flex:3}}>
+          <Button title="Upvote" disabled={this.state.voted} onPress={() => this._sendUpvote(this.state.id, this.state.votes)} />
+          <Button title="Downvote" disabled={this.state.voted} onPress={() => this._sendDownvote(this.state.id, this.state.votes)} />
+          <PinComment
+            comment={this.state.comment}
+            _handleChange={this._handleChange}
+            _submitPinForm={this._submitPinComment}
+            disabled={(this.state.comment === "")}
+          />
+        </View>
+      </View>
     )
   }
 }

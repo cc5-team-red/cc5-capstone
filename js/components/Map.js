@@ -33,7 +33,7 @@ export default class Map extends React.Component {
          : (`Updated ${(pin.hoursAgo*60).toFixed(0)} minutes ago | Votes: ${pin.votes}`)}
         opacity={pin.opacity}
         image={Platform.OS === "android" ? this._getImage(pin.type) : undefined}
-        onCalloutPress={() => this.props._calloutPressed(pin.id, pin.votes, pin.details, pin.hoursAgo)}
+        onCalloutPress={() => this.props._calloutPressed(pin.title, pin.id, pin.votes, pin.details, pin.hoursAgo)}
       >
         {Platform.OS === "ios" ? (
           <Image
