@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform, ActionSheetIOS, StyleSheet, Text, View, Picker } from "react-native";
+import { Platform, ActionSheetIOS, StyleSheet, TouchableOpacity, Text, View, Picker } from "react-native";
 import {
   FormLabel,
   FormInput,
@@ -51,7 +51,10 @@ export default class PinForm extends React.Component {
       <View style={styles.container}>
         <View style={styles.item}>
           <FormLabel>Title</FormLabel>
-          <FormInput value={this.props.screenProps.newPin.title} onChangeText={this.props.screenProps._onChangeTitle} />
+          <FormInput containerStyle={{backgroundColor:"#85f7ed", borderBottomWidth:2, borderBottomColor:"black"}} 
+            value={this.props.screenProps.newPin.title} 
+            onChangeText={this.props.screenProps._onChangeTitle} 
+          />
           <FormValidationMessage>
             {"This field is required"}
           </FormValidationMessage>
@@ -72,20 +75,23 @@ export default class PinForm extends React.Component {
           : (
             <View>
               <FormLabel>{`Selected: ${this.props.screenProps.newPin.type}`}</FormLabel>
-              <Button style={styles.button} title="Select Type" onPress={this._showActionSheet} />
+              <TouchableOpacity style={{alignSelf:"center", alignItems:"center", backgroundColor: "#005387", paddingVertical: 15, paddingHorizontal:100}} onPress={this._showActionSheet}>
+                <Text style={{color:"#ECECE7", fontSize: 22}}>Select Type</Text>
+              </TouchableOpacity>
             </View>
           )
           }
 
           <FormLabel>Details</FormLabel>
-          <FormInput value={this.props.screenProps.newPin.details} onChangeText={this.props.screenProps._onChangeDetails} />
+          <FormInput containerStyle=
+            {{backgroundColor:"#85f7ed", borderBottomWidth:2, borderBottomColor:"black"}} 
+            value={this.props.screenProps.newPin.details} 
+            onChangeText={this.props.screenProps._onChangeDetails} />
+          <Text />
 
-          <Button
-            style={styles.button}
-            title="Create Pin"
-            accessibilityLabel="Create a pin with this button"
-            onPress={this._onSubmit}
-          />
+          <TouchableOpacity style={{alignSelf:"center", alignItems:"center", backgroundColor: "#005387", paddingVertical: 15, paddingHorizontal:106}} onPress={this._onSubmit}>
+            <Text style={{color:"#ECECE7", fontSize: 22}}>Create Pin</Text>
+          </TouchableOpacity>
         </View>
       </View >
     );
