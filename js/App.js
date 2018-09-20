@@ -132,15 +132,16 @@ export default class App extends React.Component {
       }
     });
   };
-  _onChangeType = input => {
-    if (!input) return;
+
+  _onChangeTypeIndex = typeIndex => {
     this.setState({
       newPin: {
         ...this.state.newPin,
-        type: input
+        typeIndex: typeIndex
       }
     });
   };
+
   _submitPinForm = () => {
     const pinObj = {
       title: this.state.newPin.title,
@@ -288,7 +289,7 @@ export default class App extends React.Component {
           _setNewCoordinate: this._setNewCoordinate,
           _onChangeTitle: this._onChangeTitle,
           _onChangeDetails: this._onChangeDetails,
-          _onChangeType: this._onChangeType,
+          _onChangeTypeIndex: this._onChangeTypeIndex,
           _submitPinForm: this._submitPinForm,
           _getSketchCanvasPaths: this._getSketchCanvasPaths,
           _toggleFollowsUserLocation: this._toggleFollowsUserLocation,
