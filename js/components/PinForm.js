@@ -36,36 +36,9 @@ export default class PinForm extends React.Component {
     this.props.screenProps._submitPinForm(event);
   }
 
-  // _showActionSheet = () => {
-  //   ActionSheetIOS.showActionSheetWithOptions({
-  //     options: ['no passage', 'danger', 'help', 'medical facility', 'fire', 'cancel'],
-  //     cancelButtonIndex: 5,
-  //     title: "Pin Type",
-  //     message: "Please Select A Type"
-  //   },
-  //     (buttonIndex) => {
-  //       if (buttonIndex === 0) {
-  //         this.props.screenProps._onChangeType("no_passage");
-  //       }
-  //       if (buttonIndex === 1) {
-  //         this.props.screenProps._onChangeType("danger");
-  //       }
-  //       if (buttonIndex === 2) {
-  //         this.props.screenProps._onChangeType("help");
-  //       }
-  //       if (buttonIndex === 3) {
-  //         this.props.screenProps._onChangeType("medical");
-  //       }
-  //       if (buttonIndex === 4) {
-  //         this.props.screenProps._onChangeType("fire");
-  //       }
-  //     })
-  // }
-
   sosImage = () => <Image source={sos} style={styles.pinButtonImage} />
   dangerImage = () => <Image source={danger} style={styles.pinButtonImage} />
   no_passageImage = () => <Image source={no_passage} style={styles.pinButtonImage} />
-  crosshairsImage = () => <Image source={crosshairs} style={styles.pinButtonImage} />
   fireImage = () => <Image source={fire} style={styles.pinButtonImage} />
   medicalImage = () => <Image source={medical} style={styles.pinButtonImage} />
 
@@ -74,7 +47,6 @@ export default class PinForm extends React.Component {
     { element: this.sosImage },
     { element: this.dangerImage },
     { element: this.no_passageImage },
-    { element: this.crosshairsImage },
     { element: this.fireImage },
     { element: this.medicalImage },
   ]
@@ -86,8 +58,8 @@ export default class PinForm extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.item}>
-          <FormLabel>Title</FormLabel>
+        <View style={styles.formItem}>
+          <FormLabel style={styles.formLabel}>Title</FormLabel>
           <FormInput containerStyle={styles.formInput}
             value={this.props.screenProps.newPin.title}
             onChangeText={this.props.screenProps._onChangeTitle}
@@ -127,9 +99,18 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "flex-start"
   },
-  item: {
+  formItem: {
+    fontFamily: 'lato-black',
     marginTop: 50,
     width: 350
+  },
+  formLabel: {
+    fontFamily: 'lato-black',
+  },
+  formInput: {
+    fontFamily: 'lato-black',
+    borderBottomWidth: 2,
+    borderBottomColor: "black"
   },
   createPinButton: {
     alignSelf: "center",
@@ -139,12 +120,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 106
   },
   createPinButtonText: {
+    fontFamily: 'lato-black',
     color: "#ECECE7",
     fontSize: 22
-  },
-  formInput: {
-    borderBottomWidth: 2,
-    borderBottomColor: "black"
   },
   pinButtonGroup: {
     height: 50
