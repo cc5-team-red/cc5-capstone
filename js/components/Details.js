@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView, View, Button, Image } from "react-native";
+import { StyleSheet, Text, ScrollView, View, Button, Image, TouchableOpacity } from "react-native";
 import { pinListener, upvotePin, downvotePin, commentPin } from "../firebase/helper"
 import PinComment from "./PinComment";
 import { Divider } from 'react-native-elements';
@@ -70,43 +70,50 @@ export default class Details extends React.Component {
 
   render() {
     return (
-      <View style={{flex:1}}>
-        <View style={{flex:2}}>
-          <View>
+      <View style={{flex: 1}}>
+        <View style={{flex: 2}}>
+          <View style={{flex: 1, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 10, paddingRight: 10, paddingTop: 10}}>
             {this._showVotes(this.state.id)}
             <Text>{`${this.state.hoursAgo >= 1 ? (`Last updated: ${this.state.hoursAgo} hours ago`)
             : (`Last updated: ${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
+            <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
-          <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
-          <View>
-            <Text>Is this still true?</Text>
-            <View style={{flex: 2, flexDirection: 'row', justifyContent: 'space-around'}}>
-              <View>
-                <Image
-                  style={styles.good}
-                  source={require('../assets/img/thumb.png')}
-                />
+            <View style={{flex: 2, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 10, paddingRight: 10}}>
+              <Text style={{marginBottom: 10}}>Is this still true?</Text>
+              <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around',}}>
+                <View style={{width: 50, height: 50}}>
+                  <TouchableOpacity
+                      disabled={this.state.voted} onPress={() => this._sendUpvote(this.state.id, this.state.votes)} >
+                      <Image
+                          style={styles.good}
+                          source={require('../assets/img/thumb.png')}
+                      />
+                  </TouchableOpacity>
+                </View>
+                <View style={{width: 50, height: 50}}>
+                  <TouchableOpacity
+                    disabled={this.state.voted} onPress={() => this._sendDownvote(this.state.id, this.state.votes)} >
+                    <Image
+                        style={styles.bad}
+                        source={require('../assets/img/thumb.png')}
+                    />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View>
-                <Image
-                  style={styles.bad}
-                  source={require('../assets/img/thumb.png')}
-                />
-              </View>
-            </View>
+            <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
-          <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
-          <Text>{`Details: ${this.state.details ? (this.state.details) : (`None`)}\n`}</Text>
-          <Text>{`Comments:`}</Text>
+          <View style={{flex: 1, paddingBottom: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 10}}>
+            <Text>{`Details: ${this.state.details ? (this.state.details) : (`None`)}\n`}</Text>
+            <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
+          </View>
         </View>
-        <View style={{flex:5}}>
+        <View style={{flex: 1, alignSelf: 'flex-start', paddingLeft: 10, paddingRight: 10}}>
+          <Text>{`Comments:`}</Text>
           <ScrollView>
             {this._showComments(this.state.id)}
           </ScrollView>
         </View>
-        <View style={{flex:3}}>
-          <Button title="Upvote" disabled={this.state.voted} onPress={() => this._sendUpvote(this.state.id, this.state.votes)} />
-          <Button title="Downvote" disabled={this.state.voted} onPress={() => this._sendDownvote(this.state.id, this.state.votes)} />
+        <View style={{flex: 2}}>
           <PinComment
             comment={this.state.comment}
             _handleChange={this._handleChange}
@@ -130,5 +137,8 @@ const styles = StyleSheet.create({
     transform: [
       { rotateX: '180deg' }
     ]
+  },
+  paddingCell: {
+    
   }
 });
