@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView, View, Button } from "react-native";
+import { StyleSheet, Text, ScrollView, View, Button, Image } from "react-native";
 import { pinListener, upvotePin, downvotePin, commentPin } from "../firebase/helper"
 import PinComment from "./PinComment";
+import { Divider } from 'react-native-elements';
 
 export default class Details extends React.Component {
   state = {
@@ -71,9 +72,30 @@ export default class Details extends React.Component {
     return (
       <View style={{flex:1}}>
         <View style={{flex:2}}>
-          {this._showVotes(this.state.id)}
-          <Text>{`Last Updated: ${this.state.hoursAgo >= 1 ? (`Updated ${this.state.hoursAgo} hours ago`)
-          : (`Updated ${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
+          <View>
+            {this._showVotes(this.state.id)}
+            <Text>{`${this.state.hoursAgo >= 1 ? (`Last updated: ${this.state.hoursAgo} hours ago`)
+            : (`Last updated: ${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
+          </View>
+          <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
+          <View >
+            <Text>Is this still true?</Text>
+            <View style={{flex: 2, flexDirection: 'row', justifyContent: 'space-around'}}>
+              <View>
+                <Image
+                  style={styles.good}
+                  source={require('../assets/img/thumb.png')}
+                />
+              </View>
+              <View>
+                <Image
+                  style={styles.bad}
+                  source={require('../assets/img/thumb.png')}
+                />
+              </View>
+            </View>
+          </View>
+          <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           <Text>{`Details: ${this.state.details ? (this.state.details) : (`None`)}\n`}</Text>
           <Text>{`Comments:`}</Text>
         </View>
@@ -96,3 +118,17 @@ export default class Details extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  good: {
+    width: 50,
+    height: 50
+  },
+  bad: {
+    width: 50,
+    height: 50,
+    transform: [
+      { rotateX: '180deg' }
+    ]
+  }
+});
