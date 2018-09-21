@@ -55,9 +55,15 @@ export default class Details extends React.Component {
     const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
     const comments = pins[0].comments;
     if (typeof comments === 'object') {
-      return Object.entries(comments).map(([key, value]) => (
-        <Text key={key}>{`\n${value.comment.comment}`}</Text>
-      ))
+      return Object.entries(comments).map(([key, value]) => {
+        const timestamp = new Date(value.timestamp);
+        const oneHour = (1000 * 60 * 60)
+        const now = new Date(Date.now())
+        const hoursAgo = ((now - timestamp) / oneHour);
+        return <Text key={key}>{`\n${value.comment.comment}\n ~${hoursAgo >= 1 ? (`Updated ${hoursAgo} hours ago`)
+        : (`Updated ${(hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
+      }
+      )
     }
   }
 
@@ -70,7 +76,7 @@ export default class Details extends React.Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <View style={{flex:2}}>
+        <View style={{flex:1}}>
           {this._showVotes(this.state.id)}
           <Text>{`Last Updated: ${this.state.hoursAgo >= 1 ? (`Updated ${this.state.hoursAgo} hours ago`)
           : (`Updated ${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
