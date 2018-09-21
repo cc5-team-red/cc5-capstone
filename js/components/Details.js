@@ -65,28 +65,29 @@ export default class Details extends React.Component {
   _showVotes = (id) => {
     const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
     const votes = pins[0].votes;
-    return <Text>{`Votes: ${votes}`}</Text>
+    return <Text>{`${votes}`}</Text>
   }
 
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{flex: 2}}>
-          <View style={{flex: 1, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 10, paddingRight: 10, paddingTop: 10}}>
-            {this._showVotes(this.state.id)}
-            <Text>{`${this.state.hoursAgo >= 1 ? (`Last updated: ${this.state.hoursAgo} hours ago`)
-            : (`Last updated: ${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
+        <View style={{flex: 3}}>
+          <View style={{flex: 1, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 20, paddingRight: 20, paddingTop: 10}}>
+            <Text style={{fontWeight: 'bold', marginBottom: 10}}>{`Votes:    `}<Text style={{fontWeight: 'normal', fontSize: 28}}>{this._showVotes(this.state.id)}</Text></Text>
+            <Text style={{marginBottom: 15, fontSize: 12, color: '#444444'}}>Last updated: {`${this.state.hoursAgo >= 1 ? (`${this.state.hoursAgo} hours ago`)
+            : (`${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}
+            </Text>
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
-            <View style={{flex: 2, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 10, paddingRight: 10}}>
-              <Text style={{marginBottom: 10}}>Is this still true?</Text>
+            <View style={{flex: 2, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 20, paddingRight: 20}}>
+              <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>Is this still true?</Text>
               <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around',}}>
                 <View style={{width: 50, height: 50}}>
                   <TouchableOpacity
                       disabled={this.state.voted} onPress={() => this._sendUpvote(this.state.id, this.state.votes)} >
                       <Image
-                          style={styles.good}
-                          source={require('../assets/img/thumb.png')}
+                        style={styles.good}
+                        source={require('../assets/img/thumb.png')}
                       />
                   </TouchableOpacity>
                 </View>
@@ -94,21 +95,21 @@ export default class Details extends React.Component {
                   <TouchableOpacity
                     disabled={this.state.voted} onPress={() => this._sendDownvote(this.state.id, this.state.votes)} >
                     <Image
-                        style={styles.bad}
-                        source={require('../assets/img/thumb.png')}
+                      style={styles.bad}
+                      source={require('../assets/img/thumb.png')}
                     />
                   </TouchableOpacity>
                 </View>
               </View>
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
-          <View style={{flex: 1, paddingBottom: 20, paddingLeft: 10, paddingRight: 10, paddingTop: 10}}>
+          <View style={{flex: 1, paddingBottom: 20, paddingLeft: 20, paddingRight: 20, paddingTop: 10}}>
             <Text>{`Details: ${this.state.details ? (this.state.details) : (`None`)}\n`}</Text>
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
         </View>
-        <View style={{flex: 1, alignSelf: 'flex-start', paddingLeft: 10, paddingRight: 10}}>
-          <Text>{`Comments:`}</Text>
+        <View style={{flex: 1, alignSelf: 'flex-start', paddingLeft: 20, paddingRight: 20}}>
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>{`Comments:`}</Text>
           <ScrollView>
             {this._showComments(this.state.id)}
           </ScrollView>
