@@ -17,12 +17,20 @@ import {
   ButtonGroup,
 } from "react-native-elements";
 
-import sos from "../assets/markers/sos.png";
-import danger from "../assets/markers/danger.png";
-import no_passage from "../assets/markers/no_passage.png";
-import crosshairs from "../assets/markers/crosshairs_blue.png";
-import fire from "../assets/markers/fire.png";
-import medical from "../assets/markers/medical.png";
+import { markerImages } from "../util/markers";
+
+class BlackFormInput extends React.Component {
+  render() {
+    return (
+      <FormInput
+        containerStyle={styles.formInput}
+        fontFamily='lato-black'
+        value={this.props.value}
+        onChangeText={this.props.onChangeText}
+      />
+    )
+  }
+};
 
 
 export default class PinForm extends React.Component {
@@ -30,37 +38,21 @@ export default class PinForm extends React.Component {
     title: "Create Pin"
   };
 
-
   _onSubmit = (event) => {
     this.props.navigation.navigate("Home");
     this.props.screenProps._submitPinForm(event);
   }
 
-  sosImage = () => <Image source={sos} style={styles.pinButtonImage} />
-  dangerImage = () => <Image source={danger} style={styles.pinButtonImage} />
-  no_passageImage = () => <Image source={no_passage} style={styles.pinButtonImage} />
-  fireImage = () => <Image source={fire} style={styles.pinButtonImage} />
-  medicalImage = () => <Image source={medical} style={styles.pinButtonImage} />
-
-
-  buttons = [
-    { element: this.sosImage },
-    { element: this.dangerImage },
-    { element: this.no_passageImage },
-    { element: this.fireImage },
-    { element: this.medicalImage },
-  ]
+  buttons = markerImages.map(imageComponent => {
+    return { element: imageComponent };
+  })
 
   render() {
-    // if (!this.props.screenProps.newPin.type) {
-    //   this.props.screenProps._onChangeType("no_passage");
-    // }
-
     return (
       <View style={styles.container}>
-        <View style={styles.formItem}>
-          <FormLabel style={styles.formLabel}>Title</FormLabel>
-          <FormInput containerStyle={styles.formInput}
+        <View style={styles.formItems}>
+          <FormLabel fontFamily='lato-black'>Title</FormLabel>
+          <BlackFormInput
             value={this.props.screenProps.newPin.title}
             onChangeText={this.props.screenProps._onChangeTitle}
           />
@@ -70,7 +62,7 @@ export default class PinForm extends React.Component {
             </FormValidationMessage>
           )}
 
-          <FormLabel>Type</FormLabel>
+          <FormLabel fontFamily='lato-black'>Type</FormLabel>
           <ButtonGroup
             onPress={this.props.screenProps._onChangeTypeIndex}
             selectedIndex={this.props.screenProps.newPin.typeIndex}
@@ -78,12 +70,12 @@ export default class PinForm extends React.Component {
             containerStyle={styles.pinButtonGroup}
           />
 
-          <FormLabel>Details</FormLabel>
-          <FormInput containerStyle={styles.formInput}
-            value={this.props.screenProps.newPin.details}
-            onChangeText={this.props.screenProps._onChangeDetails} />
-          <Text />
+          <FormLabel fontFamily='lato-black'>Details</FormLabel>
 
+          <BlackFormInput
+            value={this.props.screenProps.newPin["details"]}
+            onChangeText={this.props.screenProps._onChangeDetails}
+          />
           <TouchableOpacity style={styles.createPinButton} onPress={this._onSubmit}>
             <Text style={styles.createPinButtonText}>Create Pin</Text>
           </TouchableOpacity>
@@ -99,20 +91,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "flex-start"
   },
-  formItem: {
-    fontFamily: 'lato-black',
+  formItems: {
+    flex: 0.8,
     marginTop: 50,
-    width: 350
-  },
-  formLabel: {
-    fontFamily: 'lato-black',
   },
   formInput: {
-    fontFamily: 'lato-black',
     borderBottomWidth: 2,
     borderBottomColor: "black"
   },
   createPinButton: {
+    marginTop: 15,
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: "#005387",

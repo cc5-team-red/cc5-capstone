@@ -88,10 +88,10 @@ export default class App extends React.Component {
 
   async componentWillUnmount() {
     // TODO: finish all listeners, clean up all subscriptions
-    // await this._getLocation();
-    // await this._getUsers();
-    // await this._getPins();
-    // await this._getSketches();
+    // await this._stopLocation();
+    // await this._stopUsers();
+    // await this._stopPins();
+    // await this._stopSketches();
     this.setState({ ready: false });
     //BACKGROUND-GEOLOCATION CLEANUP
     BackgroundGeolocation.removeListeners();
