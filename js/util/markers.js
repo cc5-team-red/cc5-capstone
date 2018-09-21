@@ -8,11 +8,16 @@ import crosshairs from "../assets/markers/crosshairs_blue.png";
 import fire from "../assets/markers/fire.png";
 import medical from "../assets/markers/medical.png";
 
-export const markers = [
-  sos, danger, no_passage, fire, medical, crosshairs,
-]
+export const markers = {
+  sos: sos, 
+  danger: danger, 
+  no_passage: no_passage, 
+  fire: fire, 
+  medical: medical, 
+  crosshairs: crosshairs,
+}
 
-export const markerImages = markers.map(markerSrc => () => (
+export const markerImages = Object.values(markers).map(markerSrc => () => (
   <Image
     source={markerSrc}
     resizeMode="contain"

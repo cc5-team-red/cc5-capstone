@@ -15,6 +15,8 @@ import {
   sketchListener
 } from "./firebase/helper";
 
+import { markers } from "./util/markers";
+
 
 export default class App extends React.Component {
   state = {
@@ -143,9 +145,10 @@ export default class App extends React.Component {
   };
 
   _submitPinForm = () => {
+    const pinType = Object.keys(markers)[this.state.newPin.typeIndex];
     const pinObj = {
       title: this.state.newPin.title,
-      type: this.state.newPin.type,
+      type: pinType,
       userID: this.state.user_id,
       coordinate: {
         latitude: this.state.newPin.coordinate.latitude,
@@ -158,7 +161,6 @@ export default class App extends React.Component {
     }
     createPin(pinObj);
   };
-
 
   // MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {
@@ -249,24 +251,6 @@ export default class App extends React.Component {
 
     createSketch(this.state.user_id, strokes);
   }
-
-  _submitPinForm = () => {
-    const pinObj = {
-      title: this.state.newPin.title,
-      type: this.state.newPin.type,
-      userID: this.state.user_id,
-      coordinate: {
-        latitude: this.state.newPin.coordinate.latitude,
-        longitude: this.state.newPin.coordinate.longitude
-      }
-    };
-    // optional fields:
-    if (this.state.newPin.details && this.state.newPin.details.length > 0) {
-      pinObj.details = this.state.newPin.details;
-    }
-    createPin(pinObj);
-  };
-
 
   render() {
     if (!this.state.ready) {
