@@ -78,7 +78,7 @@ export default class Details extends React.Component {
             : (`Last updated: ${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
           </View>
           <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
-          <View >
+          <View>
             <Text>Is this still true?</Text>
             <View style={{flex: 2, flexDirection: 'row', justifyContent: 'space-around'}}>
               <View>
