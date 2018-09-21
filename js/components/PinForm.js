@@ -66,16 +66,17 @@ export default class PinForm extends React.Component {
           <ButtonGroup
             onPress={this.props.screenProps._onChangeTypeIndex}
             selectedIndex={this.props.screenProps.newPin.typeIndex}
+            selectedButtonStyle={styles.selectedpinButton}
             buttons={this.buttons}
             containerStyle={styles.pinButtonGroup}
           />
 
           <FormLabel fontFamily='lato-black'>Details</FormLabel>
-
           <BlackFormInput
             value={this.props.screenProps.newPin["details"]}
             onChangeText={this.props.screenProps._onChangeDetails}
           />
+
           <TouchableOpacity style={styles.createPinButton} onPress={this._onSubmit}>
             <Text style={styles.createPinButtonText}>Create Pin</Text>
           </TouchableOpacity>
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
   },
   formItems: {
     flex: 0.8,
-    marginTop: 50,
+    marginTop: 60,
   },
   formInput: {
     borderBottomWidth: 2,
@@ -113,9 +114,9 @@ const styles = StyleSheet.create({
     fontSize: 22
   },
   pinButtonGroup: {
-    height: 50
+    height: 60
   },
-  pinButtonImage: {
-    height: 50
+  selectedpinButton: {
+    backgroundColor: "#005387"
   }
 });

@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject
   },
   mapMarkerImage: {
+    resizeMode: "contain",
     height: 40,
     width: 40
   }
