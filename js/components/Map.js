@@ -9,13 +9,7 @@ import silverMapStyle from "../assets/mapStyles/silver.json";
 import darkMapStyle from "../assets/mapStyles/dark.json";
 import desaturatedSubtleMapStyle from "../assets/mapStyles/desaturatedSubtle.json";
 
-import sos from "../assets/markers/sos.png";
-import danger from "../assets/markers/danger.png";
-import no_passage from "../assets/markers/no_passage.png";
-import crosshairs from "../assets/markers/crosshairs_blue.png";
-import fire from "../assets/markers/fire.png";
-import medical from "../assets/markers/medical.png";
-import blue_user from "../assets/markers/blue_user.png";
+import { markers } from "../util/markers";
 
 export default class Map extends React.Component {
   _showMarkers = () => {
@@ -30,7 +24,7 @@ export default class Map extends React.Component {
         coordinate={pin.coordinate}
         title={pin.title}
         description={pin.hoursAgo >= 1 ? (`Updated ${pin.hoursAgo} hours ago | Votes: ${pin.votes}`)
-         : (`Updated ${(pin.hoursAgo*60).toFixed(0)} minutes ago | Votes: ${pin.votes}`)}
+          : (`Updated ${(pin.hoursAgo * 60).toFixed(0)} minutes ago | Votes: ${pin.votes}`)}
         opacity={pin.opacity}
         image={Platform.OS === "android" ? this._getImage(pin.type) : undefined}
         onCalloutPress={() => this.props._calloutPressed(pin.title, pin.id, pin.votes, pin.details, pin.hoursAgo)}
@@ -71,29 +65,17 @@ export default class Map extends React.Component {
           strokeColor={stroke.strokeColor}
           strokeWidth={stroke.strokeWidth}
           fillColor={`rgba(255,0,0,${sketch.opacity})`}
-          // userId={sketch.user_id}
+        // userId={sketch.user_id}
         />
       ))
     })
   }
 
   _getImage(pinType) {
-    switch (pinType) {
-      case "no_passage":
-        return no_passage;
-      case "danger":
-        return danger;
-      case "medical":
-        return medical;
-      case "fire":
-        return fire;
-      case "help":
-        return sos;
-      case "crosshairs":
-        return crosshairs;
-      case "user":
-        return blue_user;
-    }
+    const marker = Object.entries(markers)
+      .find(([key, value]) => key === pinType)
+    console.log(marker)
+    return marker[1];
   }
 
   render() {
@@ -132,6 +114,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject
   },
   mapMarkerImage: {
+    resizeMode: "contain",
     height: 40,
     width: 40
   }

@@ -15,6 +15,8 @@ import {
   sketchListener
 } from "./firebase/helper";
 
+import { markers } from "./util/markers";
+
 
 export default class App extends React.Component {
   state = {
@@ -88,10 +90,10 @@ export default class App extends React.Component {
 
   async componentWillUnmount() {
     // TODO: finish all listeners, clean up all subscriptions
-    // await this._getLocation();
-    // await this._getUsers();
-    // await this._getPins();
-    // await this._getSketches();
+    // await this._stopLocation();
+    // await this._stopUsers();
+    // await this._stopPins();
+    // await this._stopSketches();
     this.setState({ ready: false });
     //BACKGROUND-GEOLOCATION CLEANUP
     BackgroundGeolocation.removeListeners();
@@ -132,19 +134,21 @@ export default class App extends React.Component {
       }
     });
   };
-  _onChangeType = input => {
-    if (!input) return;
+
+  _onChangeTypeIndex = typeIndex => {
     this.setState({
       newPin: {
         ...this.state.newPin,
-        type: input
+        typeIndex: typeIndex
       }
     });
   };
+
   _submitPinForm = () => {
+    const pinType = Object.keys(markers)[this.state.newPin.typeIndex];
     const pinObj = {
       title: this.state.newPin.title,
-      type: this.state.newPin.type,
+      type: pinType,
       userID: this.state.user_id,
       coordinate: {
         latitude: this.state.newPin.coordinate.latitude,
@@ -157,7 +161,6 @@ export default class App extends React.Component {
     }
     createPin(pinObj);
   };
-
 
   // MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {
@@ -249,24 +252,6 @@ export default class App extends React.Component {
     createSketch(this.state.user_id, strokes);
   }
 
-  _submitPinForm = () => {
-    const pinObj = {
-      title: this.state.newPin.title,
-      type: this.state.newPin.type,
-      userID: this.state.user_id,
-      coordinate: {
-        latitude: this.state.newPin.coordinate.latitude,
-        longitude: this.state.newPin.coordinate.longitude
-      }
-    };
-    // optional fields:
-    if (this.state.newPin.details && this.state.newPin.details.length > 0) {
-      pinObj.details = this.state.newPin.details;
-    }
-    createPin(pinObj);
-  };
-
-
   render() {
     if (!this.state.ready) {
       console.log('loading....')
@@ -288,7 +273,7 @@ export default class App extends React.Component {
           _setNewCoordinate: this._setNewCoordinate,
           _onChangeTitle: this._onChangeTitle,
           _onChangeDetails: this._onChangeDetails,
-          _onChangeType: this._onChangeType,
+          _onChangeTypeIndex: this._onChangeTypeIndex,
           _submitPinForm: this._submitPinForm,
           _getSketchCanvasPaths: this._getSketchCanvasPaths,
           _toggleFollowsUserLocation: this._toggleFollowsUserLocation,
