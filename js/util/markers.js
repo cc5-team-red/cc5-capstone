@@ -20,7 +20,7 @@ export const markers = {
 
 export const markerImages = Object.entries(markers)
   .filter(([key, value]) => {
-    return (&& key !== "blue_user");
+    return (key !== "blue_user");
   })
   .map(([key, markerSrc]) => () => (
     <Image
