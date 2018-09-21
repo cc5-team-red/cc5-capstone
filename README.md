@@ -13,12 +13,25 @@ A real-time location sharing app for disasters
 - yarn
 - this repo `git clone https://github.com/cc5-team-red/zenni`
 
-## iOS Get Started
+## iOS Get Started (simulator)
 - **Prepare all requirements**
 - Additionally, install [XCode](https://developer.apple.com/xcode/), and [cocoapods](https://cocoapods.org/)
 - `yarn`
 - `yarn ios:install`
 - `yarn ios:start` to run the app in simulator.
+
+## iOS Get Started (Actual Device)
+- **Prepare all requirements**
+- Additionally, install [XCode](https://developer.apple.com/xcode/), and [cocoapods](https://cocoapods.org/)
+- `yarn`
+- `yarn ios:install`
+- `yarn global add ios-deploy`
+- plug in your iOS device.  
+  make sure you 'allow' the computer to access your phone.
+- `yarn ios:device`
+- a list of candidate device UUIDs will be displayed.  
+  choose one, and copy it.
+- `yarn ios:device CHOSEN_UUID`
 
 ## Android Get Started (unconfirmed)
 - **Prepare all requirements**

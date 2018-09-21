@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "ios-deploy": "^1.9.3",
     "jest": "^23.6.0",
     "jest-react-native": "^18.0.0",
     "react-test-renderer": "16.3.1"
@@ -13,7 +14,7 @@
     "test": "jest",
     "ios:install": "yarn install && pod install --project-directory=./ios/",
     "ios:start": "react-native run-ios --simulator=\"iPhone 7 Plus\"",
-    "ios:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" yarn ios:start",
+    "ios:device": "react-native run-ios --udid",
     "android": "react-native run-android"
   },
   "jest": {
@@ -26,7 +27,6 @@
   },
   "dependencies": {
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
-    "create-react-native-app": "^1.0.0",
     "firebase": "^5.4.2",
     "react": "16.3.1",
     "react-native": "~0.55.2",
