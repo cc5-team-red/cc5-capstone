@@ -22,6 +22,9 @@ export default class App extends React.Component {
   state = {
     ready: false,
     user_id: null,
+    user: {
+      name: null
+    },
     location: {
       coords: {
         latitude: 37,
@@ -118,19 +121,19 @@ export default class App extends React.Component {
 
 
   // PINFORM HELPER FUNCTIONS
-  _onChangeTitle = input => {
+  _onChangeTitle = title => {
     this.setState({
       newPin: {
         ...this.state.newPin,
-        title: input
+        title
       }
     });
   };
-  _onChangeDetails = input => {
+  _onChangeDetails = details => {
     this.setState({
       newPin: {
         ...this.state.newPin,
-        details: input
+        details
       }
     });
   };
@@ -139,10 +142,20 @@ export default class App extends React.Component {
     this.setState({
       newPin: {
         ...this.state.newPin,
-        typeIndex: typeIndex
+        typeIndex
       }
     });
   };
+
+  _onChangeUserName = name => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        name
+      }
+    });
+  };
+
 
   _submitPinForm = () => {
     const pinType = Object.keys(markers)[this.state.newPin.typeIndex];
@@ -161,6 +174,13 @@ export default class App extends React.Component {
     }
     createPin(pinObj);
   };
+
+  _submitUserSettings = () => {
+    const user = {
+      name: this.state.name
+    }
+    updateUserSettings(this.state.user_id, user);
+  }
 
   // MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {
@@ -277,6 +297,7 @@ export default class App extends React.Component {
           _submitPinForm: this._submitPinForm,
           _getSketchCanvasPaths: this._getSketchCanvasPaths,
           _toggleFollowsUserLocation: this._toggleFollowsUserLocation,
+          _onChangeUserName: this._onChangeUserName,
           ...this.state
         }}
       />

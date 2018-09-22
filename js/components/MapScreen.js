@@ -11,6 +11,13 @@ export default class MapScreen extends React.Component {
     header: null,
   };
 
+  // async componentDidMount() {
+  //   if (this.props.screenProps.user.name === null) {
+  //     console.log('user.name null!')
+  //     this.props.navigation.navigate("UserSettingsScreen");
+  //   }
+  // }
+
   _onLongPress = (e) => {
     this.props.navigation.navigate("PinForm");
     this.props.screenProps._setNewCoordinate(e);
@@ -23,6 +30,10 @@ export default class MapScreen extends React.Component {
   _drawPress = async () => {
     await this.props.screenProps._getSnapshot();
     this.props.navigation.navigate("Draw");
+  }
+
+  _goToUserSettings = () => {
+    this.props.navigation.navigate("UserSettingsScreen");
   }
 
   render() {
@@ -52,7 +63,7 @@ export default class MapScreen extends React.Component {
         <Icon
           reverse
           name='my-location'
-          color= {this.props.screenProps.followsUserLocation ? '#005387' : '#ECECE7'}
+          color={this.props.screenProps.followsUserLocation ? '#005387' : '#ECECE7'}
           reverseColor={this.props.screenProps.followsUserLocation ? undefined : '#005387'}
           onPress={this.props.screenProps._toggleFollowsUserLocation}
         />
@@ -61,6 +72,12 @@ export default class MapScreen extends React.Component {
           name='brush'
           color='#005387'
           onPress={this._drawPress}
+          style={styles.drawIcon}
+        />
+        <Icon
+          reverse
+          name='add'
+          onPress={this._goToUserSettings}
           style={styles.drawIcon}
         />
       </View>
