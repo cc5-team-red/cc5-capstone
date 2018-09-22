@@ -71,9 +71,9 @@ export default class Details extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
-        <View style={{flex: 3}}>
+        <View style={{flex: 5}}>
           <View style={{flex: 1, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 20, paddingRight: 20, paddingTop: 10}}>
-            <Text style={{fontWeight: 'bold', marginBottom: 10}}>{`Votes:    `}<Text style={{fontWeight: 'normal', fontSize: 28}}>{this._showVotes(this.state.id)}</Text></Text>
+            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>{`Votes:    `}<Text style={{fontWeight: 'normal', fontSize: 28}}>{this._showVotes(this.state.id)}</Text></Text>
             <Text style={{marginBottom: 15, fontSize: 12, color: '#444444'}}>Last updated: {`${this.state.hoursAgo >= 1 ? (`${this.state.hoursAgo} hours ago`)
             : (`${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}
             </Text>
@@ -101,20 +101,24 @@ export default class Details extends React.Component {
                   </TouchableOpacity>
                 </View>
               </View>
-            <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
+            <Divider style={{ height: 1, backgroundColor: '#a7bbcd', marginBottom: -10 }} />
           </View>
-          <View style={{flex: 1, paddingBottom: 20, paddingLeft: 20, paddingRight: 20, paddingTop: 10}}>
-            <Text>{`Details: ${this.state.details ? (this.state.details) : (`None`)}\n`}</Text>
+          <View style={{flex: 2, paddingBottom: 20, paddingLeft: 20, paddingRight: 20, paddingTop: 10}}>
+            <Text style={{fontWeight: 'normal'}}><Text style={{fontSize: 20, fontWeight: 'bold'}}>Details:</Text>{` ${this.state.details ? (this.state.details) : (` None`)}\n`}</Text>
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
         </View>
-        <View style={{flex: 1, alignSelf: 'flex-start', paddingLeft: 20, paddingRight: 20}}>
-          <Text style={{fontWeight: 'bold', fontSize: 20}}>{`Comments:`}</Text>
-          <ScrollView>
-            {this._showComments(this.state.id)}
-          </ScrollView>
+        <View style={{flex: 3, alignSelf: 'flex-start', paddingLeft: 20, paddingRight: 20}}>
+          <View style={{flex: 2, marginTop: -20, marginBottom: -20}}>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>{`Comments:`}</Text>
+          </View>
+          <View style={{flex: 8}}>
+            <ScrollView>
+              {this._showComments(this.state.id)}
+            </ScrollView>
+          </View>
         </View>
-        <View style={{flex: 2}}>
+        <View style={{flex: 3}}>
           <PinComment
             comment={this.state.comment}
             _handleChange={this._handleChange}
