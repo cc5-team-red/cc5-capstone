@@ -27,7 +27,8 @@ export const markerImages = Object.entries(markers)
       source={markerSrc}
       style={{
         height: 40,
-        width: 40
+        width: 40,
+        resizeMode: 'contain'
       }}
     />
   )
