@@ -57,9 +57,26 @@ export default class Details extends React.Component {
     const comments = pins[0].comments;
     if (typeof comments === 'object') {
       return Object.entries(comments).map(([key, value]) => (
-        <Text key={key}>{`\n${value.comment.comment}`}</Text>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+          <Image
+            style={styles.icon}
+            source={require('../assets/img/personIcon.png')}
+          />
+          <View style={{flex: 0, flexShrink: 1}}><Text key={key}>{`\n${value.comment.comment}`}</Text></View>
+        </View>
       ))
     }
+  }
+
+  _showToast = () => {
+    
+    return (
+      <View >
+        <View style={styles.toastPanel}>
+          <Text style={{textAlign: 'center', color: 'white'}}>Your vote was submitted</Text>
+        </View>
+      </View>
+    )
   }
 
   _showVotes = (id) => {
@@ -73,7 +90,7 @@ export default class Details extends React.Component {
       <View style={{flex: 1}}>
         <View style={{flex: 5}}>
           <View style={{flex: 1, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 20, paddingRight: 20, paddingTop: 10}}>
-            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>{`Votes:    `}<Text style={{fontWeight: 'normal', fontSize: 28}}>{this._showVotes(this.state.id)}</Text></Text>
+            <Text style={{fontWeight: 'bold', fontSize: 20, marginBottom: 10}}>{`Votes    `}<Text style={{fontWeight: 'normal', fontSize: 28}}>{this._showVotes(this.state.id)}</Text></Text>
             <Text style={{marginBottom: 15, fontSize: 12, color: '#444444'}}>Last updated: {`${this.state.hoursAgo >= 1 ? (`${this.state.hoursAgo} hours ago`)
             : (`${(this.state.hoursAgo*60).toFixed(0)} minutes ago`)}`}
             </Text>
@@ -103,14 +120,27 @@ export default class Details extends React.Component {
               </View>
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd', marginBottom: -10 }} />
           </View>
-          <View style={{flex: 2, paddingBottom: 20, paddingLeft: 20, paddingRight: 20, paddingTop: 10}}>
-            <Text style={{fontWeight: 'normal'}}><Text style={{fontSize: 20, fontWeight: 'bold'}}>Details:</Text>{` ${this.state.details ? (this.state.details) : (` None`)}\n`}</Text>
+          <View style={{flex: 2, flexWrap: 'wrap', paddingBottom: 5, paddingLeft: 20, paddingRight: 20, paddingTop: 0}}>
+            {/* <Text style={{fontWeight: 'normal'}}>
+              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Details:</Text>
+            </Text> */}
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <Image
+                style={styles.icon}
+                source={require('../assets/img/informationIcon.png')}
+              />
+              <ScrollView style={{marginTop: 15, flexShrink: 1}}>
+                <Text style={{textWrap: 'balance'}}>
+                  {`${this.state.details ? (this.state.details) : (` None`)}\n`}
+                </Text>
+              </ScrollView>
+            </View>
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
         </View>
         <View style={{flex: 3, alignSelf: 'flex-start', paddingLeft: 20, paddingRight: 20}}>
-          <View style={{flex: 2, marginTop: -20, marginBottom: -20}}>
-            <Text style={{fontWeight: 'bold', fontSize: 20}}>{`Comments:`}</Text>
+          <View style={{flex: 2, marginTop: 5, marginBottom: -20}}>
+            <Text style={{fontWeight: 'bold', fontSize: 20}}>{`Comments`}</Text>
           </View>
           <View style={{flex: 8}}>
             <ScrollView>
@@ -143,7 +173,22 @@ const styles = StyleSheet.create({
       { rotateX: '180deg' }
     ]
   },
-  paddingCell: {
-    
+  icon: {
+    width: 30,
+    height: 30,
+    marginRight: 10,
+    marginTop: 18
+  },
+  toastPanel: {
+    position: 'absolute',
+    top: 10,
+    width: '100%',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    fontSize: 14,
+    borderRadius: 3,
+    backgroundColor: '#8EB8FF',
   }
 });
