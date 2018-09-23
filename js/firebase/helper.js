@@ -102,7 +102,8 @@ function commentPin(userId, pinId, comment) {
   firebase
     .database()
     .ref("pins/" + pinId + "/comments")
-    .push({ comment, userId });
+    .push({ comment, userId, timestamp: firebase.database.ServerValue.TIMESTAMP });
+    //change userId to saved username (this.state.username??) if implemented
 }
 
 function pinListener(callback) {

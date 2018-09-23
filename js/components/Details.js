@@ -75,6 +75,15 @@ export default class Details extends React.Component {
           <View style={{flex: 0, flexShrink: 1}}><Text key={key}>{`\n${value.comment.comment}`}</Text></View>
         </View>
       ))
+      return Object.entries(comments).map(([key, value]) => {
+        const timestamp = new Date(value.timestamp);
+        const oneHour = (1000 * 60 * 60)
+        const now = new Date(Date.now())
+        const hoursAgo = ((now - timestamp) / oneHour);
+        return <Text key={key}>{`\n${value.comment.comment}\n ~${hoursAgo >= 1 ? (`Updated ${hoursAgo} hours ago`)
+        : (`Updated ${(hoursAgo*60).toFixed(0)} minutes ago`)}`}</Text>
+      }
+      )
     }
   }
 
