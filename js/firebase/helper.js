@@ -106,6 +106,13 @@ function commentPin(userId, pinId, comment) {
     //change userId to saved username (this.state.username??) if implemented
 }
 
+function deletePin(pinId) {
+  firebase
+    .database()
+    .ref("pins/" + pinId)
+    .remove()
+}
+
 function pinListener(callback) {
   return firebase
     .database()
@@ -140,8 +147,6 @@ function pinListener(callback) {
 }
 
 function createSketch(user_id, ...strokes) {
-  console.log('createSketch()');
-  console.log({ ...strokes, updated: firebase.database.ServerValue.TIMESTAMP });
   firebase
     .database()
     .ref("sketches/")
@@ -183,4 +188,4 @@ function sketchListener(callback) {
     })
 }
 
-export { createUser, updateUser, userListener, createPin, pinListener, upvotePin, downvotePin, commentPin, createSketch, sketchListener };
+export { createUser, updateUser, userListener, createPin, pinListener, upvotePin, downvotePin, commentPin, deletePin, createSketch, sketchListener };
