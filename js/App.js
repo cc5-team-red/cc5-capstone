@@ -8,6 +8,7 @@ import StackNavigator from './components/StackNavigator.js'
 import {
   createPin,
   pinListener,
+  deletePin,
   createUser,
   updateUser,
   userListener,
@@ -162,6 +163,12 @@ export default class App extends React.Component {
     createPin(pinObj);
   };
 
+  // DELETE PIN FUNCTION
+  _deletePin = (pid) => {
+    console.log("deleting pin");
+    deletePin(pid);
+  }
+
   // MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {
     this.map = map;
@@ -277,6 +284,7 @@ export default class App extends React.Component {
           _submitPinForm: this._submitPinForm,
           _getSketchCanvasPaths: this._getSketchCanvasPaths,
           _toggleFollowsUserLocation: this._toggleFollowsUserLocation,
+          _deletePin: this._deletePin,
           ...this.state
         }}
       />
