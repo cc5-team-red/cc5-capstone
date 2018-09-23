@@ -3,6 +3,7 @@ import { StyleSheet, Text, ScrollView, View, Button, Image, TouchableOpacity } f
 import { pinListener, upvotePin, downvotePin, commentPin } from "../firebase/helper"
 import PinComment from "./PinComment";
 import { Divider } from 'react-native-elements';
+import { getImageSource } from '../util/markers';
 
 export default class Details extends React.Component {
   state = {
@@ -13,6 +14,7 @@ export default class Details extends React.Component {
     votes: this.props.navigation.getParam("votes"),
     hoursAgo: this.props.navigation.getParam("hoursAgo"),
     details: this.props.navigation.getParam("details"),
+    type: this.props.navigation.getParam("type")
   }
 
   static navigationOptions = ({navigation}) => ({
@@ -20,7 +22,7 @@ export default class Details extends React.Component {
     headerTitle: 
       <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>    
         <Image
-          source={require('../assets/img/thumb.png')}
+          source={getImageSource(navigation.state.params.type)}
           style={{ width: 30, height: 30, marginRight: 10}}
         />
         <Text style={{top: 10}}>{navigation.state.params.title}</Text>
