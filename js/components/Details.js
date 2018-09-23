@@ -87,17 +87,6 @@ export default class Details extends React.Component {
     }
   }
 
-  _showToast = () => {
-    
-    return (
-      <View >
-        <View style={styles.toastPanel}>
-          <Text style={{textAlign: 'center', color: 'white'}}>Your vote was submitted</Text>
-        </View>
-      </View>
-    )
-  }
-
   _showVotes = (id) => {
     const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
     const votes = pins[0].votes;
@@ -120,16 +109,20 @@ export default class Details extends React.Component {
               <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-around',}}>
                 <View style={{width: 50, height: 50}}>
                   <TouchableOpacity
-                      disabled={this.state.voted} onPress={() => this._sendUpvote(this.state.id, this.state.votes)} >
-                      <Image
-                        style={styles.good}
-                        source={require('../assets/img/thumb.png')}
-                      />
+                    disabled={this.state.voted} onPress={() => {
+                      this._sendUpvote(this.state.id, this.state.votes);
+                    }}>
+                    <Image
+                      style={styles.good}
+                      source={require('../assets/img/thumb.png')}
+                    />
                   </TouchableOpacity>
                 </View>
                 <View style={{width: 50, height: 50}}>
                   <TouchableOpacity
-                    disabled={this.state.voted} onPress={() => this._sendDownvote(this.state.id, this.state.votes)} >
+                    disabled={this.state.voted} onPress={() => {
+                      this._sendDownvote(this.state.id, this.state.votes);
+                  }}>
                     <Image
                       style={styles.bad}
                       source={require('../assets/img/thumb.png')}
@@ -197,17 +190,5 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 10,
     marginTop: 18
-  },
-  toastPanel: {
-    position: 'absolute',
-    top: 10,
-    width: '100%',
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    fontSize: 14,
-    borderRadius: 3,
-    backgroundColor: '#8EB8FF',
   }
 });
