@@ -16,7 +16,15 @@ export default class Details extends React.Component {
   }
 
   static navigationOptions = ({navigation}) => ({
-    title: `${navigation.state.params.title}`,
+    // title: `${navigation.state.params.title}`,
+    headerTitle: 
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>    
+        <Image
+          source={require('../assets/img/thumb.png')}
+          style={{ width: 30, height: 30, marginRight: 10}}
+        />
+        <Text style={{top: 10}}>{navigation.state.params.title}</Text>
+      </View>
   });
 
   _handleChange = (input) => {
@@ -130,7 +138,7 @@ export default class Details extends React.Component {
                 source={require('../assets/img/informationIcon.png')}
               />
               <ScrollView style={{marginTop: 15, flexShrink: 1}}>
-                <Text style={{textWrap: 'balance'}}>
+                <Text>
                   {`${this.state.details ? (this.state.details) : (` None`)}\n`}
                 </Text>
               </ScrollView>
