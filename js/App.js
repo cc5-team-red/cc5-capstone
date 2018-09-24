@@ -1,3 +1,4 @@
+import { Promise } from 'bluebird';
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
 import DeviceInfo from 'react-native-device-info';
@@ -9,11 +10,12 @@ import {
   createPin,
   pinListener,
   createUser,
+  getUser,
   updateUser,
   userListener,
   createSketch,
   updateUserSettings,
-  sketchListener
+  sketchListener,
 } from "./firebase/helper";
 
 import { markers } from "./util/markers";
@@ -81,13 +83,16 @@ export default class App extends React.Component {
           "Geolocation will not work on Sketch in Android emulator. Try it on your device!"
       });
     } else {
-      await this._setupUser();
-      await this._getLocation();
-      await this._getUsers();
-      await this._getPins();
-      await this._getSketches();
+      await this._setupUser()
+        .then(() => {
+          this.setState({ ready: true });
+        })
+        .catch(err => ({ error: err }));
 
-      this.setState({ ready: true });
+      this._getLocation()
+      this._getUsers()
+      this._getPins()
+      this._getSketches()
     }
   }
 
@@ -107,6 +112,7 @@ export default class App extends React.Component {
   onLocation = (location) => {
     updateUser(this.state.user_id, location.coords.latitude, location.coords.longitude);
   }
+
   onError = (error) => {
     console.warn('- [event] location error ', error);
   }
@@ -115,14 +121,35 @@ export default class App extends React.Component {
   // HELPER FUNCTIONS
   _setupUser = async () => {
     const user_id = await DeviceInfo.getUniqueID();
-    console.log(`user_id`, user_id)
-    createUser(user_id, 2, 2, { name: "default" })
-    this.setState({ user_id })
-  }
+    const user = await getUser(user_id);
 
-  _updateUserSettings = (user_id, user) => {
+    this.setState({
+      user_id,
+      user: {
+        ...this.state.user,
+        ...user
+      }
+    });
+    if (user === null) {
+      console.log('new user, creating user...')
+      const { latitude, longitude } = this.state.location.coords;
+      return await createUser(user_id, latitude, longitude);
+    } else {
+      console.log(`preexisting user: ${user_id, user}`)
+      return;
+    }
+  };
+
+
+  _updateUserSettings = async (user_id, user) => {
     updateUserSettings(user_id, user);
-    // TODO: update state if we want to allow lazy pushing in areas with questionable data connectivity 
+    return this.setState({
+      user_id,
+      user: {
+        ...this.state.user,
+        ...user
+      }
+    });
   }
 
   // PINFORM HELPER FUNCTIONS
@@ -188,17 +215,17 @@ export default class App extends React.Component {
     });
   };
   _getPins = async () => {
-    await pinListener(pins => {
+    return await pinListener(pins => {
       this.setState({ pins });
     });
   };
   _getUsers = async () => {
-    await userListener(this.state.user_id, users => {
+    return await userListener(this.state.user_id, users => {
       this.setState({ users });
     });
   };
   _getSketches = async () => {
-    await sketchListener(sketches => {
+    return await sketchListener(sketches => {
       this.setState({ sketches })
     })
   }
@@ -211,13 +238,15 @@ export default class App extends React.Component {
       timeInterval: 2000
     });
 
-    await navigator.geolocation.watchPosition((location) => {
-      updateUser(
-        this.state.user_id,
-        location.coords.latitude,
-        location.coords.longitude
-      );
+    return await navigator.geolocation.watchPosition((location) => {
       this.setState({ location });
+      if (this.state.user_id) {
+        updateUser(
+          this.state.user_id,
+          location.coords.latitude,
+          location.coords.longitude
+        );
+      }
     },
       (error) => {
         console.log(error)

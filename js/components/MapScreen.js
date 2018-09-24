@@ -13,13 +13,10 @@ export default class MapScreen extends React.Component {
 
   async componentDidMount() {
     if (
-      this.props.screenProps.user.name === null ||
-      this.props.screenProps.user.name === "default"
+        this.props.screenProps.ready === true && 
+        this.props.screenProps.user.name === null
     ) {
-      this.props.navigation.navigate("UserSettingsScreen", {
-        user_id: this.props.screenProps.user_id,
-        user: this.props.screenProps.user
-      });  
+      this.props.navigation.navigate("UserSettingsScreen");
     }
   }
 

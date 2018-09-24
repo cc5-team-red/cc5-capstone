@@ -1,10 +1,12 @@
 import { firebase } from "./firebase";
 
-function createUser(userId,
+const createUser = async (
+  userId,
   latitude,
   longitude,
-  ...params) {
-  firebase
+  ...params
+) => {
+  return await firebase
     .database()
     .ref("users/" + userId)
     .set({
@@ -17,22 +19,12 @@ function createUser(userId,
     });
 }
 
-function getUser(userId,
-  callback) {
-  firebase
+const getUser = async (userId) => {
+  return firebase
     .database()
     .ref("users/" + userId + "/0")
-    .once("value",
-      (snapshot) => {
-        const userSettings = snapshot.val();
-        console.log(`userSettings`,
-          userSettings);
-        callback(userSettings);
-      })
-    .catch((error) => {
-      console.log('error',
-        error);
-    })
+    .once("value")
+    .then((snapshot) => snapshot.val());
 }
 
 function updateUser(userId,
@@ -50,16 +42,13 @@ function updateUser(userId,
     .update(updates);
 }
 
-function updateUserSettings(user_id, user) {
+const updateUserSettings = async (user_id, user) => {
   const updates = {};
-  updates["users/" + user_id + "/0"] = {
-    ...user
-  }
-  console.log(updates);
+  updates["users/" + user_id + "/0"] = { ...user };
   firebase
     .database()
     .ref()
-    .update(updates)
+    .update(updates);
 }
 
 function userListener(my_user_id,

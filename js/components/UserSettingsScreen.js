@@ -35,21 +35,18 @@ export default class UserSettingsScreen extends React.Component {
   };
 
   state = {
-    user_id: null,
     user: {
       name: null
     },
   }
 
   componentDidMount = () => {
-    user_id = this.props.navigation.getParam("user_id");
-    user = this.props.navigation.getParam("user");
-    this.setState({ user_id, user })
+    this.setState({ user: this.props.screenProps.user })
   }
 
-  _onSubmit = (event) => {
+  _onSubmit = async (event) => {
+    await this.props.screenProps._updateUserSettings(this.props.screenProps.user_id, this.state.user);
     this.props.navigation.navigate("Home");
-    this.props.screenProps._updateUserSettings(this.state.user_id, this.state.user);
   }
 
   _onChangeUserName = name => {
