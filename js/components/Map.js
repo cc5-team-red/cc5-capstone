@@ -74,7 +74,6 @@ export default class Map extends React.Component {
   _getImage(pinType) {
     const marker = Object.entries(markers)
       .find(([key, value]) => key === pinType)
-      console.log(marker)
     return marker[1];
   }
 

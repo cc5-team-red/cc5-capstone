@@ -74,10 +74,10 @@ export default class Details extends React.Component {
   }
 
   _showComments = (id) => {
-    const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
+    const pin = this.props.screenProps.pins.filter(pin => pin.id === id);
 
-    const comments = pins[0].comments;
-    if (pins.length > 0) {
+    if (pin.length > 0) {
+    const comments = pin[0].comments;
       if (typeof comments === 'object') {
         return Object.entries(comments).map(([key, value]) => {
           const timestamp = new Date(value.timestamp);
@@ -105,9 +105,11 @@ export default class Details extends React.Component {
   }
 
   _showVotes = (id) => {
-    const pins = this.props.screenProps.pins.filter(pin => pin.id === id);
-    const votes = pins[0].votes;
-    return (<Text>{`${votes}`}</Text>)
+    const pin = this.props.screenProps.pins.filter(pin => pin.id === id);
+    if(pin.length > 0){
+      const votes = pin[0].votes;
+      return (<Text>{`${votes}`}</Text>)
+    }
   }
 
   render() {
