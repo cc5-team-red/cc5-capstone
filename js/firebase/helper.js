@@ -1,5 +1,9 @@
 import { firebase } from "./firebase";
 
+const EXPIRATION = 12;
+// Time pin is displayed
+// Affects opacity and pin auto-deletion
+
 function createUser(userId, latitude, longitude, ...params) {
   firebase
     .database()
@@ -47,7 +51,7 @@ function userListener(my_user_id, callback) {
             name: value["0"].name,
             latitude: value.update.latitude,
             longitude: value.update.longitude,
-            opacity: 1 - hoursAgo,
+            opacity: (EXPIRATION - hoursAgo)/EXPIRATION,
             timestamp,
           };
         })
@@ -86,9 +90,6 @@ function upvotePin(pinId, result) {
 
 function downvotePin(pinId, result) {
   const updates = {};
-  updates["/updated"] = {
-    timestamp: firebase.database.ServerValue.TIMESTAMP
-  }
   updates["/votes"] = {
     count: result
   }
@@ -122,7 +123,18 @@ function pinListener(callback) {
       if (!results || !(typeof results === "object")) return callback([]);
 
       const pins = Object.entries(results)
-        .filter(([key, value]) => (value["0"] && value["0"].coordinate)) // prevent borken data from breaking app
+        .filter(
+          ([key, value]) => {
+            const timestamp = new Date(value.updated.timestamp);
+            const oneHour = (1000 * 60 * 60)
+            const now = new Date(Date.now())
+            const hoursAgo = ((now - timestamp) / oneHour)
+            if(hoursAgo > EXPIRATION){
+              deletePin(key);
+            }
+            return (value["0"] && value["0"].coordinate && hoursAgo < EXPIRATION)
+          }
+        ) // prevent borken data from breaking app
         .map(([key, value]) => {
           const timestamp = new Date(value.updated.timestamp);
           const oneHour = (1000 * 60 * 60)
@@ -135,7 +147,7 @@ function pinListener(callback) {
             coordinate: value["0"].coordinate,
             type: value["0"].type,
             details: value["0"].details,
-            opacity: 1 - hoursAgo,
+            opacity: (EXPIRATION - hoursAgo)/EXPIRATION,
             timestamp,
             hoursAgo,
             votes: value.votes.count,
@@ -177,7 +189,7 @@ function sketchListener(callback) {
             key: key,
             user_id: value.userID,
             strokes: value["0"],
-            opacity: 1 - hoursAgo,
+            opacity: (EXPIRATION - hoursAgo)/EXPIRATION,
             timestamp,
             votes: value.votes.count,
             // TODO: title: value["0"].title,
