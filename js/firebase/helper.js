@@ -1,8 +1,13 @@
 import { firebase } from "./firebase";
 
 const EXPIRATION = 12;
-// Time pin is displayed
+// Time pin is displayed in hours
 // Affects opacity and pin auto-deletion
+// EASY HOUR CONVERSION TABLES:
+// 0.1 = 6 minutes
+// 0.01 = 36 seconds
+// 0.001 = 3.6 seconds
+
 
 function createUser(userId, latitude, longitude, ...params) {
   firebase
@@ -194,7 +199,7 @@ function sketchListener(callback) {
           if(hoursAgo > EXPIRATION){
             deleteSketch(key);
           }
-          return (value["0"] && value["0"].coordinate && hoursAgo < EXPIRATION)
+          return (value["0"] && value["0"][0].coordinates && hoursAgo < EXPIRATION)
         }) // prevent broken data from breaking app
         .map(([key, value]) => {
           const timestamp = new Date(value.updated.timestamp);
