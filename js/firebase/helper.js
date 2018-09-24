@@ -170,6 +170,13 @@ function createSketch(user_id, ...strokes) {
     });
 }
 
+function deleteSketch(sketchId) {
+  firebase
+    .database()
+    .ref("sketches/" + sketchId)
+    .remove()
+}
+
 function sketchListener(callback) {
   return firebase
     .database()
@@ -179,7 +186,16 @@ function sketchListener(callback) {
       if (!results || !(typeof results === "object")) return callback([]);
 
       const sketches = Object.entries(results)
-        .filter(([key, value]) => (value["0"] && value["0"][0].coordinates)) // prevent broken data from breaking app
+        .filter(([key, value]) => {
+          const timestamp = new Date(value.updated.timestamp);
+          const oneHour = (1000 * 60 * 60)
+          const now = new Date(Date.now())
+          const hoursAgo = ((now - timestamp) / oneHour)
+          if(hoursAgo > EXPIRATION){
+            deleteSketch(key);
+          }
+          return (value["0"] && value["0"].coordinate && hoursAgo < EXPIRATION)
+        }) // prevent broken data from breaking app
         .map(([key, value]) => {
           const timestamp = new Date(value.updated.timestamp);
           const oneHour = (1000 * 60 * 60)
