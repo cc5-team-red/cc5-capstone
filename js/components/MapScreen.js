@@ -16,8 +16,8 @@ export default class MapScreen extends React.Component {
     this.props.screenProps._setNewCoordinate(e);
   }
 
-  _calloutPressed = (title, id, votes, details, hoursAgo, type) => {
-    this.props.navigation.navigate("Details", { title, id, votes, details, hoursAgo, type });
+  _calloutPressed = (title, id, votes, details, hoursAgo, type, creator) => {
+    this.props.navigation.navigate("Details", { title, id, votes, details, hoursAgo, type, creator });
   }
 
   _drawPress = async () => {

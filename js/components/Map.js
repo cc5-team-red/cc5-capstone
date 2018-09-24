@@ -27,7 +27,7 @@ export default class Map extends React.Component {
           : (`Updated ${(pin.hoursAgo * 60).toFixed(0)} minutes ago | Votes: ${pin.votes}`)}
         opacity={pin.opacity}
         image={Platform.OS === "android" ? this._getImage(pin.type) : undefined}
-        onCalloutPress={() => this.props._calloutPressed(pin.title, pin.id, pin.votes, pin.details, pin.hoursAgo, pin.type)}
+        onCalloutPress={() => this.props._calloutPressed(pin.title, pin.id, pin.votes, pin.details, pin.hoursAgo, pin.type, pin.user_id)}
       >
         {Platform.OS === "ios" ? (
           <Image
@@ -74,7 +74,7 @@ export default class Map extends React.Component {
   _getImage(pinType) {
     const marker = Object.entries(markers)
       .find(([key, value]) => key === pinType)
-    console.log(marker)
+      console.log(marker)
     return marker[1];
   }
 
