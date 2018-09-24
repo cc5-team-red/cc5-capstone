@@ -1,5 +1,14 @@
 import { firebase } from "./firebase";
 
+const EXPIRATION = 12;
+// Time pin is displayed in hours
+// Affects opacity and pin auto-deletion
+// EASY HOUR CONVERSION TABLES:
+// 0.1 = 6 minutes
+// 0.01 = 36 seconds
+// 0.001 = 3.6 seconds
+
+
 const createUser = async (
   userId,
   latitude,
@@ -56,35 +65,32 @@ function userListener(my_user_id,
   return firebase
     .database()
     .ref("users/")
-    .on("value",
-      function (snapshot) {
-        const results = snapshot.val();
-        if (typeof results !== "object" || results === null) return callback([]);
+    .on("value", function (snapshot) {
+      const results = snapshot.val();
+      if (typeof results !== "object" || results === null) return callback([]);
 
-        const users = Object.entries(results)
-          .filter(([key,
-            value]) => (value["0"] && value["0"].name)) // prevent borken data from breaking app
-          .map(([key,
-            value]) => {
-            const timestamp = new Date(value.update.timestamp);
-            const oneHour = (1000 * 60 * 60)
-            const now = new Date(Date.now())
-            const hoursAgo = ((now - timestamp) / oneHour);
-            return {
-              user_id: key,
-              name: value["0"].name,
-              latitude: value.update.latitude,
-              longitude: value.update.longitude,
-              opacity: 1 - hoursAgo,
-              timestamp,
-            };
-          })
-          .filter(user => (
-            typeof user === "object" && user.user_id !== my_user_id // filter out myself
-          ))
+      const users = Object.entries(results)
+        .filter(([key, value]) => (value["0"] && value["0"].name)) // prevent broken data from breaking app
+        .map(([key, value]) => {
+          const timestamp = new Date(value.update.timestamp);
+          const oneHour = (1000 * 60 * 60)
+          const now = new Date(Date.now())
+          const hoursAgo = ((now - timestamp) / oneHour);
+          return {
+            user_id: key,
+            name: value["0"].name,
+            latitude: value.update.latitude,
+            longitude: value.update.longitude,
+            opacity: (EXPIRATION - hoursAgo) / EXPIRATION,
+            timestamp,
+          };
+        })
+        .filter(user => (
+          typeof user === "object" && user.user_id !== my_user_id // filter out myself
+        ))
 
-        callback(users);
-      });
+      callback(users);
+    });
 }
 
 function createPin(...params) {
@@ -116,9 +122,6 @@ function upvotePin(pinId,
 function downvotePin(pinId,
   result) {
   const updates = {};
-  updates["/updated"] = {
-    timestamp: firebase.database.ServerValue.TIMESTAMP
-  }
   updates["/votes"] = {
     count: result
   }
@@ -153,36 +156,43 @@ function pinListener(callback) {
   return firebase
     .database()
     .ref("pins/")
-    .on("value",
-      (snapshot) => {
-        const results = snapshot.val();
-        if (!results || !(typeof results === "object")) return callback([]);
+    .on("value", (snapshot) => {
+      const results = snapshot.val();
+      if (!results || !(typeof results === "object")) return callback([]);
 
-        const pins = Object.entries(results)
-          .filter(([key,
-            value]) => (value["0"] && value["0"].coordinate)) // prevent borken data from breaking app
-          .map(([key,
-            value]) => {
+      const pins = Object.entries(results)
+        .filter(([key, value]) => {
             const timestamp = new Date(value.updated.timestamp);
             const oneHour = (1000 * 60 * 60)
             const now = new Date(Date.now())
-            const hoursAgo = ((now - timestamp) / oneHour).toFixed(2);
-            return {
-              id: key,
-              user_id: value["0"].userID,
-              title: value["0"].title,
-              coordinate: value["0"].coordinate,
-              type: value["0"].type,
-              details: value["0"].details,
-              opacity: 1 - hoursAgo,
-              timestamp,
-              hoursAgo,
-              votes: value.votes.count,
-              comments: value.comments,
-            };
-          })
-        callback(pins);
-      })
+            const hoursAgo = ((now - timestamp) / oneHour)
+            if (hoursAgo > EXPIRATION) {
+              deletePin(key);
+            }
+            return (value["0"] && value["0"].coordinate && hoursAgo < EXPIRATION)
+          }
+        ) // prevent borken data from breaking app
+        .map(([key, value]) => {
+          const timestamp = new Date(value.updated.timestamp);
+          const oneHour = (1000 * 60 * 60)
+          const now = new Date(Date.now())
+          const hoursAgo = ((now - timestamp) / oneHour).toFixed(2);
+          return {
+            id: key,
+            user_id: value["0"].userID,
+            title: value["0"].title,
+            coordinate: value["0"].coordinate,
+            type: value["0"].type,
+            details: value["0"].details,
+            opacity: (EXPIRATION - hoursAgo) / EXPIRATION,
+            timestamp,
+            hoursAgo,
+            votes: value.votes.count,
+            comments: value.comments,
+          };
+        })
+      callback(pins);
+    })
 }
 
 function createSketch(user_id, ...strokes) {
@@ -202,37 +212,50 @@ function createSketch(user_id, ...strokes) {
     });
 }
 
+function deleteSketch(sketchId) {
+  firebase
+    .database()
+    .ref("sketches/" + sketchId)
+    .remove()
+}
+
 function sketchListener(callback) {
   return firebase
     .database()
     .ref("sketches/")
-    .on("value",
-      (snapshot) => {
-        const results = snapshot.val();
-        if (!results || !(typeof results === "object")) return callback([]);
+    .on("value", (snapshot) => {
+      const results = snapshot.val();
+      if (!results || !(typeof results === "object")) return callback([]);
 
-        const sketches = Object.entries(results)
-          .filter(([key,
-            value]) => (value["0"] && value["0"][0].coordinates)) // prevent broken data from breaking app
-          .map(([key,
-            value]) => {
-            const timestamp = new Date(value.updated.timestamp);
-            const oneHour = (1000 * 60 * 60)
-            const now = new Date(Date.now())
-            const hoursAgo = ((now - timestamp) / oneHour);
-            return {
-              key: key,
-              user_id: value.userID,
-              strokes: value["0"],
-              opacity: 1 - hoursAgo,
-              timestamp,
-              votes: value.votes.count,
-              // TODO: title: value["0"].title,
-              // TODO: comments: value.comments,
-            };
-          })
-        callback(sketches);
-      })
+      const sketches = Object.entries(results)
+        .filter(([key, value]) => {
+          const timestamp = new Date(value.updated.timestamp);
+          const oneHour = (1000 * 60 * 60)
+          const now = new Date(Date.now())
+          const hoursAgo = ((now - timestamp) / oneHour)
+          if(hoursAgo > EXPIRATION){
+            deleteSketch(key);
+          }
+          return (value["0"] && value["0"][0].coordinates && hoursAgo < EXPIRATION)
+        }) // prevent broken data from breaking app
+        .map(([key, value]) => {
+          const timestamp = new Date(value.updated.timestamp);
+          const oneHour = (1000 * 60 * 60)
+          const now = new Date(Date.now())
+          const hoursAgo = ((now - timestamp) / oneHour);
+          return {
+            key: key,
+            user_id: value.userID,
+            strokes: value["0"],
+            opacity: (EXPIRATION - hoursAgo)/EXPIRATION,
+            timestamp,
+            votes: value.votes.count,
+            // TODO: title: value["0"].title,
+            // TODO: comments: value.comments,
+          };
+        })
+      callback(sketches);
+    })
 }
 
 export {
