@@ -50,12 +50,16 @@ function updateUser(userId,
     .update(updates);
 }
 
-function updateUserSettings(user_id,
-  user) {
+function updateUserSettings(user_id, user) {
   const updates = {};
-  updates["users/" + userId + "/0"] = {
+  updates["users/" + user_id + "/0"] = {
     ...user
   }
+  console.log(updates);
+  firebase
+    .database()
+    .ref()
+    .update(updates)
 }
 
 function userListener(my_user_id,

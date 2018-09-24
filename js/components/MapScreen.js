@@ -11,12 +11,17 @@ export default class MapScreen extends React.Component {
     header: null,
   };
 
-  // async componentDidMount() {
-  //   if (this.props.screenProps.user.name === null) {
-  //     console.log('user.name null!')
-  //     this.props.navigation.navigate("UserSettingsScreen");
-  //   }
-  // }
+  async componentDidMount() {
+    if (
+      this.props.screenProps.user.name === null ||
+      this.props.screenProps.user.name === "default"
+    ) {
+      this.props.navigation.navigate("UserSettingsScreen", {
+        user_id: this.props.screenProps.user_id,
+        user: this.props.screenProps.user
+      });  
+    }
+  }
 
   _onLongPress = (e) => {
     this.props.navigation.navigate("PinForm");
@@ -30,10 +35,6 @@ export default class MapScreen extends React.Component {
   _drawPress = async () => {
     await this.props.screenProps._getSnapshot();
     this.props.navigation.navigate("Draw");
-  }
-
-  _goToUserSettings = () => {
-    this.props.navigation.navigate("UserSettingsScreen");
   }
 
   render() {

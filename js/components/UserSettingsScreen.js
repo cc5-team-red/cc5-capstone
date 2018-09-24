@@ -23,7 +23,7 @@ class BlackFormInput extends React.Component {
         containerStyle={styles.formInput}
         fontFamily='lato-black'
         value={this.props.value}
-        onChangeText={this.props._onChangeUserName}
+        onChangeText={this.props.onChangeText}
       />
     )
   }
@@ -34,10 +34,33 @@ export default class UserSettingsScreen extends React.Component {
     title: "User Settings"
   };
 
+  state = {
+    user_id: null,
+    user: {
+      name: null
+    },
+  }
+
+  componentDidMount = () => {
+    user_id = this.props.navigation.getParam("user_id");
+    user = this.props.navigation.getParam("user");
+    this.setState({ user_id, user })
+  }
+
   _onSubmit = (event) => {
     this.props.navigation.navigate("Home");
-    this.props.screenProps._submitPinForm(event);
+    this.props.screenProps._updateUserSettings(this.state.user_id, this.state.user);
   }
+
+  _onChangeUserName = name => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        name
+      }
+    });
+  };
+
 
   render() {
     return (
@@ -45,12 +68,12 @@ export default class UserSettingsScreen extends React.Component {
         <View style={styles.formItems}>
           <FormLabel fontFamily='lato-black'>Full Name</FormLabel>
           <BlackFormInput
-            value={this.props.screenProps.user.name}
-            onChangeText={this.props.screenProps._onChangeUserName("user.name")}
+            value={this.state.user.name}
+            onChangeText={this._onChangeUserName}
           />
-          {this.props.screenProps.user.name ? null : (
+          {this.state.user.name ? null : (
             <FormValidationMessage>
-              {"To help other zennin identify you, please enter your full name"}
+              {"To help other zennin identify you, \nplease enter your full name"}
             </FormValidationMessage>
           )}
 

@@ -12,6 +12,7 @@ import {
   updateUser,
   userListener,
   createSketch,
+  updateUserSettings,
   sketchListener
 } from "./firebase/helper";
 
@@ -118,11 +119,10 @@ export default class App extends React.Component {
     createUser(user_id, 2, 2, { name: "default" })
     this.setState({ user_id })
   }
-  _submitUserSettings = () => {
-    const user = {
-      name: this.state.name
-    }
-    updateUserSettings(this.state.user_id, user);
+
+  _updateUserSettings = (user_id, user) => {
+    updateUserSettings(user_id, user);
+    // TODO: update state if we want to allow lazy pushing in areas with questionable data connectivity 
   }
 
   // PINFORM HELPER FUNCTIONS
@@ -152,15 +152,6 @@ export default class App extends React.Component {
     });
   };
 
-  _onChangeUserName = name => {
-    this.setState({
-      user: {
-        ...this.state.user,
-        name
-      }
-    });
-  };
-
   _submitPinForm = () => {
     const pinType = Object.keys(markers)[this.state.newPin.typeIndex];
     const pinObj = {
@@ -178,8 +169,6 @@ export default class App extends React.Component {
     }
     createPin(pinObj);
   };
-
-
 
 
   // MAPSCREEN HELPER FUNCTIONS
@@ -298,6 +287,7 @@ export default class App extends React.Component {
           _getSketchCanvasPaths: this._getSketchCanvasPaths,
           _toggleFollowsUserLocation: this._toggleFollowsUserLocation,
           _onChangeUserName: this._onChangeUserName,
+          _updateUserSettings: this._updateUserSettings,
           ...this.state
         }}
       />
