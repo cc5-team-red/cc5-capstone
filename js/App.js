@@ -17,7 +17,6 @@ import {
 
 import { markers } from "./util/markers";
 
-
 export default class App extends React.Component {
   state = {
     ready: false,
@@ -102,6 +101,7 @@ export default class App extends React.Component {
     BackgroundGeolocation.removeListeners();
   }
 
+
   //BACKGROUND-GEOLOCATION FUNCTIONS
   onLocation = (location) => {
     updateUser(this.state.user_id, location.coords.latitude, location.coords.longitude);
@@ -110,7 +110,7 @@ export default class App extends React.Component {
     console.warn('- [event] location error ', error);
   }
 
-  // 
+
   // HELPER FUNCTIONS
   _setupUser = async () => {
     const user_id = await DeviceInfo.getUniqueID();
@@ -118,7 +118,12 @@ export default class App extends React.Component {
     createUser(user_id, 2, 2, { name: "default" })
     this.setState({ user_id })
   }
-
+  _submitUserSettings = () => {
+    const user = {
+      name: this.state.name
+    }
+    updateUserSettings(this.state.user_id, user);
+  }
 
   // PINFORM HELPER FUNCTIONS
   _onChangeTitle = title => {
@@ -156,7 +161,6 @@ export default class App extends React.Component {
     });
   };
 
-
   _submitPinForm = () => {
     const pinType = Object.keys(markers)[this.state.newPin.typeIndex];
     const pinObj = {
@@ -175,12 +179,8 @@ export default class App extends React.Component {
     createPin(pinObj);
   };
 
-  _submitUserSettings = () => {
-    const user = {
-      name: this.state.name
-    }
-    updateUserSettings(this.state.user_id, user);
-  }
+
+
 
   // MAPSCREEN HELPER FUNCTIONS
   _getMap = (map) => {

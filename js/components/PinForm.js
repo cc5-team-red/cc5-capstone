@@ -77,9 +77,16 @@ export default class PinForm extends React.Component {
             onChangeText={this.props.screenProps._onChangeDetails}
           />
 
+          {typeof this.props.screenProps.newPin.typeIndex === 'number' && this.props.screenProps.newPin.title ? (
           <TouchableOpacity style={styles.createPinButton} onPress={this._onSubmit}>
             <Text style={styles.createPinButtonText}>Create Pin</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> 
+          )
+          : ( 
+          <TouchableOpacity style={styles.createPinButtonDisabled}>
+            <Text style={styles.createPinButtonText}>Create Pin</Text>
+          </TouchableOpacity> )
+          }
         </View>
       </View >
     );
@@ -105,6 +112,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: "#005387",
+    paddingVertical: 15,
+    paddingHorizontal: 106
+  },
+  createPinButtonDisabled: {
+    marginTop: 15,
+    alignSelf: "center",
+    alignItems: "center",
+    backgroundColor: "#BFBFBF",
     paddingVertical: 15,
     paddingHorizontal: 106
   },

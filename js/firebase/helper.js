@@ -149,6 +149,13 @@ function commentPin(userId,
   //change userId to saved username (this.state.username??) if implemented
 }
 
+function deletePin(pinId) {
+  firebase
+    .database()
+    .ref("pins/" + pinId)
+    .remove()
+}
+
 function pinListener(callback) {
   return firebase
     .database()
@@ -185,8 +192,7 @@ function pinListener(callback) {
       })
 }
 
-function createSketch(user_id,
-  ...strokes) {
+function createSketch(user_id, ...strokes) {
   console.log('createSketch()');
   console.log({
     ...strokes,
@@ -247,6 +253,8 @@ export {
   upvotePin,
   downvotePin,
   commentPin,
+  deletePin,
   createSketch,
   sketchListener
 };
+

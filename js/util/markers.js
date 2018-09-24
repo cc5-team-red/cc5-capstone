@@ -33,3 +33,10 @@ export const markerImages = Object.entries(markers)
     />
   )
   );
+
+  export const getImageSource = (pinType) => {
+    const marker = Object.entries(markers)
+      .find(([key, value]) => key === pinType)
+    console.log(marker)
+    return marker[1];
+  }
