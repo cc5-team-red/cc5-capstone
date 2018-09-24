@@ -9,8 +9,13 @@ const EXPIRATION = 12;
 // 0.001 = 3.6 seconds
 
 
-function createUser(userId, latitude, longitude, ...params) {
-  firebase
+const createUser = async (
+  userId,
+  latitude,
+  longitude,
+  ...params
+) => {
+  return await firebase
     .database()
     .ref("users/" + userId)
     .set({
@@ -23,7 +28,17 @@ function createUser(userId, latitude, longitude, ...params) {
     });
 }
 
-function updateUser(userId, latitude, longitude) {
+const getUser = async (userId) => {
+  return firebase
+    .database()
+    .ref("users/" + userId + "/0")
+    .once("value")
+    .then((snapshot) => snapshot.val());
+}
+
+function updateUser(userId,
+  latitude,
+  longitude) {
   const updates = {};
   updates["users/" + userId + "/update"] = {
     latitude,
@@ -36,16 +51,26 @@ function updateUser(userId, latitude, longitude) {
     .update(updates);
 }
 
-function userListener(my_user_id, callback) {
+const updateUserSettings = async (user_id, user) => {
+  const updates = {};
+  updates["users/" + user_id + "/0"] = { ...user };
+  firebase
+    .database()
+    .ref()
+    .update(updates);
+}
+
+function userListener(my_user_id,
+  callback) {
   return firebase
     .database()
     .ref("users/")
     .on("value", function (snapshot) {
       const results = snapshot.val();
-      if (!(typeof results === "object")) return callback([]);
+      if (typeof results !== "object" || results === null) return callback([]);
 
       const users = Object.entries(results)
-        .filter(([key, value]) => (value["0"] && value["0"].name)) // prevent borken data from breaking app
+        .filter(([key, value]) => (value["0"] && value["0"].name)) // prevent broken data from breaking app
         .map(([key, value]) => {
           const timestamp = new Date(value.update.timestamp);
           const oneHour = (1000 * 60 * 60)
@@ -56,7 +81,7 @@ function userListener(my_user_id, callback) {
             name: value["0"].name,
             latitude: value.update.latitude,
             longitude: value.update.longitude,
-            opacity: (EXPIRATION - hoursAgo)/EXPIRATION,
+            opacity: (EXPIRATION - hoursAgo) / EXPIRATION,
             timestamp,
           };
         })
@@ -79,7 +104,8 @@ function createPin(...params) {
     });
 }
 
-function upvotePin(pinId, result) {
+function upvotePin(pinId,
+  result) {
   const updates = {};
   updates["/updated"] = {
     timestamp: firebase.database.ServerValue.TIMESTAMP
@@ -93,7 +119,8 @@ function upvotePin(pinId, result) {
     .update(updates);
 };
 
-function downvotePin(pinId, result) {
+function downvotePin(pinId,
+  result) {
   const updates = {};
   updates["/votes"] = {
     count: result
@@ -104,12 +131,18 @@ function downvotePin(pinId, result) {
     .update(updates);
 };
 
-function commentPin(userId, pinId, comment) {
+function commentPin(userId,
+  pinId,
+  comment) {
   firebase
     .database()
     .ref("pins/" + pinId + "/comments")
-    .push({ comment, userId, timestamp: firebase.database.ServerValue.TIMESTAMP });
-    //change userId to saved username (this.state.username??) if implemented
+    .push({
+      comment,
+      userId,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    });
+  //change userId to saved username (this.state.username??) if implemented
 }
 
 function deletePin(pinId) {
@@ -128,13 +161,12 @@ function pinListener(callback) {
       if (!results || !(typeof results === "object")) return callback([]);
 
       const pins = Object.entries(results)
-        .filter(
-          ([key, value]) => {
+        .filter(([key, value]) => {
             const timestamp = new Date(value.updated.timestamp);
             const oneHour = (1000 * 60 * 60)
             const now = new Date(Date.now())
             const hoursAgo = ((now - timestamp) / oneHour)
-            if(hoursAgo > EXPIRATION){
+            if (hoursAgo > EXPIRATION) {
               deletePin(key);
             }
             return (value["0"] && value["0"].coordinate && hoursAgo < EXPIRATION)
@@ -152,7 +184,7 @@ function pinListener(callback) {
             coordinate: value["0"].coordinate,
             type: value["0"].type,
             details: value["0"].details,
-            opacity: (EXPIRATION - hoursAgo)/EXPIRATION,
+            opacity: (EXPIRATION - hoursAgo) / EXPIRATION,
             timestamp,
             hoursAgo,
             votes: value.votes.count,
@@ -164,6 +196,11 @@ function pinListener(callback) {
 }
 
 function createSketch(user_id, ...strokes) {
+  console.log('createSketch()');
+  console.log({
+    ...strokes,
+    updated: firebase.database.ServerValue.TIMESTAMP
+  });
   firebase
     .database()
     .ref("sketches/")
@@ -221,4 +258,19 @@ function sketchListener(callback) {
     })
 }
 
-export { createUser, updateUser, userListener, createPin, pinListener, upvotePin, downvotePin, commentPin, deletePin, createSketch, sketchListener };
+export {
+  createUser,
+  getUser,
+  updateUser,
+  updateUserSettings,
+  userListener,
+  createPin,
+  pinListener,
+  upvotePin,
+  downvotePin,
+  commentPin,
+  deletePin,
+  createSketch,
+  sketchListener
+};
+

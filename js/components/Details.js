@@ -1,8 +1,23 @@
 import React from "react";
-import { StyleSheet, Text, ScrollView, View, Button, Image, TouchableOpacity } from "react-native";
-import { pinListener, upvotePin, downvotePin, commentPin } from "../firebase/helper"
-import PinComment from "./PinComment";
+import {
+  StyleSheet,
+  Text,
+  ScrollView,
+  View,
+  Button,
+  Image,
+  TouchableOpacity
+} from "react-native";
 import { Divider } from 'react-native-elements';
+
+import {
+  pinListener,
+  upvotePin,
+  downvotePin,
+  commentPin,
+  deletePin,
+} from "../firebase/helper"
+import PinComment from "./PinComment";
 import { getImageSource } from '../util/markers';
 
 export default class Details extends React.Component {
@@ -67,7 +82,7 @@ export default class Details extends React.Component {
   _deletePin = () => {
     if (this.props.screenProps.user_id === this.state.creator) {
       this.props.navigation.navigate("Home");
-      this.props.screenProps._deletePin(this.state.id);
+      deletePin(this.state.id);
     } else {
       console.log("id mismatch")
     }

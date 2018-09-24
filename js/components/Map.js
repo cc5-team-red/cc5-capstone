@@ -5,9 +5,9 @@ import MapView, { Polyline } from "react-native-maps";
 import { Marker, ProviderPropType, Callout } from "react-native-maps";
 
 import subtleMapStyle from "../assets/mapStyles/subtle.json";
-import silverMapStyle from "../assets/mapStyles/silver.json";
-import darkMapStyle from "../assets/mapStyles/dark.json";
-import desaturatedSubtleMapStyle from "../assets/mapStyles/desaturatedSubtle.json";
+// import silverMapStyle from "../assets/mapStyles/silver.json";
+// import darkMapStyle from "../assets/mapStyles/dark.json";
+// import desaturatedSubtleMapStyle from "../assets/mapStyles/desaturatedSubtle.json";
 
 import { markers } from "../util/markers";
 

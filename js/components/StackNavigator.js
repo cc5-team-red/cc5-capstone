@@ -3,12 +3,14 @@ import MapScreen from "./MapScreen.js";
 import Details from "./Details.js";
 import PinForm from "./PinForm.js";
 import Draw from "./Draw.js";
+import UserSettingsScreen from "./UserSettingsScreen.js";
 
 export default StackNavigator = createStackNavigator({
   Home: { screen: MapScreen },
   PinForm: { screen: PinForm },
   Details: { screen: Details },
   Draw: { screen: Draw },
+  UserSettingsScreen: { screen: UserSettingsScreen }
 },
 {
   navigationOptions: {
