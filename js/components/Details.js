@@ -67,12 +67,12 @@ export default class Details extends React.Component {
     const comments = pins[0].comments;
     if (typeof comments === 'object') {
       return Object.entries(comments).map(([key, value]) => (
-        <View style={{flex: 1, flexDirection: 'row'}}>
+        <View  key={key} style={{flex: 1, flexDirection: 'row'}}>
           <Image
             style={styles.icon}
             source={require('../assets/img/personIcon.png')}
           />
-          <View style={{flex: 0, flexShrink: 1}}><Text key={key}>{`\n${value.comment.comment}`}</Text></View>
+          <View style={{flex: 0, flexShrink: 1}}><Text>{`\n${value.comment.comment}`}</Text></View>
         </View>
       ))
       return Object.entries(comments).map(([key, value]) => {
