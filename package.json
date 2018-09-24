@@ -1,30 +1,41 @@
 {
-  "name": "capstone-frontend",
+  "name": "zenni",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "jest-expo": "~27.0.0",
-
-    "react-native-scripts": "^1.14.0",
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "jest": "^23.6.0",
+    "jest-react-native": "^18.0.0",
     "react-test-renderer": "16.3.1"
   },
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "test": "jest"
+    "start": "react-native start",
+    "test": "jest",
+    "ios:install": "yarn install && pod install --project-directory=./ios/",
+    "ios:start": "react-native run-ios --simulator=\"iPhone 7 Plus\"",
+    "ios:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" yarn ios:start",
+    "android": "react-native run-android"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./js/assets/fonts"
+    ]
   },
   "dependencies": {
+    "@terrylinla/react-native-sketch-canvas": "^0.8.0",
     "create-react-native-app": "^1.0.0",
-    "expo": "^27.0.1",
     "firebase": "^5.4.2",
     "react": "16.3.1",
     "react-native": "~0.55.2",
-    "react-native-elements": "^0.19.1"
+    "react-native-background-geolocation": "^2.13.3",
+    "react-native-device-info": "^0.22.5",
+    "react-native-elements": "^0.19.1",
+    "react-native-form-builder": "^1.0.15",
+    "react-native-maps": "^0.21.0",
+    "react-native-vector-icons": "^5.0.0",
+    "react-navigation": "^2.12.1"
   }
 }
