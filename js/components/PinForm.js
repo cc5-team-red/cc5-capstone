@@ -24,7 +24,8 @@ class BlackFormInput extends React.Component {
     return (
       <FormInput
         containerStyle={styles.formInput}
-        fontFamily='lato-black'
+        inputStyle={{color: 'black'}}
+        fontFamily='lato-regular'
         value={this.props.value}
         onChangeText={this.props.onChangeText}
       />
@@ -51,6 +52,15 @@ export default class PinForm extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.formItems}>
+          <FormLabel fontFamily='lato-black'>Type</FormLabel>
+          <ButtonGroup
+            onPress={this.props.screenProps._onChangeTypeIndex}
+            selectedIndex={this.props.screenProps.newPin.typeIndex}
+            selectedButtonStyle={styles.selectedpinButton}
+            buttons={this.buttons}
+            containerStyle={styles.pinButtonGroup}
+          />
+
           <FormLabel fontFamily='lato-black'>Title</FormLabel>
           <BlackFormInput
             value={this.props.screenProps.newPin.title}
@@ -62,15 +72,6 @@ export default class PinForm extends React.Component {
             </FormValidationMessage>
           )}
 
-          <FormLabel fontFamily='lato-black'>Type</FormLabel>
-          <ButtonGroup
-            onPress={this.props.screenProps._onChangeTypeIndex}
-            selectedIndex={this.props.screenProps.newPin.typeIndex}
-            selectedButtonStyle={styles.selectedpinButton}
-            buttons={this.buttons}
-            containerStyle={styles.pinButtonGroup}
-          />
-
           <FormLabel fontFamily='lato-black'>Details</FormLabel>
           <BlackFormInput
             value={this.props.screenProps.newPin["details"]}
@@ -78,14 +79,14 @@ export default class PinForm extends React.Component {
           />
 
           {typeof this.props.screenProps.newPin.typeIndex === 'number' && this.props.screenProps.newPin.title ? (
-          <TouchableOpacity style={styles.createPinButton} onPress={this._onSubmit}>
-            <Text style={styles.createPinButtonText}>Create Pin</Text>
-          </TouchableOpacity> 
+            <TouchableOpacity style={styles.createPinButton} onPress={this._onSubmit}>
+              <Text style={styles.createPinButtonText}>Create Pin</Text>
+            </TouchableOpacity>
           )
-          : ( 
-          <TouchableOpacity style={styles.createPinButtonDisabled}>
-            <Text style={styles.createPinButtonText}>Create Pin</Text>
-          </TouchableOpacity> )
+            : (
+              <TouchableOpacity style={styles.createPinButtonDisabled}>
+                <Text style={styles.createPinButtonText}>Create Pin</Text>
+              </TouchableOpacity>)
           }
         </View>
       </View >
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
   },
   formInput: {
     borderBottomWidth: 2,
-    borderBottomColor: "black"
+    borderBottomColor: "black",
   },
   createPinButton: {
     marginTop: 15,

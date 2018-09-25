@@ -83,5 +83,4 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
-  drawIcon: {}
 });

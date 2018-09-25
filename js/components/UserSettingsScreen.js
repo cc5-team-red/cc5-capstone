@@ -21,6 +21,7 @@ class BlackFormInput extends React.Component {
     return (
       <FormInput
         containerStyle={styles.formInput}
+        inputStyle={{color: 'black'}}
         fontFamily='lato-black'
         value={this.props.value}
         onChangeText={this.props.onChangeText}
