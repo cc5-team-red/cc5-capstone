@@ -129,8 +129,8 @@ export default class Details extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 5 }}>
+      <View style={styles.container}>
+        <View style={{ flex: 4 }}>
           <View style={{ flex: 1, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 20, paddingRight: 20, paddingTop: 10 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>{`Votes    `}<Text style={{ fontWeight: 'normal', fontSize: 28 }}>{this._showVotes(this.state.id)}</Text></Text>
             <Text style={{ marginBottom: 15, fontSize: 12, color: '#444444' }}>Last updated: {`${this.state.hoursAgo >= 1 ? (`${this.state.hoursAgo} hours ago`)
@@ -184,12 +184,12 @@ export default class Details extends React.Component {
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
         </View>
-        <View style={{ flex: 3, alignSelf: 'flex-start', paddingLeft: 20, paddingRight: 20 }}>
+        <View style={{ flex: 3, paddingLeft: 20, paddingRight: 20 }}>
           <View style={{ flex: 2, marginTop: 5, marginBottom: -20 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{`Comments`}</Text>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, opacity: 1 }}>{`Comments`}</Text>
           </View>
           <View style={{ flex: 8 }}>
-            <ScrollView>
+            <ScrollView  style={{flex:1}} >
               {this._showComments(this.state.id)}
             </ScrollView>
           </View>
@@ -218,6 +218,13 @@ export default class Details extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: 'flex-end',
+    // justifyContent: 'space-between',
+    // alignItems: 'flex-end',
+  },
   good: {
     width: 50,
     height: 50
