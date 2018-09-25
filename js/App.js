@@ -1,6 +1,7 @@
 import { Promise } from 'bluebird';
 import React from "react";
 import { Platform, Text, StyleSheet } from "react-native";
+import SplashScreen from 'react-native-splash-screen';
 import DeviceInfo from 'react-native-device-info';
 import BackgroundGeolocation from "react-native-background-geolocation";
 
@@ -86,6 +87,7 @@ export default class App extends React.Component {
       await this._setupUser()
         .then(() => {
           this.setState({ ready: true });
+          SplashScreen.hide();
         })
         .catch(err => ({ error: err }));
 

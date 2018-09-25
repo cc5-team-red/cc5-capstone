@@ -1,7 +1,6 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { Icon } from 'react-native-elements'
-
+import { Icon } from 'react-native-elements';
 import Map from "./Map.js";
 
 export default class MapScreen extends React.Component {
