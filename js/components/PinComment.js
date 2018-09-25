@@ -12,8 +12,9 @@ export default class PinComment extends React.Component {
     return (
       <View>
         <FormLabel>Comment:</FormLabel>
-        <FormInput containerStyle=
-        {{borderBottomWidth:2, borderBottomColor:"black"}} 
+        <FormInput 
+          containerStyle={{borderBottomWidth:2, borderBottomColor:"black"}} 
+          inputStyle={{color: 'black'}}
           value={this.props.comment} 
           onChangeText={this.props._handleChange} 
           />
