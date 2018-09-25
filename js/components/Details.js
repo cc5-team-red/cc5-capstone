@@ -130,16 +130,21 @@ export default class Details extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={{ flex: 4 }}>
-          <View style={{ flex: 1, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 20, paddingRight: 20, paddingTop: 10 }}>
+        {/* TOP PRIO COMPONENT */}
+        <View style={{ flex: 3, minHeight: 150 }}>
+          <View style={{ paddingBottom: 10, paddingLeft: 20, paddingRight: 20, paddingTop: 10 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>{`Votes    `}<Text style={{ fontWeight: 'normal', fontSize: 28 }}>{this._showVotes(this.state.id)}</Text></Text>
             <Text style={{ marginBottom: 15, fontSize: 12, color: '#444444' }}>Last updated: {`${this.state.hoursAgo >= 1 ? (`${this.state.hoursAgo} hours ago`)
               : (`${(this.state.hoursAgo * 60).toFixed(0)} minutes ago`)}`}
             </Text>
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
           </View>
-          <View style={{ flex: 2, justifyContent: 'space-around', paddingBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>Is this still true?</Text>
+
+          {/* VOTING COMPONENT */}
+          <View style={{ minHeight: 100, paddingBottom: 10, paddingLeft: 20, paddingRight: 20 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 10 }}>
+              Is this still true?
+            </Text>
             <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around', }}>
               <View style={{ width: 50, height: 50 }}>
                 <TouchableOpacity
@@ -164,37 +169,45 @@ export default class Details extends React.Component {
                 </TouchableOpacity>
               </View>
             </View>
+
             <Divider style={{ height: 1, backgroundColor: '#a7bbcd', marginBottom: -10 }} />
           </View>
-          <View style={{ flex: 2, flexWrap: 'wrap', paddingBottom: 5, paddingLeft: 20, paddingRight: 20, paddingTop: 0 }}>
-            {/* <Text style={{fontWeight: 'normal'}}>
-              <Text style={{fontSize: 20, fontWeight: 'bold'}}>Details:</Text>
-            </Text> */}
-            <View style={{ flex: 1, flexDirection: 'row' }}>
-              <Image
-                style={styles.icon}
-                source={require('../assets/img/informationIcon.png')}
-              />
-              <ScrollView style={{ marginTop: 15, flexShrink: 1 }}>
-                <Text>
-                  {`${this.state.details ? (this.state.details) : (` None`)}\n`}
-                </Text>
-              </ScrollView>
+
+          {/* DETAILS COMPONENT */}
+          {this.state.details ? (
+            <View style={{ flexWrap: 'wrap', paddingBottom: 5, paddingLeft: 20, paddingRight: 20, paddingTop: 0 }}>
+              <View>
+                <View style={{ flex: 1, flexDirection: 'row' }}>
+                  <Image
+                    style={styles.icon}
+                    source={require('../assets/img/informationIcon.png')}
+                  />
+                  <ScrollView style={{ marginTop: 15, flexShrink: 1 }}>
+                    <Text>
+                      this.state.details
+                  </Text>
+                  </ScrollView>
+                </View>
+                <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
+              </View>
             </View>
-            <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
-          </View>
+          ) : null}
         </View>
-        <View style={{ flex: 3, paddingLeft: 20, paddingRight: 20 }}>
+
+        {/* COMMENTS COMPONENT */}
+        <View style={{ flex: 4, paddingLeft: 20, paddingRight: 20 }}>
           <View style={{ flex: 2, marginTop: 5, marginBottom: -20 }}>
             <Text style={{ fontWeight: 'bold', fontSize: 20, opacity: 1 }}>{`Comments`}</Text>
           </View>
           <View style={{ flex: 8 }}>
-            <ScrollView  style={{flex:1}} >
+            <ScrollView style={{ flex: 1 }} >
               {this._showComments(this.state.id)}
             </ScrollView>
           </View>
-        </View>
-        <View style={{ flex: 3 }}>
+        </View >
+
+        {/* FORMS AND BUTTONS COMPONENT */}
+        <View style={{ flex: 2, minHeight: 100, }}>
           <PinComment
             comment={this.state.comment}
             _handleChange={this._handleChange}
@@ -212,7 +225,7 @@ export default class Details extends React.Component {
               </TouchableOpacity>) : null}
           </View>
         </View>
-      </View>
+      </View >
     )
   }
 }
@@ -221,9 +234,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: 'flex-end',
-    // justifyContent: 'space-between',
-    // alignItems: 'flex-end',
+    // justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
   },
   good: {
     width: 50,
