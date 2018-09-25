@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
   formInput: {
     borderBottomWidth: 2,
     borderBottomColor: "black",
-    color: 'black'
   },
   createPinButton: {
     marginTop: 15,
