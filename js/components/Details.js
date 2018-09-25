@@ -176,20 +176,18 @@ export default class Details extends React.Component {
           {/* DETAILS COMPONENT */}
           {this.state.details ? (
             <View style={{ flexWrap: 'wrap', paddingBottom: 5, paddingLeft: 20, paddingRight: 20, paddingTop: 0 }}>
-              <View>
-                <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Image
-                    style={styles.icon}
-                    source={require('../assets/img/informationIcon.png')}
-                  />
-                  <ScrollView style={{ marginTop: 15, flexShrink: 1 }}>
-                    <Text>
-                      this.state.details
+              <View style={{ flex: 1, minHeight: 50, flexDirection: 'row', justifyContent: 'flex-start', alignContent: 'center' }}>
+                <Image
+                  style={styles.icon}
+                  source={require('../assets/img/informationIcon.png')}
+                />
+                <ScrollView style={{ marginTop: 15, flexShrink: 1 }}>
+                  <Text>
+                    {this.state.details}
                   </Text>
-                  </ScrollView>
-                </View>
-                <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
+                </ScrollView>
               </View>
+              <Divider style={{ height: 1, backgroundColor: '#a7bbcd' }} />
             </View>
           ) : null}
         </View>
