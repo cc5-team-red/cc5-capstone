@@ -1,4 +1,4 @@
-<img src="./js/assets/logos/blue.png" alt="Logo" width=200>
+<img src="./js/assets/logos/yellow.png" alt="Logo" width=200>
 
 # Zenni
 
@@ -46,11 +46,12 @@ Deleting build files may solve your problems.
 `rm -fr ios/build`
 
 ## Our Mission
-<!-- Move this somewhere else? -->
 - Enable those who wish to help in a disaster a means to reach those who need it.
 - Provide live tracking and sharing of key locations in a disaster.
 
+### [How to Contribute](https://github.com/cc5-team-red/zenni/blob/develop/CONTRIBUTE.md)
+
 ## Developers:
-- Tsubasa Kondo
-- Dustin Tran
-- Kimiko Motoyama
+- [@TsubasaK111](https://github.com/TsubasaK111) [![LinkedIn](./img/LinkedIn.png)](https://www.linkedin.com/in/tsubasakondo/)
+- [@kimikomotoyama](https://github.com/kimikomotoyama) [![LinkedIn](./img/LinkedIn.png)](https://www.linkedin.com/in/kimiko-motoyama-54a198132)
+- [@DennoDin](https://github.com/DennoDin) [![LinkedIn](./img/LinkedIn.png)](https://www.linkedin.com/in/dustin-tran-20423468/)
