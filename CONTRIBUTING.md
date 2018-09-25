@@ -4,14 +4,14 @@ I'm really glad you're reading this, because we need volunteer developers to hel
 
 ## Submitting changes
 
-Please send a [GitHub Pull Request to Zenni](https://github.com/cc5-team-red/zenni/pull/new/develop) with a clear list of what you've done (read more about [pull requests](http://help.github.com/pull-requests/)). We can always use more test coverage.
+Please send a [GitHub Pull Request to Zenni](https://github.com/cc5-team-red/zenni/pull/new/develop) with a clear list of what you've done (read more about [pull requests](https://help.github.com/articles/about-pull-requests/). We can always use more test coverage.
 
 Please prefix your commits with one of the following for clarity:
-- `Feat:` New features
-- `Refactor:` Code Refactoring
-- `Fix:` Bug Fixes
-- `Docs:` Documentation Changes
-- `Style:` App Styling
+- `feat:` New features
+- `refactor:` Code Refactoring
+- `fix:` Bug Fixes
+- `docs:` Documentation Changes
+- `style:` App Styling
 
 Commits can be short, but please be descriptive.
 
