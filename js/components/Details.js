@@ -92,7 +92,7 @@ export default class Details extends React.Component {
     const pin = this.props.screenProps.pins.filter(pin => pin.id === id);
 
     if (pin.length > 0) {
-    const comments = pin[0].comments;
+      const comments = pin[0].comments;
       if (typeof comments === 'object') {
         return Object.entries(comments).map(([key, value]) => {
           const timestamp = new Date(value.timestamp);
@@ -121,7 +121,7 @@ export default class Details extends React.Component {
 
   _showVotes = (id) => {
     const pin = this.props.screenProps.pins.filter(pin => pin.id === id);
-    if(pin.length > 0){
+    if (pin.length > 0) {
       const votes = pin[0].votes;
       return (<Text>{`${votes}`}</Text>)
     }
@@ -201,14 +201,16 @@ export default class Details extends React.Component {
             _submitPinForm={this._submitPinComment}
             disabled={(this.state.comment === "")}
           />
-          {this.props.screenProps.user_id === this.state.creator && !this.state.confirmDelete ?
-            (<TouchableOpacity style={{ alignItems: "center", backgroundColor: "#F9A800", padding: 15 }} onPress={() => (this.setState({ confirmDelete: true }))}>
-              <Text style={{ color: "#ECECE7", fontSize: 22 }}>Delete</Text>
-            </TouchableOpacity>) : null}
-          {this.state.confirmDelete ?
-            (<TouchableOpacity style={{ alignItems: "center", backgroundColor: "#9B2423", padding: 15 }} onPress={this._deletePin}>
-              <Text style={{ color: "#ECECE7", fontSize: 22 }}>Confirm Delete</Text>
-            </TouchableOpacity>) : null}
+          <View style={{ marginLeft: 20, marginRight: 20 }}>
+            {this.props.screenProps.user_id === this.state.creator && !this.state.confirmDelete ?
+              (<TouchableOpacity style={{ alignItems: "center", backgroundColor: "#F9A800", padding: 15 }} onPress={() => (this.setState({ confirmDelete: true }))}>
+                <Text style={{ color: "#ECECE7", fontSize: 22 }}>Delete</Text>
+              </TouchableOpacity>) : null}
+            {this.state.confirmDelete ?
+              (<TouchableOpacity style={{ alignItems: "center", backgroundColor: "#9B2423", padding: 15 }} onPress={this._deletePin}>
+                <Text style={{ color: "#ECECE7", fontSize: 22 }}>Confirm Delete</Text>
+              </TouchableOpacity>) : null}
+          </View>
         </View>
       </View>
     )
