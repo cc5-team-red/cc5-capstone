@@ -72,12 +72,6 @@ export default class MapScreen extends React.Component {
           onPress={this._drawPress}
           style={styles.drawIcon}
         />
-        <Icon
-          reverse
-          name='add'
-          onPress={this._goToUserSettings}
-          style={styles.drawIcon}
-        />
       </View>
     );
   }
