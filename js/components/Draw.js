@@ -43,36 +43,33 @@ export default class Draw extends Component {
           strokeWidth={7}
           localSourceImage={{ filename: this.props.screenProps.snapshotUri }}
         />
-
-        <View style={styles.bottomButtonsContainer}>
-          <View>
-            <Icon
-              reverse
-              color='#237F52'
-              size={18}
-              onPress={this._changeColor('#237F52')}
-            />
-            <Icon
-              reverse
-              color='#F9A800'
-              size={18}
-              onPress={this._changeColor('#F9A800')}
-            />
-            <Icon
-              reverse
-              color='#9B2423'
-              size={18}
-              onPress={this._changeColor('#9B2423')}
-            />
-          </View>
-          <View>
-            <Icon
-              reverse
-              name='check'
-              color='#005387'
-              onPress={this._pressSubmit}
-            />
-          </View>
+        <View>
+          <Icon
+            reverse
+            color='#237F52'
+            size={18}
+            onPress={this._changeColor('#237F52')}
+          />
+          <Icon
+            reverse
+            color='#F9A800'
+            size={18}
+            onPress={this._changeColor('#F9A800')}
+          />
+          <Icon
+            reverse
+            color='#9B2423'
+            size={18}
+            onPress={this._changeColor('#9B2423')}
+          />
+        </View>
+        <View>
+          <Icon
+            reverse
+            name='check'
+            color='#005387'
+            onPress={this._pressSubmit}
+          />
         </View>
       </View>
     );
@@ -85,11 +82,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: 'flex-end',
-  },
-  bottomButtonsContainer: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: 'space-between',
     alignItems: "flex-end"
   },
   sketchCanvas: {
