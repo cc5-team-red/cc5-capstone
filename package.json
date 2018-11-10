@@ -2,11 +2,8 @@
   "name": "zenni",
   "version": "0.1.0",
   "private": true,
-  "devDependencies": {
-    "babel-preset-react-native-stage-0": "^1.0.1",
-    "jest": "^23.6.0",
-    "jest-react-native": "^18.0.0",
-    "react-test-renderer": "16.3.1"
+  "engines": {
+    "node": "8.12.0"
   },
   "scripts": {
     "start": "react-native start",
@@ -14,7 +11,9 @@
     "ios:install": "yarn install && pod install --project-directory=./ios/",
     "ios:start": "react-native run-ios --simulator=\"iPhone 7 Plus\"",
     "ios:dev": "REACT_DEBUGGER=\"unset ELECTRON_RUN_AS_NODE && open -g 'rndebugger://set-debugger-loc?port=19001' ||\" yarn ios:start",
-    "android": "react-native run-android"
+    "android": "react-native run-android",
+    "cleanse": "rm -rf node_modules/ && rm -fr ios/build && yarn",
+    "deep-cleanse": "rm -fr ~/.rncache && rm -fr yarn cache clean && rm -fr Pods/ && yarn cleanse"
   },
   "jest": {
     "preset": "react-native"
@@ -23,6 +22,12 @@
     "assets": [
       "./js/assets/fonts"
     ]
+  },
+  "devDependencies": {
+    "babel-preset-react-native-stage-0": "^1.0.1",
+    "jest": "^23.6.0",
+    "jest-react-native": "^18.0.0",
+    "react-test-renderer": "16.3.1"
   },
   "dependencies": {
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
