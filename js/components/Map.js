@@ -89,6 +89,7 @@ export default class Map extends React.Component {
         showsMyLocationButton={true}
         showsBuildings={true}
         showsIndoors={true}
+        rotateEnabled={false}
         onPress={this.props._onPress}
         onLongPress={this.props._onLongPress}
         style={styles.map}
