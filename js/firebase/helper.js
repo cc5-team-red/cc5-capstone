@@ -162,21 +162,22 @@ function pinListener(callback) {
 
       const pins = Object.entries(results)
         .filter(([key, value]) => {
-            const timestamp = new Date(value.updated.timestamp);
-            const oneHour = (1000 * 60 * 60)
-            const now = new Date(Date.now())
-            const hoursAgo = ((now - timestamp) / oneHour)
-            if (hoursAgo > EXPIRATION) {
-              deletePin(key);
-            }
-            return (value["0"] && value["0"].coordinate && hoursAgo < EXPIRATION)
+          const timestamp = new Date(value.updated.timestamp);
+          const oneHour = (1000 * 60 * 60)
+          const now = new Date(Date.now())
+          const hoursAgo = ((now - timestamp) / oneHour)
+          if (hoursAgo > EXPIRATION) {
+            deletePin(key);
           }
+          return (value["0"] && value["0"].coordinate && hoursAgo < EXPIRATION)
+        }
         ) // prevent borken data from breaking app
         .map(([key, value]) => {
           const timestamp = new Date(value.updated.timestamp);
           const oneHour = (1000 * 60 * 60)
           const now = new Date(Date.now())
-          const hoursAgo = ((now - timestamp) / oneHour).toFixed(2);
+          let hoursAgo = ((now - timestamp) / oneHour).toFixed(2);
+          if (value.votes.count < 0) { hoursAgo = EXPIRATION }
           return {
             id: key,
             user_id: value["0"].userID,
@@ -233,7 +234,7 @@ function sketchListener(callback) {
           const oneHour = (1000 * 60 * 60)
           const now = new Date(Date.now())
           const hoursAgo = ((now - timestamp) / oneHour)
-          if(hoursAgo > EXPIRATION){
+          if (hoursAgo > EXPIRATION) {
             deleteSketch(key);
           }
           return (value["0"] && value["0"][0].coordinates && hoursAgo < EXPIRATION)
@@ -247,7 +248,7 @@ function sketchListener(callback) {
             key: key,
             user_id: value.userID,
             strokes: value["0"],
-            opacity: (EXPIRATION - hoursAgo)/EXPIRATION,
+            opacity: (EXPIRATION - hoursAgo) / EXPIRATION,
             timestamp,
             votes: value.votes.count,
             // TODO: title: value["0"].title,
